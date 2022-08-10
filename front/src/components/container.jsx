@@ -1,5 +1,5 @@
 function Container({ children }) {
-  return <div className="mx-auto w-[90%]">{children}</div>;
+  return <div className="mx-auto w-full">{children}</div>;
 }
 
 export default Container;
