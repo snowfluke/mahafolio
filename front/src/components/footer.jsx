@@ -1,6 +1,6 @@
 function Footer() {
   return (
-    <footer className="text-center py-4 space-y-2 border-t">
+    <footer className="text-center p-4 space-y-2 border-t">
       <span className="font-semibold">
         #2022 Mahafolio ~ <a href="https://github.com/snowfluke/mahafolio">Repositori GitHub</a>
       </span>
