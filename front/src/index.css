@@ -5,6 +5,6 @@
 
 @layer components {
   html {
-    @apply scroll-smooth;
+    @apply scroll-smooth bg-gray;
   }
 }
