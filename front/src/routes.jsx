@@ -7,8 +7,8 @@ const Login = lazy(() => import("./pages/Login"));
 function Router() {
   return (
     <Routes>
-      <Route path="/" component={Landing} />
-      <Route path="/home" component={Home} />
+      {/* <Route path="/" component={Landing} /> */}
+      <Route path="/" component={Home} />
       <Route path="/login" component={Login} />
     </Routes>
   );
