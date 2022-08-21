@@ -3,6 +3,7 @@ import { Link } from "@solidjs/router";
 function Home() {
   return (
     <section>
+      <Link href="/leaderboard">Leaderboard</Link>
       <div className="grid grid-cols-12">
         <div className="col-start-1 md:col-start-2 col-end-13 md:col-end-12">
           <input type="text" className="px-4 md:px-8 py-4 outline-green rounded w-full responsive-text truncate" placeholder="Cari kemajuan mahasiswa berdasarkan nama atau nim..." />
@@ -15,7 +16,7 @@ function Home() {
           </div>
         </div>
         <div className="col-start-3 -ml-8 col-end-13">
-          <div className="flex items-center space-x-8">
+          <div className="flex items-center space-x-8 mb-4">
             <button className="bg-green responsive-text text-white font-semibold px-10 py-2 tracking-widest">Cari</button>
             <span className="responsive-text">
               Selamat datang kembali,{" "}
@@ -25,7 +26,7 @@ function Home() {
             </span>
           </div>
           <div>
-            <div className="relative mt-4 bg-white px-6 pt-14 pb-8 md:p-8 shadow-[0_10px_5px_-3px_rgb(0,0,0,0.1)]">
+            <div className="relative bg-white px-6 pt-14 pb-8 md:p-8 shadow-[0_10px_5px_-3px_rgb(0,0,0,0.1)]">
               <div className="absolute top-0 right-0 h-0 w-0 rotate-180 border-b-[50px] border-r-[50px] border-l-[0px] border-b-gray border-r-transparent border-l-transparent"></div>
               <div className="absolute top-0 right-0 h-0 w-0 border-b-[50px] border-r-[50px] border-t-[0px] border-b-slate-200 border-r-transparent border-l-transparent"></div>
               <div>
