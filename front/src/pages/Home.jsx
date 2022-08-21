@@ -20,7 +20,7 @@ function Home() {
             <button className="bg-green responsive-text text-white font-semibold px-10 py-2 tracking-widest">Cari</button>
             <span className="responsive-text">
               Selamat datang kembali,{" "}
-              <Link href="#" className="underline text-green underline-offset-2">
+              <Link href="/profile" className="underline text-green underline-offset-2">
                 wilisetiawan087@gmail.com
               </Link>
             </span>
