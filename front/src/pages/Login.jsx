@@ -11,20 +11,11 @@ function Login() {
         <h1 className="text-center font-semibold text-xl mb-2">Login</h1>
         <input type="email" className="border px-4 py-2 w-full rounded-md outline-none" placeholder="Masukkan email" />
         <input type="password" className="border px-4 py-2 w-full rounded-md outline-none" placeholder="Masukkan password" />
-        <button className="w-full text-right" type="button" data-modal-toggle="authentication-modal">
+        <button className="w-full text-right" type="button" data-modal-toggle="defaultModal" onClick={() => setModal(!modal())}>
           Lupa Password?
         </button>
 
-        <Show when={modal()}>
-          <button
-            class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-            type="button"
-            data-modal-toggle="defaultModal"
-            onClick={() => setModal(!modal())}
-          >
-            Toggle modal
-          </button>
-
+        <Show when={!modal()}>
           <div
             id="defaultModal"
             tabindex="-1"
