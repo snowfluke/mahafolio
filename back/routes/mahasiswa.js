@@ -16,17 +16,12 @@ router.get("/search/:keyword", (req, res) => {
   res.json({ msg: "GET mahasiswa sesuai keyword pencarian" });
 });
 
-// POST REGISTER
-router.post("/register", (req, res) => {
-  res.json({ msg: "POST data registrasi mahasiswa" });
-});
-
 // POST LOGIN
-router.post("/login", (req, res) => {
+router.post("/signin", (req, res) => {
   res.json({ msg: "POST data login" });
 });
 
-// GET Random mhs
+// GET leaderboard mhs
 router.get("/", (req, res) => {
   res.json("OK");
 });
