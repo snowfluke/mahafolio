@@ -1,3 +1,5 @@
+// @ts-check
+
 const FOLIO_CATEGORIES = ["TUGAS", "UTS", "KARYA", "UAS"];
 const SCORING = {
   TUGAS: 10,
@@ -5,5 +7,6 @@ const SCORING = {
   UTS: 20,
   UAS: 25,
 };
+const STUDY = ["TEKNIK INFORMATIKA", "SISTEM INFORMASI"];
 
-module.exports = { FOLIO_CATEGORIES, SCORING };
+module.exports = { FOLIO_CATEGORIES, SCORING, STUDY };

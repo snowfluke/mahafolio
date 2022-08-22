@@ -1,3 +1,4 @@
+// @ts-check
 require("dotenv").config();
 
 const express = require("express");
@@ -31,7 +32,7 @@ app.use("/api/folio", routerFolio);
 // Connect to DB
 
 mongoose
-  .connect(process.env.MONGO_URI)
+  .connect(process.env.MONGO_URI || "")
   .then(() => {
     // Listener
     app.listen(PORT, () => console.log("DB & Server Running on port " + PORT));

@@ -1,61 +1,33 @@
+// @ts-check
+
 const express = require("express");
+const {
+  createFolio,
+  getFolio,
+  getFolios,
+  updateFolio,
+  deleteFolio,
+  searchFolio,
+} = require("../controllers/folio");
+
 const router = express.Router();
-const Folio = require("../models/folio");
-const { SCORING } = require("../utils/constant");
 
-// GET 10 latest work
-router.get("/", (req, res) => {
-  res.json({ msg: "OK" });
-});
+// GET all folio
+router.get("/mahasiswa/:id", getFolios);
 
-// GET single work
-router.get("/:id", (req, res) => {
-  res.json({ msg: "GET one folio by id" });
-});
+// GET single folio
+router.get("/:id", getFolio);
 
-// GET a search work
-router.get("/search/:id", (req, res) => {
-  res.json({ msg: "GET one folio by id" });
-});
+// GET a search folio
+router.get("/search/:keyword", searchFolio);
 
-// POST a new work
-router.post("/", async (req, res) => {
-  const { title, type, semester, subject, url, description } = req.body;
-  try {
-    const folio = await Folio.create({
-      title,
-      type,
-      semester,
-      subject,
-      url,
-      description,
-      score: SCORING[type],
-    });
-    res.status(200).json(folio);
-  } catch (error) {
-    if (error.name === "ValidationError") {
-      let errors = {};
+// POST a new folio
+router.post("/", createFolio);
 
-      Object.keys(error.errors).forEach((key) => {
-        if (key !== "score") {
-          errors[key] = error.errors[key].message;
-        }
-      });
+// EDIT a folio
+router.patch("/:id", updateFolio);
 
-      return res.status(400).send(errors);
-    }
-    res.status(500).send("Something went wrong");
-  }
-});
-
-// EDIT a work
-router.patch("/:id", (req, res) => {
-  res.json({ msg: "Delete a work" });
-});
-
-// DELETE a work
-router.delete("/:id", (req, res) => {
-  res.json({ msg: "Delete a work" });
-});
+// DELETE a folio
+router.delete("/:id", deleteFolio);
 
 module.exports = router;
