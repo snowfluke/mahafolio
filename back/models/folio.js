@@ -2,8 +2,7 @@
 
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const { FOLIO_CATEGORIES, SCORING } = require("../utils/constant");
-const validator = require("validator").default;
+const { FOLIO_CATEGORIES } = require("../utils/constant");
 
 const folioSchema = new Schema(
   {
@@ -56,34 +55,5 @@ const folioSchema = new Schema(
     timestamps: true,
   }
 );
-
-// statics method
-folioSchema.statics.createFolio = async function ({
-  title,
-  type,
-  semester,
-  subject,
-  url,
-  description,
-  author,
-}) {
-  if (!validator.isURL(url)) throw Error("Link tidak valid!");
-  if (!validator.isAlphanumeric(subject))
-    throw Error("Mata kuliah tidak valid!");
-  if (!validator.isMongoId(author)) throw Error("Author tidak valid!");
-
-  const folio = await this.create({
-    title,
-    type,
-    semester,
-    subject,
-    url,
-    description,
-    author,
-    score: SCORING[type],
-  });
-
-  return folio;
-};
 
 module.exports = mongoose.model("Folio", folioSchema);

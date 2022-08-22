@@ -1,31 +1,31 @@
 // @ts-check
 
 const express = require("express");
-const { signinMhs, signupMhs, deleteMhs } = require("../controllers/mahasiswa");
+const {
+  signinMhs,
+  signupMhs,
+  deleteMhs,
+  getMhs,
+  searchMhs,
+  updateMhs,
+  getLeaderboard,
+} = require("../controllers/mahasiswa");
 const router = express.Router();
 
 // GET TOP 10 SCORE
-router.get("/", (req, res) => {
-  res.json("OK");
-});
+router.get("/", getLeaderboard);
 
 // GET MHS:ID
-router.get("/:id", (req, res) => {
-  res.json({ msg: "GET mahasiswa sesuai id" });
-});
+router.get("/:id", getMhs);
 
 // PATCH MHS:ID
-router.patch("/:id", (req, res) => {
-  res.json({ msg: "PATCH data mahasiswa sesuai id" });
-});
+router.patch("/:id", updateMhs);
 
 // DELETE MHS:ID
 router.delete("/:id", deleteMhs);
 
 // GET SEARCH:KEYWORD
-router.get("/search/:keyword", (req, res) => {
-  res.json({ msg: "GET mahasiswa sesuai keyword pencarian" });
-});
+router.get("/search/:keyword", searchMhs);
 
 // POST SIGNIN
 router.post("/signin", signinMhs);

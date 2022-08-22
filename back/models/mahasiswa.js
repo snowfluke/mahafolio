@@ -15,7 +15,6 @@ const mhsSchema = new Schema(
       required: true,
       unique: true,
     },
-    salt: String,
     password: {
       type: String,
       required: true,
@@ -55,12 +54,15 @@ const mhsSchema = new Schema(
       type: String,
       default: "",
     },
+    score: {
+      type: Number,
+      default: 0,
+    },
   },
   {
     toJSON: {
       transform(doc, ret) {
         delete ret.password;
-        delete ret.salt;
         delete ret.__v;
       },
     },
@@ -84,8 +86,8 @@ mhsSchema.statics.signup = async function (email, password) {
     );
   }
 
-  const userExist = await this.findOne({ email });
-  if (userExist) {
+  const exist = await this.findOne({ email });
+  if (exist) {
     throw Error("Email telah dipakai!");
   }
 
@@ -97,12 +99,29 @@ mhsSchema.statics.signup = async function (email, password) {
   const user = this.create({
     email,
     password: hash,
-    salt,
     nim,
     name: randomName,
   });
 
   return user;
+};
+
+mhsSchema.statics.signin = async function (email, password) {
+  if (!email || !password) {
+    throw Error("Email atau password tidak boleh kosong!");
+  }
+
+  const mhs = await this.findOne({ email });
+  if (!mhs) {
+    throw Error("Email atau kata sandi salah!");
+  }
+
+  const match = await bcrypt.compare(password, mhs.password);
+  if (!match) {
+    throw Error("Email atau kata sandi salah!");
+  }
+
+  return mhs;
 };
 
 module.exports = mongoose.model("Mahasiswa", mhsSchema);
