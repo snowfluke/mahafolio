@@ -120,16 +120,14 @@ const updateFolio = async (req, res) => {
 
     const folio = await Folio.findOneAndUpdate(
       { _id: id },
-      { ...update, score: SCORING[update.type] }
+      { ...update, score: SCORING[update.type] },
+      { new: true }
     );
+
     if (!folio) {
       return res.status(404).json({ error: "Folio tidak ditemukan" });
     }
 
-    await Mahasiswa.findOneAndUpdate(
-      { _id: folio.author },
-      { $inc: { score: SCORING[update.type] - folio.score } }
-    );
     res.status(200).json(folio);
   } catch (error) {
     return res.status(400).json({ error: error.message });
