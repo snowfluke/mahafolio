@@ -1,7 +1,6 @@
 // @ts-check-ignore
 const validator = require("validator").default;
 const jwt = require("jsonwebtoken");
-const { default: mongoose } = require("mongoose");
 const { deleteFile } = require("../apis/gdrive");
 
 const Mahasiswa = require("../models/mahasiswa");
@@ -40,9 +39,7 @@ const signupMhs = async (req, res) => {
 // get 1 mhs
 const getMhs = async (req, res) => {
   const { id } = req.params;
-  if (!validator.isMongoId(id)) {
-    return res.status(400).json({ error: "ID mahasiswa tidak valid" });
-  }
+  if (!validator.isMongoId(id)) throw Error("ID mahasiswa tidak valid");
 
   try {
     const mhs = await Mahasiswa.findById(id);
@@ -59,9 +56,8 @@ const getMhs = async (req, res) => {
 // search mhs
 const searchMhs = async (req, res) => {
   const { keyword } = req.params;
-  if (keyword.length < 3 || keyword.length > 15) {
-    return res.status(400).json({ error: "Kata kunci hanya 3-15 karakter!" });
-  }
+  if (keyword.length < 3 || keyword.length > 15)
+    throw Error("Kata kunci hanya 3-15 karakter!");
 
   try {
     const query = keyword.trim();
@@ -85,9 +81,7 @@ const searchMhs = async (req, res) => {
 // update 1 mhs
 const updateMhs = async (req, res) => {
   const { id } = req.params;
-  if (!validator.isMongoId(id)) {
-    return res.status(404).json({ error: "ID mahasiswa tidak valid" });
-  }
+  if (!validator.isMongoId(id)) throw Error("ID mahasiswa tidak valid");
 
   let update = req.body;
 
@@ -111,27 +105,6 @@ const updateMhs = async (req, res) => {
   }
 };
 
-// delete 1 mhs
-const deleteMhs = async (req, res) => {
-  const { id } = req.params;
-  if (!validator.isMongoId(id)) {
-    return res.status(404).json({ error: "ID mahasiswa tidak valid" });
-  }
-
-  try {
-    const mhs = await Mahasiswa.findOneAndDelete({ _id: id });
-    if (!mhs) {
-      return res.status(404).json({ error: "Mahasiswa tidak ditemukan" });
-    }
-
-    await deleteFile(mhs.folderId);
-
-    res.status(200).json(mhs);
-  } catch (error) {
-    return res.status(400).json({ error: error.message });
-  }
-};
-
 const getLeaderboard = async (req, res) => {
   try {
     const mhs = await Mahasiswa.find({}).sort({ score: -1 }).skip(0).limit(10);
@@ -148,7 +121,6 @@ const getLeaderboard = async (req, res) => {
 module.exports = {
   signinMhs,
   signupMhs,
-  deleteMhs,
   getMhs,
   searchMhs,
   updateMhs,

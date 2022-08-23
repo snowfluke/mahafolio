@@ -9,6 +9,7 @@ const app = express();
 // Routes import
 const routerMahasiswa = require("./routes/mahasiswa");
 const routerFolio = require("./routes/folio");
+const routerAdmin = require("./routes/admin");
 const origin = require("./middlewares/origin");
 
 const PORT = process.env.PORT || 4000;
@@ -22,14 +23,10 @@ app.use(
 
 app.use(cors(), origin);
 
-app.use((req, res, next) => {
-  console.log(req.path, req.method);
-  next();
-});
-
 // Routes
 app.use("/api/mahasiswa", routerMahasiswa);
 app.use("/api/folio", routerFolio);
+app.use("/admin", routerAdmin);
 
 // Connect to DB
 

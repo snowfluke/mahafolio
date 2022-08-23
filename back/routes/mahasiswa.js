@@ -4,7 +4,6 @@ const express = require("express");
 const {
   signinMhs,
   signupMhs,
-  deleteMhs,
   getMhs,
   searchMhs,
   updateMhs,
@@ -30,11 +29,5 @@ router.get("/search/:keyword", searchMhs);
 
 // PATCH MHS:ID
 router.patch("/:id", updateMhs);
-
-//* Require Admin Authorization
-router.use(auth);
-
-// DELETE MHS:ID
-router.delete("/:id", deleteMhs);
 
 module.exports = router;
