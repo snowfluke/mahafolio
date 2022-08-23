@@ -8,7 +8,6 @@ const Profile = lazy(() => import("./pages/Profile"));
 function Router() {
   return (
     <Routes>
-      {/* <Route path="/" component={Landing} /> */}
       <Route path="/" component={Home} />
       <Route path="/login" component={Login} />
       <Route path="/leaderboard" component={Leaderboard} />
