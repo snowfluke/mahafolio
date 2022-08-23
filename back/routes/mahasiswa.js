@@ -27,6 +27,9 @@ router.post("/signup", signupMhs);
 // GET SEARCH:KEYWORD
 router.get("/search/:keyword", searchMhs);
 
+//* Require Authorization
+router.use(auth);
+
 // PATCH MHS:ID
 router.patch("/:id", updateMhs);
 
