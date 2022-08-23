@@ -39,9 +39,9 @@ const signupMhs = async (req, res) => {
 // get 1 mhs
 const getMhs = async (req, res) => {
   const { id } = req.params;
-  if (!validator.isMongoId(id)) throw Error("ID mahasiswa tidak valid");
-
   try {
+    if (!validator.isMongoId(id)) throw Error("ID mahasiswa tidak valid");
+
     const mhs = await Mahasiswa.findById(id);
     if (!mhs) {
       return res.status(404).json({ error: "Mahasiswa tidak ditemukan" });
@@ -56,10 +56,10 @@ const getMhs = async (req, res) => {
 // search mhs
 const searchMhs = async (req, res) => {
   const { keyword } = req.params;
-  if (keyword.length < 3 || keyword.length > 15)
-    throw Error("Kata kunci hanya 3-15 karakter!");
-
   try {
+    if (keyword.length < 3 || keyword.length > 15)
+      throw Error("Kata kunci hanya 3-15 karakter!");
+
     const query = keyword.trim();
     const mhss = await Mahasiswa.find({
       $or: [
@@ -81,14 +81,14 @@ const searchMhs = async (req, res) => {
 // update 1 mhs
 const updateMhs = async (req, res) => {
   const { id } = req.params;
-  if (!validator.isMongoId(id)) throw Error("ID mahasiswa tidak valid");
-
-  let update = req.body;
-
-  delete update.email;
-  delete update.password;
-
   try {
+    if (!validator.isMongoId(id)) throw Error("ID mahasiswa tidak valid");
+
+    let update = req.body;
+
+    delete update.email;
+    delete update.password;
+
     const mhs = await Mahasiswa.findOneAndUpdate(
       { _id: id },
       {
