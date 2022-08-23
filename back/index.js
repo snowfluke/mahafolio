@@ -9,16 +9,18 @@ const app = express();
 // Routes import
 const routerMahasiswa = require("./routes/mahasiswa");
 const routerFolio = require("./routes/folio");
+const origin = require("./middlewares/origin");
 
 const PORT = process.env.PORT || 4000;
 
 // Middlewares
-app.use(express.json());
-// app.use(
-//   cors({
-//     origin: ["http://localhost:3000", "http://localhost:3001"],
-//   })
-// );
+app.use(
+  express.json({
+    limit: "1mb",
+  })
+);
+
+app.use(cors(), origin);
 
 app.use((req, res, next) => {
   console.log(req.path, req.method);
@@ -35,6 +37,8 @@ mongoose
   .connect(process.env.MONGO_URI || "")
   .then(() => {
     // Listener
-    app.listen(PORT, () => console.log("DB & Server Running on port " + PORT));
+    app.listen(PORT, () =>
+      console.log("Server and Database Running on port " + PORT)
+    );
   })
   .catch((err) => console.log(err));

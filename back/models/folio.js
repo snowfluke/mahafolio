@@ -37,6 +37,9 @@ const folioSchema = new Schema(
       minLength: [3, "Panjang mata kuliah minimal 3 karakter!"],
       maxLength: [30, "Panjang {VALUE} melebihi 30 karakter!"],
     },
+    fileId: {
+      type: String,
+    },
     url: {
       type: String,
       required: true,

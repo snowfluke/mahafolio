@@ -10,6 +10,7 @@ const {
   searchFolio,
 } = require("../controllers/folio");
 
+const auth = require("../middlewares/auth");
 const router = express.Router();
 
 // GET all folio
@@ -20,6 +21,9 @@ router.get("/:id", getFolio);
 
 // GET a search folio
 router.get("/search/:keyword", searchFolio);
+
+//* Require Authorization
+router.use(auth);
 
 // POST a new folio
 router.post("/", createFolio);

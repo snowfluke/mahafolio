@@ -2,6 +2,7 @@
 const validator = require("validator").default;
 const jwt = require("jsonwebtoken");
 const { default: mongoose } = require("mongoose");
+const { deleteFile } = require("../apis/gdrive");
 
 const Mahasiswa = require("../models/mahasiswa");
 
@@ -122,6 +123,8 @@ const deleteMhs = async (req, res) => {
     if (!mhs) {
       return res.status(404).json({ error: "Mahasiswa tidak ditemukan" });
     }
+
+    await deleteFile(mhs.folderId);
 
     res.status(200).json(mhs);
   } catch (error) {

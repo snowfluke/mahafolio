@@ -4,6 +4,7 @@ const bcrypt = require("bcrypt");
 const mongoose = require("mongoose");
 const { STUDY } = require("../utils/constant");
 const { customAlphabet } = require("nanoid");
+const { searchFolder } = require("../apis/gdrive");
 const validator = require("validator").default;
 
 const Schema = mongoose.Schema;
@@ -16,6 +17,10 @@ const mhsSchema = new Schema(
       unique: true,
     },
     password: {
+      type: String,
+      required: true,
+    },
+    folderId: {
       type: String,
       required: true,
     },
@@ -96,10 +101,13 @@ mhsSchema.statics.signup = async function (email, password) {
   const nim = customAlphabet("1234567890", 12)();
   const hash = await bcrypt.hash(password, salt);
 
+  const folder = await searchFolder(email);
+
   const user = this.create({
     email,
     password: hash,
     nim,
+    folderId: folder.id,
     name: randomName,
   });
 
