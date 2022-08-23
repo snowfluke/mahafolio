@@ -11,8 +11,10 @@ function Home() {
       </div>
       <div className="grid grid-cols-12 mt-10 justify-items-stretch">
         <div className="col-start-2 justify-self-end">
-          <div className="mt-12 -rotate-90">
-            <button className="responsive-text r-4 border-l-2 border-r-2 bg-white tracking-widest font-semibold text-green py-2 px-10">Masuk</button>
+          <div className="mt-14 -rotate-90">
+            <Link href="/login" className="responsive-text r-4 border-l-2 border-r-2 bg-white tracking-widest font-semibold text-green py-2 px-10">
+              Masuk
+            </Link>
           </div>
         </div>
         <div className="col-start-3 -ml-8 col-end-13">

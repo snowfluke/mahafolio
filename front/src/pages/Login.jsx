@@ -6,95 +6,73 @@ function Login() {
   const [modal, setModal] = createSignal(true);
 
   return (
-    <section className="w-[30%] mx-auto border rounded-lg shadow-md p-6 space-y-4">
-      <Show when={login()}>
-        <h1 className="text-center font-semibold text-xl mb-2">Login</h1>
-        <input type="email" className="border px-4 py-2 w-full rounded-md outline-none" placeholder="Masukkan email" />
-        <input type="password" className="border px-4 py-2 w-full rounded-md outline-none" placeholder="Masukkan password" />
-        <button className="w-full text-right" type="button" data-modal-toggle="defaultModal" onClick={() => setModal(!modal())}>
-          Lupa Password?
-        </button>
+    <section>
+      <div className="w-full sm:w-[60%] md:w-[50%] lg:w-[30%] mx-auto bg-white rounded-lg shadow-lg p-6 space-y-4">
+        <Show when={login()}>
+          <h1 className="text-center font-semibold text-xl mb-2">Login</h1>
+          <input type="email" className="border-green/70 border px-4 py-2 w-full rounded-md outline-none" placeholder="Masukkan email" />
+          <input type="password" className="border-green/70 border px-4 py-2 w-full rounded-md outline-none" placeholder="Masukkan password" />
+          <button className="w-full text-right" type="button" data-modal-toggle="lupaPass" onClick={() => setModal(!modal())}>
+            Lupa Password?
+          </button>
 
-        <Show when={!modal()}>
-          <div
-            id="defaultModal"
-            tabindex="-1"
-            class="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full justify-center items-center flex"
-            aria-modal="true"
-            role="dialog"
-          >
-            <div class="relative p-4 w-full max-w-2xl h-full md:h-auto">
-              <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-                <div class="flex justify-between items-start p-4 rounded-t border-b dark:border-gray-600">
-                  <h3 class="text-xl font-semibold text-gray-900 dark:text-white">Terms of Service</h3>
-                  <button
-                    type="button"
-                    class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
-                    data-modal-toggle="defaultModal"
-                  >
-                    <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                      <path
-                        fill-rule="evenodd"
-                        d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                        clip-rule="evenodd"
-                      ></path>
-                    </svg>
-                    <span class="sr-only">Close modal</span>
-                  </button>
-                </div>
-                <div class="p-6 space-y-6">
-                  <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                    With less than a month to go before the European Union enacts new consumer privacy laws for its citizens, companies around the world are updating their terms of service agreements
-                    to comply.
-                  </p>
-                  <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                    The European Union’s General Data Protection Regulation (G.D.P.R.) goes into effect on May 25 and is meant to ensure a common set of data rights in the European Union. It requires
-                    organizations to notify users as soon as possible of high-risk data breaches that could personally affect them.
-                  </p>
-                </div>
-                <div class="flex items-center p-6 space-x-2 rounded-b border-t border-gray-200 dark:border-gray-600">
-                  <button
-                    data-modal-toggle="defaultModal"
-                    type="button"
-                    class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                  >
-                    I accept
-                  </button>
-                  <button
-                    data-modal-toggle="defaultModal"
-                    type="button"
-                    class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600"
-                  >
-                    Decline
-                  </button>
+          <button className="font-semibold w-full text-center bg-green text-white tracking-widest rounded-md py-2">Masuk</button>
+          <span className="w-full text-center inline-block">
+            Belum terdaftar?{" "}
+            <button onClick={() => setLogin(!login())} className="font-semibold underline underline-offset-4">
+              Daftar!
+            </button>
+          </span>
+
+          <Show when={!modal()}>
+            <div
+              id="lupaPass"
+              tabindex="-1"
+              className="overflow-y-auto overflow-x-hidden fixed 
+              top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 z-50 w-full justify-center items-center flex"
+              aria-modal="true"
+              role="dialog"
+            >
+              <div className="relative p-4 w-full max-w-md ">
+                <div className="relative bg-white rounded-lg shadow-md py-14 px-4 space-y-4">
+                  <h3 className="text-xl font-semibold text-center">Lupa Kata Sandi?</h3>
+                  <p className="leading-relaxed text-center text-sm">Jangan khawatir! Mereset kata sandi Anda sangat mudah. Ketikkan email akun Anda yang terdaftar di Mahafolio.</p>
+                  <div className="px-4 space-y-4">
+                    <div className="space-y-1">
+                      <label htmlFor="email" className="font-semibold font-sm">
+                        Email
+                      </label>
+                      <input type="email" className="border-green/70 border px-4 py-2 w-full rounded-md outline-none" placeholder="Masukkan email Anda" />
+                    </div>
+
+                    <button className="font-semibold w-full text-center bg-green text-white tracking-widest rounded-md py-2">Kirim</button>
+                    <span className="w-full text-center inline-block">
+                      Ingat kata sandi Anda?{" "}
+                      <button onClick={() => setModal(!modal())} className="font-semibold underline underline-offset-4">
+                        Coba Login!
+                      </button>
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
+          </Show>
         </Show>
 
-        <button className="font-semibold w-full text-center border-sky-500 border text-sky-500 rounded-md py-2">Masuk</button>
-        <span className="w-full text-center inline-block">
-          Belum terdaftar?{" "}
-          <button onClick={() => setLogin(!login())} className="font-semibold underline underline-offset-4">
-            Daftar!
-          </button>
-        </span>
-      </Show>
-
-      <Show when={!login()}>
-        <h1 className="text-center font-semibold text-xl mb-2">Register</h1>
-        <input type="email" className="border px-4 py-2 w-full rounded-md outline-none" placeholder="Masukkan email" />
-        <input type="password" className="border px-4 py-2 w-full rounded-md outline-none" placeholder="Masukkan password" />
-        <input type="password" className="border px-4 py-2 w-full rounded-md outline-none" placeholder="Konfirmasi password" />
-        <button className="font-semibold w-full text-center border-sky-500 border text-sky-500 rounded-md py-2">Daftar</button>
-        <span className="w-full text-center inline-block">
-          Sudah terdaftar?{" "}
-          <button onClick={() => setLogin(!login())} className="font-semibold underline underline-offset-4">
-            Login
-          </button>
-        </span>
-      </Show>
+        <Show when={!login()}>
+          <h1 className="text-center font-semibold text-xl mb-2">Register</h1>
+          <input type="email" className="border border-green/70 px-4 py-2 w-full rounded-md outline-none" placeholder="Masukkan email" />
+          <input type="password" className="border border-green/70 px-4 py-2 w-full rounded-md outline-none" placeholder="Masukkan password" />
+          <input type="password" className="border border-green/70 px-4 py-2 w-full rounded-md outline-none" placeholder="Konfirmasi password" />
+          <button className="font-semibold w-full text-center bg-green text-white tracking-widest rounded-md py-2">Daftar</button>
+          <span className="w-full text-center inline-block">
+            Sudah terdaftar?{" "}
+            <button onClick={() => setLogin(!login())} className="font-semibold underline underline-offset-4">
+              Login
+            </button>
+          </span>
+        </Show>
+      </div>
     </section>
   );
 }
