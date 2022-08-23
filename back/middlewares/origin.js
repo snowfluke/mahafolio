@@ -1,5 +1,4 @@
 // @ts-check
-require("dotenv").config();
 
 function origin(req, res, next) {
   res.header("Access-Control-Allow-Origin", process.env.FRONTEND_ORIGIN);

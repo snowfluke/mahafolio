@@ -1,4 +1,4 @@
-require("dotenv").config();
+// @ts-check-ignore
 
 const fs = require("fs");
 const path = require("path");
@@ -7,7 +7,7 @@ const { google } = require("googleapis");
 const SERVICE_ACCOUNT =
   path.join(__dirname, "..", "config/") + process.env.GDRIVE_SA;
 const SCOPES = ["https://www.googleapis.com/auth/drive"];
-const ROOT_FOLDER = "1UdBGAfWFeBRegQHYOUShTR-Zvm2SWubB";
+const ROOT_FOLDER = process.env.ROOT_FOLDER;
 
 const auth = new google.auth.GoogleAuth({
   keyFile: SERVICE_ACCOUNT,
@@ -16,14 +16,14 @@ const auth = new google.auth.GoogleAuth({
 const service = google.drive({ version: "v3", auth });
 
 // Create and upload file to google drive
-async function uploadFile(name, blob, parents = [ROOT_FOLDER]) {
+async function uploadFile(name, buffer, parents = [ROOT_FOLDER]) {
   const fileMetadata = {
     name,
     parents,
   };
 
   const media = {
-    body: fs.createReadStream(blob),
+    body: fs.createReadStream(buffer),
   };
   try {
     const file = await service.files.create({
