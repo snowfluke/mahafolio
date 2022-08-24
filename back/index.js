@@ -3,6 +3,7 @@ require("dotenv").config();
 
 const express = require("express");
 const cors = require("cors");
+const { xss } = require("express-xss-sanitizer");
 const mongoose = require("mongoose");
 const app = express();
 
@@ -22,6 +23,7 @@ app.use(
 );
 
 app.use(cors(), origin);
+app.use(xss());
 
 // Routes
 app.use("/api/mahasiswa", routerMahasiswa);
