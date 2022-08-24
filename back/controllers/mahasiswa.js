@@ -105,9 +105,14 @@ const updateMhs = async (req, res) => {
   }
 };
 
+// get 10 leaderboard
 const getLeaderboard = async (req, res) => {
   try {
-    const mhs = await Mahasiswa.find({}).sort({ score: -1 }).skip(0).limit(10);
+    const mhs = await Mahasiswa.find({})
+      .sort({ score: -1 })
+      .skip(0)
+      .limit(10)
+      .select("_id name score study semester");
     if (!mhs) {
       return res.status(404).json({ error: "Mahasiswa tidak ditemukan" });
     }
