@@ -2,7 +2,7 @@
 
 Aplikasi web untuk melacak kemajuan kuliah mahasiswa dan ditujukan sebagai portfolio perkuliahan
 
-# fitur
+# feature
 
 1. Login & Register
 2. Admin Dashboard
