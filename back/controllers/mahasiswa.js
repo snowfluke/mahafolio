@@ -107,8 +107,14 @@ const updateMhs = async (req, res) => {
 
 // get 10 leaderboard
 const getLeaderboard = async (req, res) => {
+  const { study, semester } = req.query;
+
   try {
-    const mhs = await Mahasiswa.find({})
+    const keyword = {};
+    if (study && study != "all") keyword.study = study;
+    if (semester && semester != "all") keyword.semester = parseInt(semester);
+
+    const mhs = await Mahasiswa.find(keyword)
       .sort({ score: -1 })
       .skip(0)
       .limit(10)
