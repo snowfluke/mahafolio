@@ -1,27 +1,33 @@
-import { createEffect, createResource, createSignal } from "solid-js";
+import { createEffect, createResource } from "solid-js";
+import { createStore } from "solid-js/store";
 import Dropdown from "../components/input/dropdown";
 import PaperCard from "../components/paper/papercard";
 import PaperContainer from "../components/paper/papercontainer";
 import PaperGrid from "../components/paper/papergrid";
 import fetcher from "../utils/fetcher";
 
-function Leaderboard() {
-  const [topTen] = createResource(fetchTopTen);
-  const [jurusan, setJurusan] = createSignal("");
-  const [semester, setSemester] = createSignal("");
+const fetchTopTen = async ({ study, semester }) =>
+  await fetcher(
+    encodeURI(
+      `/api/mahasiswa?study=${study || "all"}&semester=${semester || "all"}`
+    ),
+    {
+      method: "GET",
+    }
+  );
 
-  createEffect(() => {
-    console.log(topTen());
-  });
+function Leaderboard() {
+  const [keyword, setKeyword] = createStore({ study: "", semester: "" });
+  const [topTen] = createResource(() => ({ ...keyword }), fetchTopTen);
 
   return (
     <section>
       <div className="flex items-center justify-center sm:justify-end space-x-4 responsive-text">
         <div>
-          <Dropdown items={ListJurusan} signal={setJurusan}></Dropdown>
+          <Dropdown items={ListJurusan} signal={setKeyword}></Dropdown>
         </div>
         <div>
-          <Dropdown items={ListSemester} signal={setSemester}></Dropdown>
+          <Dropdown items={ListSemester} signal={setKeyword}></Dropdown>
         </div>
       </div>
       <div className="grid grid-cols-12 mt-10 justify-items-stretch">
@@ -35,8 +41,12 @@ function Leaderboard() {
         <div className="col-start-3 -ml-8 col-end-13">
           <PaperCard title={"Klasemen perolehan poin mahafolio:"}>
             <Show
-              when={topTen()}
-              fallback={() => <div>- Tidak terdapat klasemen saat ini</div>}
+              when={topTen()?.length}
+              fallback={() => (
+                <span className="responsive-text">
+                  - Tidak terdapat klasemen saat ini
+                </span>
+              )}
             >
               <PaperContainer>
                 <For each={topTen()}>
@@ -54,25 +64,20 @@ function Leaderboard() {
 }
 export default Leaderboard;
 
-const fetchTopTen = async () =>
-  await fetcher("/api/mahasiswa", {
-    method: "GET",
-  });
-
 const ListJurusan = [
-  { name: "Semua Jurusan", value: "" },
-  { name: "Teknik Informatika", value: "TEKNIK INFORMATIKA" },
-  { name: "Sistem Informasi", value: "SISTEM INFORMASI" },
+  { name: "Semua Jurusan", value: "", key: "study" },
+  { name: "Teknik Informatika", value: "TEKNIK INFORMATIKA", key: "study" },
+  { name: "Sistem Informasi", value: "SISTEM INFORMASI", key: "study" },
 ];
 
 const ListSemester = [
-  { name: "Sepanjang Masa", value: "" },
-  { name: "Semester 1", value: 1 },
-  { name: "Semester 2", value: 2 },
-  { name: "Semester 3", value: 3 },
-  { name: "Semester 4", value: 4 },
-  { name: "Semester 5", value: 5 },
-  { name: "Semester 6", value: 6 },
-  { name: "Semester 7", value: 7 },
-  { name: "Semester 8", value: 8 },
+  { name: "Sepanjang Masa", value: "", key: "semester" },
+  { name: "Semester 1", value: 1, key: "semester" },
+  { name: "Semester 2", value: 2, key: "semester" },
+  { name: "Semester 3", value: 3, key: "semester" },
+  { name: "Semester 4", value: 4, key: "semester" },
+  { name: "Semester 5", value: 5, key: "semester" },
+  { name: "Semester 6", value: 6, key: "semester" },
+  { name: "Semester 7", value: 7, key: "semester" },
+  { name: "Semester 8", value: 8, key: "semester" },
 ];

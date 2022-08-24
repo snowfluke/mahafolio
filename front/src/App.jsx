@@ -13,7 +13,10 @@ function App() {
       <Header />
       <Nav />
       <ErrorBoundary
-        fallback={(err, reset) => <ErrorDisplay err={err} reset={reset} />}
+        fallback={(err, reset) => {
+          console.log(err);
+          return <ErrorDisplay err={err} reset={reset} />;
+        }}
       >
         <Suspense fallback={<Loading />}>
           <Router />

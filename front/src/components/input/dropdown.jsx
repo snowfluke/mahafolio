@@ -36,12 +36,12 @@ function Dropdown(props) {
             each={props.items}
             fallback={<div>Tidak terdapat klasemen saat ini</div>}
           >
-            {(item, index) => (
+            {(item) => (
               <li
                 className="block cursor-pointer w-full whitespace-nowrap bg-transparent py-2 px-4 text-xs md:text-sm font-normal text-black-700 hover:bg-slate-200"
                 onClick={() => {
                   setSelected(item.name);
-                  props.signal(item.value);
+                  props.signal(item.key, item.value);
                   setShowDropdown(!showDropdown());
                 }}
               >
