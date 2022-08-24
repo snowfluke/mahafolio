@@ -55,7 +55,7 @@ const createFolio = async (req, res) => {
         const { title, type, semester, subject, url, description, author } =
           fields;
 
-        if (!validator.isMongoId(author)) throw Error("Author tidak valid!");
+        if (author !== req.mhs._id.toString()) throw Error("Akses ilegal!");
         if (!url && !file) throw Error("Link atau File diperlukan!");
         if (url && !validator.isURL(url)) throw Error("Link tidak valid!");
 
@@ -96,7 +96,6 @@ const createFolio = async (req, res) => {
 
         res.status(200).json(folio);
       } catch (error) {
-        console.log(error);
         return res.status(500).json({
           error: error.message || "Terjadi kesalahan server internal",
         });
@@ -110,7 +109,9 @@ const createFolio = async (req, res) => {
 // delete a Folio
 const deleteFolio = async (req, res) => {
   try {
-    const { id } = req.params;
+    const { id, author } = req.params;
+    if (author !== req.mhs._id.toString()) throw Error("Akses ilegal!");
+
     if (!validator.isMongoId(id)) {
       throw Error("ID folio tidak valid");
     }
@@ -160,8 +161,9 @@ const searchFolio = async (req, res) => {
 
 // update a folio
 const updateFolio = async (req, res) => {
-  const { id } = req.params;
+  const { id, author } = req.params;
   try {
+    if (author !== req.mhs._id.toString()) throw Error("Akses ilegal!");
     if (!validator.isMongoId(id)) throw Error("ID folio tidak valid");
 
     form.parse(req, async (err, fields, files) => {
@@ -213,7 +215,6 @@ const updateFolio = async (req, res) => {
 
         res.status(200).json({ ...folio.toJSON(), ...newFolio });
       } catch (error) {
-        console.log(error);
         return res.status(500).json({
           error: error.message || "Terjadi kesalahan server internal",
         });

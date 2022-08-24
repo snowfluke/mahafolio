@@ -81,7 +81,9 @@ const searchMhs = async (req, res) => {
 // update 1 mhs
 const updateMhs = async (req, res) => {
   const { id } = req.params;
+
   try {
+    if (id !== req.mhs._id.toString()) throw Error("Akses ilegal!");
     if (!validator.isMongoId(id)) throw Error("ID mahasiswa tidak valid");
 
     let update = req.body;
