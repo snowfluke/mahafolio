@@ -14,6 +14,10 @@ APP_SECRET=YOUR_JWT_APP_SECRET
 FRONTEND_ORIGIN='YOUR_FRONT_END_ORIGIN'
 ```
 
+# constants
+
+Customize your app content requirement in `/utils/constant.js`
+
 # admin user
 
 Create a collection in mongodb with the name `admins`. The property only consists of two stuff:
