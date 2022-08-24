@@ -1,6 +1,6 @@
 function Loading() {
   return (
-    <div class="flex justify-center items-center h-screen font-semibold text-xl text-slate-800">
+    <div class="flex flex-col justify-start items-center font-semibold text-xl text-slate-800">
       Memuat...
     </div>
   );

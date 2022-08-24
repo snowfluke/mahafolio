@@ -2,10 +2,10 @@ function ErrorDisplay({ err, reset }) {
   return (
     <div
       onClick={reset}
-      className="flex flex-col justify-center items-center h-screen font-semibold text-red-400"
+      className="flex flex-col justify-start items-center font-semibold text-red-400 cursor-pointer hover:text-green"
     >
-      <div className="text-xl flex-1">Terjadi Kesalahan:</div>
-      <div className="flex-1 text-md">{err.toString()}</div>
+      <div className="text-xl">Terjadi Kesalahan:</div>
+      <div className="text-md">{err.toString()}</div>
     </div>
   );
 }

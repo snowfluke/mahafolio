@@ -1,7 +1,7 @@
 import { Link } from "@solidjs/router";
 import { createSignal, Show } from "solid-js";
 
-function Landing() {
+function Profile() {
   const [modalTipe, setModalTipe] = createSignal(true);
   const [modalSemester, setModalSemester] = createSignal(true);
 
@@ -14,10 +14,15 @@ function Landing() {
         <div className="flex justify-between space-x-4 h-30">
           <div className="flex flex-col md:w-[25%] responsive-text">
             <span className="text-green font-semibold text-4xl">10823pts</span>
-            <span className="text-green font-semibold text-xl">Willy Setiawan</span>
+            <span className="text-green font-semibold text-xl">
+              Willy Setiawan
+            </span>
           </div>
 
-          <div class="hidden md:block bg-cover bg-center md:w-[60%] h-30" style="background-image: url(/src/assets/profile.png)"></div>
+          <div
+            class="hidden md:block bg-cover bg-center md:w-[60%] h-30"
+            style="background-image: url(/src/assets/profile.png)"
+          ></div>
           <div>
             <img src="/src/assets/profile.png" alt="Profil" className="w-32" />
           </div>
@@ -28,7 +33,9 @@ function Landing() {
             <span>Semester 6</span>
           </div>
           <div className="text-right md:text-left">
-            <span className="italic responsive-text">Set your mind to be adaptive” Stoic wannabe. Nillionaire.</span>
+            <span className="italic responsive-text">
+              Set your mind to be adaptive” Stoic wannabe. Nillionaire.
+            </span>
           </div>
         </div>
       </div>
@@ -44,34 +51,64 @@ function Landing() {
               onClick={() => setModalSemester(!modalSemester())}
             >
               Semua Semester
-              <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="caret-down" class="ml-4 w-2" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
-                <path fill="currentColor" d="M31.3 192h257.3c17.8 0 26.7 21.5 14.1 34.1L174.1 354.8c-7.8 7.8-20.5 7.8-28.3 0L17.2 226.1C4.6 213.5 13.5 192 31.3 192z"></path>
+              <svg
+                aria-hidden="true"
+                focusable="false"
+                data-prefix="fas"
+                data-icon="caret-down"
+                class="ml-4 w-2"
+                role="img"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 320 512"
+              >
+                <path
+                  fill="currentColor"
+                  d="M31.3 192h257.3c17.8 0 26.7 21.5 14.1 34.1L174.1 354.8c-7.8 7.8-20.5 7.8-28.3 0L17.2 226.1C4.6 213.5 13.5 192 31.3 192z"
+                ></path>
               </svg>
             </button>
             <Show when={!modalSemester()}>
-              <ul class="dropdown-menu absolute z-50 float-left m-0 mt-1 w-full list-none rounded-lg border-none bg-white bg-clip-padding py-2 text-left shadow-lg" aria-labelledby="dropdownSemester">
+              <ul
+                class="dropdown-menu absolute z-50 float-left m-0 mt-1 w-full list-none rounded-lg border-none bg-white bg-clip-padding py-2 text-left shadow-lg"
+                aria-labelledby="dropdownSemester"
+              >
                 <li>
-                  <a class="dropdown-item block w-full whitespace-nowrap bg-transparent py-2 px-4    text-xs md:text-sm font-normal text-gray-700 hover:bg-gray-100" href="#">
+                  <a
+                    class="dropdown-item block w-full whitespace-nowrap bg-transparent py-2 px-4    text-xs md:text-sm font-normal text-gray-700 hover:bg-gray-100"
+                    href="#"
+                  >
                     Semester 1
                   </a>
                 </li>
                 <li>
-                  <a class="dropdown-item block w-full whitespace-nowrap bg-transparent py-2 px-4  text-xs md:text-sm font-normal text-gray-700 hover:bg-gray-100" href="#">
+                  <a
+                    class="dropdown-item block w-full whitespace-nowrap bg-transparent py-2 px-4  text-xs md:text-sm font-normal text-gray-700 hover:bg-gray-100"
+                    href="#"
+                  >
                     Semester 2
                   </a>
                 </li>
                 <li>
-                  <a class="dropdown-item block w-full whitespace-nowrap bg-transparent py-2 px-4 text-xs md:text-sm font-normal text-gray-700 hover:bg-gray-100" href="#">
+                  <a
+                    class="dropdown-item block w-full whitespace-nowrap bg-transparent py-2 px-4 text-xs md:text-sm font-normal text-gray-700 hover:bg-gray-100"
+                    href="#"
+                  >
                     Semester 3
                   </a>
                 </li>
                 <li>
-                  <a class="dropdown-item block w-full whitespace-nowrap bg-transparent py-2 px-4 text-xs md:text-sm font-normal text-gray-700 hover:bg-gray-100" href="#">
+                  <a
+                    class="dropdown-item block w-full whitespace-nowrap bg-transparent py-2 px-4 text-xs md:text-sm font-normal text-gray-700 hover:bg-gray-100"
+                    href="#"
+                  >
                     Semester 4
                   </a>
                 </li>
                 <li>
-                  <a class="dropdown-item block w-full whitespace-nowrap bg-transparent py-2 px-4 text-xs md:text-sm font-normal text-gray-700 hover:bg-gray-100" href="#">
+                  <a
+                    class="dropdown-item block w-full whitespace-nowrap bg-transparent py-2 px-4 text-xs md:text-sm font-normal text-gray-700 hover:bg-gray-100"
+                    href="#"
+                  >
                     Semester 5
                   </a>
                 </li>
@@ -89,19 +126,40 @@ function Landing() {
               onClick={() => setModalTipe(!modalTipe())}
             >
               Semua Tipe
-              <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="caret-down" class="ml-4 w-2" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
-                <path fill="currentColor" d="M31.3 192h257.3c17.8 0 26.7 21.5 14.1 34.1L174.1 354.8c-7.8 7.8-20.5 7.8-28.3 0L17.2 226.1C4.6 213.5 13.5 192 31.3 192z"></path>
+              <svg
+                aria-hidden="true"
+                focusable="false"
+                data-prefix="fas"
+                data-icon="caret-down"
+                class="ml-4 w-2"
+                role="img"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 320 512"
+              >
+                <path
+                  fill="currentColor"
+                  d="M31.3 192h257.3c17.8 0 26.7 21.5 14.1 34.1L174.1 354.8c-7.8 7.8-20.5 7.8-28.3 0L17.2 226.1C4.6 213.5 13.5 192 31.3 192z"
+                ></path>
               </svg>
             </button>
             <Show when={!modalTipe()}>
-              <ul class="dropdown-menu absolute z-50 float-left m-0 mt-1 w-full list-none rounded-lg border-none bg-white bg-clip-padding py-2 text-left shadow-lg" aria-labelledby="dropdownJurusan">
+              <ul
+                class="dropdown-menu absolute z-50 float-left m-0 mt-1 w-full list-none rounded-lg border-none bg-white bg-clip-padding py-2 text-left shadow-lg"
+                aria-labelledby="dropdownJurusan"
+              >
                 <li>
-                  <a class="dropdown-item block w-full whitespace-nowrap bg-transparent py-2 px-4 text-xs md:text-sm font-normal text-gray-700 hover:bg-gray-100" href="#">
+                  <a
+                    class="dropdown-item block w-full whitespace-nowrap bg-transparent py-2 px-4 text-xs md:text-sm font-normal text-gray-700 hover:bg-gray-100"
+                    href="#"
+                  >
                     Teknik Informatika
                   </a>
                 </li>
                 <li>
-                  <a class="dropdown-item block w-full whitespace-nowrap bg-transparent py-2 px-4 text-xs md:text-sm font-normal text-gray-700 hover:bg-gray-100" href="#">
+                  <a
+                    class="dropdown-item block w-full whitespace-nowrap bg-transparent py-2 px-4 text-xs md:text-sm font-normal text-gray-700 hover:bg-gray-100"
+                    href="#"
+                  >
                     Sistem Informasi
                   </a>
                 </li>
@@ -110,7 +168,11 @@ function Landing() {
           </div>
         </div>
         <div className="">
-          <input type="text" placeholder="Filter judul atau mata kuliah ..." className="text-center lg:text-left w-64 outline-none responsive-text truncate px-6 py-1.5 border-y-2 border-green" />
+          <input
+            type="text"
+            placeholder="Filter judul atau mata kuliah ..."
+            className="text-center lg:text-left w-64 outline-none responsive-text truncate px-6 py-1.5 border-y-2 border-green"
+          />
         </div>
       </div>
       <div className="grid grid-cols-12 mt-10 justify-items-stretch">
@@ -121,89 +183,161 @@ function Landing() {
               <div className="absolute top-0 right-0 h-0 w-0 border-b-[50px] border-r-[50px] border-t-[0px] border-b-slate-200 border-r-transparent border-l-transparent"></div>
               <div>
                 <span className="responsive-text">
-                  Menampilkan kemajuan perkuliahan di <span className="font-semibold">“semua semester”</span> dan <span className="font-semibold">“semua tipe”</span> :
+                  Menampilkan kemajuan perkuliahan di{" "}
+                  <span className="font-semibold">“semua semester”</span> dan{" "}
+                  <span className="font-semibold">“semua tipe”</span> :
                 </span>
                 <table className="table-fixed overflow-x-scroll my-4 w-full responsive-text">
                   <tbody>
-                    <Link href="#" className="table-row border-b border-slate-700/50">
+                    <Link
+                      href="#"
+                      className="table-row border-b border-slate-700/50"
+                    >
                       <td className="sm:w-[20%] md:w-[15%] lg:w-[10%] w-[40%] border-r border-slate-700/50 p-1">
                         <div className="border border-slate-700/50 flex items-center">
-                          <span className="mx-auto px-2 text-center font-semibold truncate">10/07/2022</span>
+                          <span className="mx-auto px-2 text-center font-semibold truncate">
+                            10/07/2022
+                          </span>
                         </div>
                       </td>
-                      <td className="pl-3 sm:w-[80%] md:w-[85%] lg:w-[90%] w-[60%]">Mock up desain hasil tahap analisis </td>
+                      <td className="pl-3 sm:w-[80%] md:w-[85%] lg:w-[90%] w-[60%]">
+                        Mock up desain hasil tahap analisis{" "}
+                      </td>
                     </Link>
-                    <Link href="#" className="table-row border-b border-slate-700/50">
+                    <Link
+                      href="#"
+                      className="table-row border-b border-slate-700/50"
+                    >
                       <td className="sm:w-[20%] md:w-[15%] lg:w-[10%] w-[40%] border-r border-slate-700/50 p-1">
                         <div className="border border-slate-700/50 flex items-center">
-                          <span className="mx-auto px-2 text-center font-semibold truncate">10/07/2022</span>
+                          <span className="mx-auto px-2 text-center font-semibold truncate">
+                            10/07/2022
+                          </span>
                         </div>
                       </td>
-                      <td className="pl-3 sm:w-[80%] md:w-[85%] lg:w-[90%] w-[60%]">Gambaran ERD sistem perpustakaan </td>
+                      <td className="pl-3 sm:w-[80%] md:w-[85%] lg:w-[90%] w-[60%]">
+                        Gambaran ERD sistem perpustakaan{" "}
+                      </td>
                     </Link>
-                    <Link href="#" className="table-row border-b border-slate-700/50">
+                    <Link
+                      href="#"
+                      className="table-row border-b border-slate-700/50"
+                    >
                       <td className="sm:w-[20%] md:w-[15%] lg:w-[10%] w-[40%] border-r border-slate-700/50 p-1">
                         <div className="border border-slate-700/50 flex items-center">
-                          <span className="mx-auto px-2 text-center font-semibold truncate">10/07/2022</span>
+                          <span className="mx-auto px-2 text-center font-semibold truncate">
+                            10/07/2022
+                          </span>
                         </div>
                       </td>
-                      <td className="pl-3 sm:w-[80%] md:w-[85%] lg:w-[90%] w-[60%]">Mock up desain hasil tahap analisis </td>
+                      <td className="pl-3 sm:w-[80%] md:w-[85%] lg:w-[90%] w-[60%]">
+                        Mock up desain hasil tahap analisis{" "}
+                      </td>
                     </Link>
-                    <Link href="#" className="table-row border-b border-slate-700/50">
+                    <Link
+                      href="#"
+                      className="table-row border-b border-slate-700/50"
+                    >
                       <td className="sm:w-[20%] md:w-[15%] lg:w-[10%] w-[40%] border-r border-slate-700/50 p-1">
                         <div className="border border-slate-700/50 flex items-center">
-                          <span className="mx-auto px-2 text-center font-semibold truncate">10/07/2022</span>
+                          <span className="mx-auto px-2 text-center font-semibold truncate">
+                            10/07/2022
+                          </span>
                         </div>
                       </td>
-                      <td className="pl-3 sm:w-[80%] md:w-[85%] lg:w-[90%] w-[60%]">Mock up desain hasil tahap analisis </td>
+                      <td className="pl-3 sm:w-[80%] md:w-[85%] lg:w-[90%] w-[60%]">
+                        Mock up desain hasil tahap analisis{" "}
+                      </td>
                     </Link>
-                    <Link href="#" className="table-row border-b border-slate-700/50">
+                    <Link
+                      href="#"
+                      className="table-row border-b border-slate-700/50"
+                    >
                       <td className="sm:w-[20%] md:w-[15%] lg:w-[10%] w-[40%] border-r border-slate-700/50 p-1">
                         <div className="border border-slate-700/50 flex items-center">
-                          <span className="mx-auto px-2 text-center font-semibold truncate">10/07/2022</span>
+                          <span className="mx-auto px-2 text-center font-semibold truncate">
+                            10/07/2022
+                          </span>
                         </div>
                       </td>
-                      <td className="pl-3 sm:w-[80%] md:w-[85%] lg:w-[90%] w-[60%]">Mock up desain hasil tahap analisis </td>
+                      <td className="pl-3 sm:w-[80%] md:w-[85%] lg:w-[90%] w-[60%]">
+                        Mock up desain hasil tahap analisis{" "}
+                      </td>
                     </Link>
-                    <Link href="#" className="table-row border-b border-slate-700/50">
+                    <Link
+                      href="#"
+                      className="table-row border-b border-slate-700/50"
+                    >
                       <td className="sm:w-[20%] md:w-[15%] lg:w-[10%] w-[40%] border-r border-slate-700/50 p-1">
                         <div className="border border-slate-700/50 flex items-center">
-                          <span className="mx-auto px-2 text-center font-semibold truncate">10/07/2022</span>
+                          <span className="mx-auto px-2 text-center font-semibold truncate">
+                            10/07/2022
+                          </span>
                         </div>
                       </td>
-                      <td className="pl-3 sm:w-[80%] md:w-[85%] lg:w-[90%] w-[60%]">Mock up desain hasil tahap analisis </td>
+                      <td className="pl-3 sm:w-[80%] md:w-[85%] lg:w-[90%] w-[60%]">
+                        Mock up desain hasil tahap analisis{" "}
+                      </td>
                     </Link>
-                    <Link href="#" className="table-row border-b border-slate-700/50">
+                    <Link
+                      href="#"
+                      className="table-row border-b border-slate-700/50"
+                    >
                       <td className="sm:w-[20%] md:w-[15%] lg:w-[10%] w-[40%] border-r border-slate-700/50 p-1">
                         <div className="border border-slate-700/50 flex items-center">
-                          <span className="mx-auto px-2 text-center font-semibold truncate">10/07/2022</span>
+                          <span className="mx-auto px-2 text-center font-semibold truncate">
+                            10/07/2022
+                          </span>
                         </div>
                       </td>
-                      <td className="pl-3 sm:w-[80%] md:w-[85%] lg:w-[90%] w-[60%]">Mock up desain hasil tahap analisis </td>
+                      <td className="pl-3 sm:w-[80%] md:w-[85%] lg:w-[90%] w-[60%]">
+                        Mock up desain hasil tahap analisis{" "}
+                      </td>
                     </Link>
-                    <Link href="#" className="table-row border-b border-slate-700/50">
+                    <Link
+                      href="#"
+                      className="table-row border-b border-slate-700/50"
+                    >
                       <td className="sm:w-[20%] md:w-[15%] lg:w-[10%] w-[40%] border-r border-slate-700/50 p-1">
                         <div className="border border-slate-700/50 flex items-center">
-                          <span className="mx-auto px-2 text-center font-semibold truncate">10/07/2022</span>
+                          <span className="mx-auto px-2 text-center font-semibold truncate">
+                            10/07/2022
+                          </span>
                         </div>
                       </td>
-                      <td className="pl-3 sm:w-[80%] md:w-[85%] lg:w-[90%] w-[60%]">Mock up desain hasil tahap analisis </td>
+                      <td className="pl-3 sm:w-[80%] md:w-[85%] lg:w-[90%] w-[60%]">
+                        Mock up desain hasil tahap analisis{" "}
+                      </td>
                     </Link>
-                    <Link href="#" className="table-row border-b border-slate-700/50">
+                    <Link
+                      href="#"
+                      className="table-row border-b border-slate-700/50"
+                    >
                       <td className="sm:w-[20%] md:w-[15%] lg:w-[10%] w-[40%] border-r border-slate-700/50 p-1">
                         <div className="border border-slate-700/50 flex items-center">
-                          <span className="mx-auto px-2 text-center font-semibold truncate">10/07/2022</span>
+                          <span className="mx-auto px-2 text-center font-semibold truncate">
+                            10/07/2022
+                          </span>
                         </div>
                       </td>
-                      <td className="pl-3 sm:w-[80%] md:w-[85%] lg:w-[90%] w-[60%]">Mock up desain hasil tahap analisis </td>
+                      <td className="pl-3 sm:w-[80%] md:w-[85%] lg:w-[90%] w-[60%]">
+                        Mock up desain hasil tahap analisis{" "}
+                      </td>
                     </Link>
-                    <Link href="#" className="table-row border-b border-slate-700/50">
+                    <Link
+                      href="#"
+                      className="table-row border-b border-slate-700/50"
+                    >
                       <td className="sm:w-[20%] md:w-[15%] lg:w-[10%] w-[40%] border-r border-slate-700/50 p-1">
                         <div className="border border-slate-700/50 flex items-center">
-                          <span className="mx-auto px-2 text-center font-semibold truncate">10/07/2022</span>
+                          <span className="mx-auto px-2 text-center font-semibold truncate">
+                            10/07/2022
+                          </span>
                         </div>
                       </td>
-                      <td className="pl-3 sm:w-[80%] md:w-[85%] lg:w-[90%] w-[60%]">Mock up desain hasil tahap analisis </td>
+                      <td className="pl-3 sm:w-[80%] md:w-[85%] lg:w-[90%] w-[60%]">
+                        Mock up desain hasil tahap analisis{" "}
+                      </td>
                     </Link>
                   </tbody>
                 </table>
@@ -238,4 +372,4 @@ function Landing() {
     </section>
   );
 }
-export default Landing;
+export default Profile;
