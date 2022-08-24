@@ -8,6 +8,10 @@
     @apply scroll-smooth bg-gray;
   }
 
+  body {
+    @apply selection:text-white selection:bg-green;
+  }
+
   .responsive-text {
     @apply text-xs sm:text-sm md:text-base;
   }
