@@ -21,7 +21,7 @@ const getFolios = async (req, res) => {
     const folios = await Folio.find({ author: id }).sort({ createdAt: -1 });
     res.status(200).json(folios);
   } catch (error) {
-    return res.status(400).json({ error: error.message });
+    return res.status(200).json({ error: error.message });
   }
 };
 
@@ -40,7 +40,7 @@ const getFolio = async (req, res) => {
 
     res.status(200).json(folio);
   } catch (error) {
-    return res.status(400).json({ error: error.message });
+    return res.status(200).json({ error: error.message });
   }
 };
 
@@ -102,7 +102,7 @@ const createFolio = async (req, res) => {
       }
     });
   } catch (error) {
-    return res.status(400).json({ error: error.message });
+    return res.status(200).json({ error: error.message });
   }
 };
 
@@ -132,7 +132,7 @@ const deleteFolio = async (req, res) => {
 
     res.status(200).json(folio);
   } catch (error) {
-    return res.status(400).json({ error: error.message });
+    return res.status(200).json({ error: error.message });
   }
 };
 
@@ -155,7 +155,7 @@ const searchFolio = async (req, res) => {
 
     res.status(200).json(folios);
   } catch (error) {
-    return res.status(400).json({ error: error.message });
+    return res.status(200).json({ error: error.message });
   }
 };
 
@@ -221,7 +221,7 @@ const updateFolio = async (req, res) => {
       }
     });
   } catch (error) {
-    return res.status(error.code || 400).json({ error: error.message });
+    return res.status(error.code || 200).json({ error: error.message });
   }
 };
 

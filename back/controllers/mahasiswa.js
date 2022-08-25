@@ -19,7 +19,7 @@ const signinMhs = async (req, res) => {
 
     res.status(200).json({ email, token });
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.status(200).json({ error: error.message });
   }
 };
 
@@ -32,7 +32,7 @@ const signupMhs = async (req, res) => {
     const token = createToken(mhs._id);
     res.status(200).json({ email, token });
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.status(200).json({ error: error.message });
   }
 };
 
@@ -49,7 +49,7 @@ const getMhs = async (req, res) => {
 
     res.status(200).json(mhs);
   } catch (error) {
-    return res.status(400).json({ error: error.message });
+    return res.status(200).json({ error: error.message });
   }
 };
 
@@ -74,7 +74,7 @@ const searchMhs = async (req, res) => {
 
     res.status(200).json(mhss);
   } catch (error) {
-    return res.status(400).json({ error: error.message });
+    return res.status(200).json({ error: error.message });
   }
 };
 
@@ -103,7 +103,7 @@ const updateMhs = async (req, res) => {
     }
     res.status(200).json(mhs);
   } catch (error) {
-    return res.status(400).json({ error: error.message });
+    return res.status(200).json({ error: error.message });
   }
 };
 
@@ -127,7 +127,7 @@ const getLeaderboard = async (req, res) => {
 
     res.status(200).json(mhs);
   } catch (error) {
-    return res.status(400).json({ error: error.message });
+    return res.status(200).json({ error: error.message });
   }
 };
 
