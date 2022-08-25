@@ -3,7 +3,7 @@ function ButtonAccent({ title, wrapperStyle, action }) {
     <div className={wrapperStyle}>
       <button
         onClick={action}
-        className="responsive-text r-4 border-l-2 border-r-2 bg-white tracking-widest font-semibold text-green py-2 px-10"
+        className="responsive-text border-x-2 hover:border-x-0 hover:border-y-2 bg-white tracking-widest font-semibold text-green py-2 px-10"
       >
         {title}
       </button>

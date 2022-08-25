@@ -21,6 +21,8 @@ function Login() {
 
 export default Login;
 
+// Form Login
+
 function LoginDisplay() {
   const { signin, isLoading, error } = useSignin();
 
@@ -44,7 +46,7 @@ function LoginDisplay() {
 
         <span className="w-full text-right inline-block">
           <ActionButton
-            title="Lupa Kata Sandi?"
+            title="Lupa kata sandi?"
             action={() => console.log("Modal open")}
           />
         </span>
@@ -64,6 +66,8 @@ function LoginDisplay() {
     </LoginCard>
   );
 }
+
+// Form register
 
 function RegisterDisplay() {
   const { signup, isLoading, error } = useSignup();
@@ -106,6 +110,8 @@ function RegisterDisplay() {
     </LoginCard>
   );
 }
+
+// Toggler
 
 function toggleLogin() {
   setLogin(!login());

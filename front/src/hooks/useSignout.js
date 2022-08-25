@@ -5,7 +5,7 @@ export const useSignout = () => {
 
   const logout = () => {
     localStorage.removeItem("mhs");
-    setAuthContextLoggedOut(response);
+    setAuthContextLoggedOut();
   };
   return { logout };
 };

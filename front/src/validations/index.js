@@ -11,6 +11,11 @@ const errors = {
     matches:
       "Kata sandi harus terdiri setidaknya 8 karakter, huruf kapital, huruf kecil, angka dan karakter spesial!",
   },
+  keyword: {
+    min: "Panjang pencarian minimal 3 huruf",
+    max: "Panjang pencarian maksimal 15 huruf",
+    req: "Silakan mengisi kata kunci pencarian",
+  },
 };
 
 export const loginSchema = object({
@@ -21,4 +26,11 @@ export const loginSchema = object({
       /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
       errors.password.matches
     ),
+});
+
+export const searchSchema = object({
+  keyword: string()
+    .min(3, errors.keyword.min)
+    .max(15, errors.keyword.max)
+    .required(errors.keyword.req),
 });

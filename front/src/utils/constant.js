@@ -17,4 +17,10 @@ const SEMESTER = [
   { name: "Semester 8", value: 8, key: "semester" },
 ];
 
-export { BACKEND_URL, STUDY, SEMESTER };
+const NAV_MENU = [
+  { name: "Beranda", route: "/" },
+  { name: "Klasemen", route: "/klasemen" },
+  { name: "Bergabung", route: "/coretan" },
+];
+
+export { BACKEND_URL, STUDY, SEMESTER, NAV_MENU };

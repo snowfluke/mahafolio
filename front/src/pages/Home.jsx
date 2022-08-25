@@ -1,119 +1,110 @@
-import { Link } from "@solidjs/router";
+import { useNavigate } from "@solidjs/router";
+import { createSignal, Suspense } from "solid-js";
+
+import ButtonAccent from "../components/form/buttonaccent";
+import Loading from "../components/loading";
+import PaperCard from "../components/paper/papercard";
+import PaperGrid from "../components/paper/papergrid";
+import PaperContainer from "../components/paper/papercontainer";
+import Welcome from "../components/home/welcome";
+import ButtonClassic from "../components/form/buttonclassic";
+import fetcher from "../utils/fetcher";
+import ErrorIndicator from "../components/form/errorindicator";
+import BigInput from "../components/home/biginput";
+import Span from "../components/span";
+
+import { searchSchema } from "../validations";
+
+const fetchSearch = async (keyword) =>
+  await fetcher(encodeURI(`/api/mahasiswa/search/${keyword}`), {
+    method: "GET",
+  });
 
 function Home() {
+  const [result, setResult] = createSignal("");
+  const [searching, setSearching] = createSignal("");
+  const [error, setError] = createSignal(false);
+  const navigate = useNavigate();
+
+  let keyword;
+
+  async function handleSearch(e) {
+    e.preventDefault();
+    setError(false);
+
+    try {
+      await searchSchema.validate({ keyword: keyword.value });
+
+      let response = await fetchSearch(keyword.value);
+      if (response.error) return setError(response.error);
+
+      setSearching(keyword.value);
+      setResult(response);
+
+      keyword.value = "";
+    } catch (error) {
+      setError(error.errors[0]);
+    }
+  }
+
   return (
     <section>
       <div className="grid grid-cols-12">
         <div className="col-start-1 md:col-start-2 col-end-13 md:col-end-12">
-          <input
-            type="text"
-            className="px-4 md:px-8 py-4 outline-green w-full responsive-text truncate"
-            placeholder="Cari kemajuan mahasiswa berdasarkan nama atau nim..."
+          <BigInput
+            ref={keyword}
+            placeholder={
+              "Cari kemajuan mahasiswa berdasarkan nama, email atau nim..."
+            }
           />
         </div>
       </div>
+
       <div className="grid grid-cols-12 mt-10 justify-items-stretch">
         <div className="col-start-2 justify-self-end">
-          <div className="mt-14 -rotate-90">
-            <Link
-              href="/login"
-              className="responsive-text r-4 border-l-2 border-r-2 bg-white tracking-widest font-semibold text-green py-2 px-10"
-            >
-              Masuk
-            </Link>
-          </div>
+          <ButtonAccent
+            title={"Masuk"}
+            wrapperStyle={"mt-14 -rotate-90"}
+            action={() => navigate("/coretan")}
+          />
         </div>
+
         <div className="col-start-3 -ml-8 col-end-13">
           <div className="flex items-center space-x-8 mb-4">
-            <button className="bg-green responsive-text text-white font-semibold px-10 py-2 tracking-widest">
-              Cari
-            </button>
-            <span className="responsive-text">
-              Selamat datang kembali,{" "}
-              <Link
-                href="/profile"
-                className="underline text-green underline-offset-2"
-              >
-                wilisetiawan087@gmail.com
-              </Link>
-            </span>
+            <ButtonClassic title={"Cari"} action={handleSearch} />
+            <Welcome />
           </div>
-          <div>
-            <div className="relative bg-white px-6 pt-14 pb-8 md:p-8 shadow-[0_10px_5px_-3px_rgb(0,0,0,0.1)]">
-              <div className="absolute top-0 right-0 h-0 w-0 rotate-180 border-b-[50px] border-r-[50px] border-l-[0px] border-b-gray border-r-transparent border-l-transparent"></div>
-              <div className="absolute top-0 right-0 h-0 w-0 border-b-[50px] border-r-[50px] border-t-[0px] border-b-slate-200 border-r-transparent border-l-transparent"></div>
-              <div>
-                <span className="responsive-text">
-                  Menampilkan pencarian untuk "
-                  <span className="font-semibold">Setiawan</span>"{" "}
-                </span>
-                <table className="table-fixed overflow-x-scroll my-4 w-full responsive-text">
-                  <tbody>
-                    <Link
-                      href="#"
-                      className="table-row border-b border-slate-700/50"
-                    >
-                      <td className="md:w-[10%] lg:w-[5%] w-[15%] border-r border-slate-700/50 p-1">
-                        <div className="border border-slate-700/50 flex items-center">
-                          <span className="mx-auto px-2 text-center truncate">
-                            1
-                          </span>
-                        </div>
-                      </td>
-                      <td className="pl-3 md:w-[80%] lg:w-[85%] w-[65%]">
-                        195520018 _ 1TI6A _ Willy{" "}
-                        <span className="font-semibold">Setiawan</span>
-                      </td>
-                      <td className="text-right lg:w-[10%] w-[20%]">
-                        <span>1200</span>pts
-                      </td>
-                    </Link>
-                    <Link
-                      href="#"
-                      className="table-row border-b border-slate-700/50"
-                    >
-                      <td className="md:w-[10%] lg:w-[5%] w-[15%] border-r border-slate-700/50 p-1">
-                        <div className="border border-slate-700/50 flex items-center">
-                          <span className="mx-auto px-2 text-center truncate">
-                            2
-                          </span>
-                        </div>
-                      </td>
-                      <td className="pl-3 md:w-[80%] lg:w-[85%] w-[75%]">
-                        195520020 _ 1TI6A _ Diky{" "}
-                        <span className="font-semibold">Setiawan</span>
-                      </td>
-                      <td className="text-right lg:w-[10%] w-[10%]">
-                        <span>1100</span>pts
-                      </td>
-                    </Link>
-                    <Link
-                      href="#"
-                      className="table-row border-b border-slate-700/50"
-                    >
-                      <td className="md:w-[10%] lg:w-[5%] w-[15%] border-r border-slate-700/50 p-1">
-                        <div className="border border-slate-700/50 flex items-center">
-                          <span className="mx-auto px-2 text-center truncate">
-                            3
-                          </span>
-                        </div>
-                      </td>
-                      <td className="pl-3 md:w-[80%] lg:w-[85%] w-[75%]">
-                        195520015 _ 1TI6A _ Henky Fajar{" "}
-                        <span className="font-semibold">Setiawan</span>
-                      </td>
-                      <td className="text-right lg:w-[10%] w-[10%]">
-                        <span>1050</span>pts
-                      </td>
-                    </Link>
-                  </tbody>
-                </table>
-                <div className="flex justify-end mt-6 responsive-text select-none">
-                  <span className="text-slate-700/70">Sinar Galaksi</span>
-                </div>
-              </div>
-            </div>
-          </div>
+
+          <Show when={error()}>
+            <ErrorIndicator message={error()} />
+          </Show>
+
+          <PaperCard>
+            <Show when={!searching()}>
+              <Span text="Semua berawal dari keingintahuaan" />
+            </Show>
+
+            <Show when={searching().length}>
+              <Span text={`Menampilkan pencarian untuk "${searching()}":`} />
+
+              <Suspense fallback={<Loading />}>
+                <Show
+                  when={result().length}
+                  fallback={() => (
+                    <Span text="Pencarian mahasiswa tidak ditemukan" />
+                  )}
+                >
+                  <PaperContainer>
+                    <For each={result()}>
+                      {(item, index) => (
+                        <PaperGrid data={item} index={index} search={true} />
+                      )}
+                    </For>
+                  </PaperContainer>
+                </Show>
+              </Suspense>
+            </Show>
+          </PaperCard>
         </div>
       </div>
     </section>

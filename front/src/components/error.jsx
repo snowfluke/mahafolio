@@ -6,6 +6,7 @@ function ErrorDisplay({ err, reset }) {
     >
       <div className="text-xl">Terjadi Kesalahan:</div>
       <div className="text-md">{err.toString()}</div>
+      <div className="text-md">(Klik untuk menyegarkan halaman)</div>
     </div>
   );
 }

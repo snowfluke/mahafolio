@@ -3,9 +3,8 @@ import Header from "./components/header";
 import Footer from "./components/footer";
 import Container from "./components/container";
 import Nav from "./components/nav";
-import Loading from "./components/loading";
 import ErrorDisplay from "./components/error";
-import { ErrorBoundary, Suspense } from "solid-js";
+import { ErrorBoundary } from "solid-js";
 
 function App() {
   return (
@@ -18,9 +17,7 @@ function App() {
           return <ErrorDisplay err={err} reset={reset} />;
         }}
       >
-        <Suspense fallback={<Loading />}>
-          <Router />
-        </Suspense>
+        <Router />
       </ErrorBoundary>
       <Footer />
     </Container>

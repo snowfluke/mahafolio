@@ -9,9 +9,9 @@ function Router() {
   return (
     <Routes>
       <Route path="/" component={Home} />
-      <Route path="/login" component={Login} />
-      <Route path="/leaderboard" component={Leaderboard} />
-      <Route path="/profile" component={Profile} />
+      <Route path="/coretan" component={Login} />
+      <Route path="/klasemen" component={Leaderboard} />
+      <Route path="/mahasiswa/*" component={Profile} />
     </Routes>
   );
 }
