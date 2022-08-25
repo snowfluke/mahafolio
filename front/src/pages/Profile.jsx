@@ -69,7 +69,7 @@ function Profile() {
             </button>
             <Show when={!modalSemester()}>
               <ul
-                class="dropdown-menu absolute z-50 float-left m-0 mt-1 w-full list-none rounded-lg border-none bg-white bg-clip-padding py-2 text-left shadow-lg"
+                class="dropdown-menu absolute z-50 float-left m-0 mt-1 w-full list-none  border-none bg-white bg-clip-padding py-2 text-left shadow-lg"
                 aria-labelledby="dropdownSemester"
               >
                 <li>
@@ -144,7 +144,7 @@ function Profile() {
             </button>
             <Show when={!modalTipe()}>
               <ul
-                class="dropdown-menu absolute z-50 float-left m-0 mt-1 w-full list-none rounded-lg border-none bg-white bg-clip-padding py-2 text-left shadow-lg"
+                class="dropdown-menu absolute z-50 float-left m-0 mt-1 w-full list-none border-none bg-white bg-clip-padding py-2 text-left shadow-lg"
                 aria-labelledby="dropdownJurusan"
               >
                 <li>

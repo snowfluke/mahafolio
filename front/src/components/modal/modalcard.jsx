@@ -7,7 +7,7 @@ function ModalCard() {
       role="dialog"
     >
       <div className="relative p-4 w-full max-w-md ">
-        <div className="relative bg-white rounded-lg shadow-md py-14 px-4 space-y-4">
+        <div className="relative bg-white shadow-md py-14 px-4 space-y-4">
           <h3 className="text-xl font-semibold text-center">
             Lupa Kata Sandi?
           </h3>
@@ -22,12 +22,12 @@ function ModalCard() {
               </label>
               <input
                 type="email"
-                className="border-green/70 border px-4 py-2 w-full rounded-md outline-none"
+                className="border-green/70 border px-4 py-2 w-full outline-none"
                 placeholder="Masukkan email Anda"
               />
             </div>
 
-            <button className="font-semibold w-full text-center bg-green text-white tracking-widest rounded-md py-2">
+            <button className="font-semibold w-full text-center bg-green text-white tracking-widest py-2">
               Kirim
             </button>
             <span className="w-full text-center inline-block">

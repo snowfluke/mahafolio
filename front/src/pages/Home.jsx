@@ -7,7 +7,7 @@ function Home() {
         <div className="col-start-1 md:col-start-2 col-end-13 md:col-end-12">
           <input
             type="text"
-            className="px-4 md:px-8 py-4 outline-green rounded w-full responsive-text truncate"
+            className="px-4 md:px-8 py-4 outline-green w-full responsive-text truncate"
             placeholder="Cari kemajuan mahasiswa berdasarkan nama atau nim..."
           />
         </div>

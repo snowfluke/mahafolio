@@ -31,7 +31,7 @@ function Dropdown(props) {
         </svg>
       </button>
       <Show when={showDropdown()}>
-        <ul class="absolute z-50 float-left m-0 mt-1 w-full list-none rounded-lg bg-white bg-clip-padding text-left border-slate-200 border-[1px]">
+        <ul class="absolute z-50 float-left m-0 mt-1 w-full list-none bg-white bg-clip-padding text-left border-slate-200 border-[1px]">
           <For
             each={props.items}
             fallback={<div>Tidak terdapat klasemen saat ini</div>}
