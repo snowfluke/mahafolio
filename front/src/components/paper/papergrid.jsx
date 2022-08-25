@@ -25,9 +25,9 @@ function PaperGrid({ data, index, color = false }) {
         </Show>
       </td>
 
-      <Show when={data.score}>
+      <Show when={data.hasOwnProperty("score")}>
         <td className="text-right lg:w-[10%] w-[20%]">
-          <span>{data.score}</span>pts
+          <span>{data.score || "0"}</span>pts
         </td>
       </Show>
     </Link>

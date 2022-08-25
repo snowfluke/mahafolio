@@ -1,20 +1,24 @@
-import { object, string, number, setLocale } from "yup";
+import { object, string, number, ref } from "yup";
 
 const errors = {
-  email: "Masukkkan email yang valid!",
+  email: {
+    val: "Masukkkan email yang valid!",
+    req: "Silakan masukkan emailmu",
+  },
   password: {
-    min: "Panjang minimal kata sandi 8 karakter!",
-    req: "Kata sandi tidak boleh kosong!",
+    req: "Silakan masukkan kata sandimu",
+    confirm: "Kata sandi yang dimasukan tidak sesuai!",
+    matches:
+      "Kata sandi harus terdiri setidaknya 8 karakter, huruf kapital, huruf kecil, angka dan karakter spesial!",
   },
 };
 
 export const loginSchema = object({
-  email: string().email(errors.email).required(),
-  password: string().min(8, errors.password.min).required(errors.password.req),
-});
-
-export const registerSchema = object({
-  email: string().email(errors.email).required(),
-  password: string().min(8, errors.password.min).required(errors.password.req),
-  confirm: string().min(8).required(),
+  email: string().email(errors.email).required(errors.email.req),
+  password: string()
+    .required(errors.password.req)
+    .matches(
+      /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
+      errors.password.matches
+    ),
 });

@@ -1,21 +1,23 @@
-import { createContext, useContext, createSignal } from "solid-js";
+import { createContext, createEffect, createSignal } from "solid-js";
 
 export const AuthContext = createContext();
 
-export const AuthContextProvider = ({ children }) => {
-  const [state, setState] = createSignal({ user: null });
+export const AuthContextProvider = (props) => {
+  const [state, setState] = createSignal(props.mhs);
 
   const mhs = [
     state,
     {
-      login: (user) => setState({ user }),
-      logout: () => setState({ user: null }),
+      setAuthContextLoggedIn: (mhs) => setState({ mhs }),
+      setAuthContextLoggedOut: () => setState({ mhs: null }),
     },
   ];
 
-  console.log("AuthContext state: ", state());
+  createEffect(() => {
+    console.log("AuthContext state: ", state());
+  });
 
-  return <AuthContext.Provider value={mhs}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={mhs}>{props.children}</AuthContext.Provider>
+  );
 };
-
-export const useAuth = () => useContext(AuthContext);

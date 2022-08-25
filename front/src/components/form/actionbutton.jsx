@@ -1,8 +1,13 @@
 function ActionButton(props) {
   return (
-    <button className="w-full text-right" onClick={props.action} {...props}>
+    <span
+      className={
+        "my-1 hover:underline cursor-pointer inline select-none " + props.extend
+      }
+      onClick={props.action}
+    >
       {props.title}
-    </button>
+    </span>
   );
 }
 export default ActionButton;

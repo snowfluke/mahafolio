@@ -7,7 +7,7 @@ import App from "./App";
 import { AuthContextProvider } from "./contexts/AuthContext";
 render(
   () => (
-    <AuthContextProvider>
+    <AuthContextProvider mhs={{ mhs: null }}>
       <Router>
         <App />
       </Router>
