@@ -1,7 +1,6 @@
 // @ts-check-ignore
 const validator = require("validator").default;
 const jwt = require("jsonwebtoken");
-const { deleteFile } = require("../apis/gdrive");
 
 const Mahasiswa = require("../models/mahasiswa");
 
@@ -67,7 +66,10 @@ const searchMhs = async (req, res) => {
         { email: { $regex: query, $options: "i" } },
         { nim: { $regex: query, $options: "i" } },
       ],
-    });
+    })
+      .skip(0)
+      .limit(10)
+      .select("_id name nim createdAt");
     if (!mhss) {
       return res.status(404).json({ error: "Mahasiswa tidak ditemukan" });
     }
@@ -113,8 +115,8 @@ const getLeaderboard = async (req, res) => {
 
   try {
     const keyword = {};
-    if (study && study != "all") keyword.study = study;
-    if (semester && semester != "all") keyword.semester = parseInt(semester);
+    if (study) keyword.study = study;
+    if (semester) keyword.semester = parseInt(semester);
 
     const mhs = await Mahasiswa.find(keyword)
       .sort({ score: -1 })
