@@ -4,6 +4,7 @@ import ButtonAccent from "../components/form/buttonaccent";
 import Dropdown from "../components/form/dropdown";
 import PaperCard from "../components/paper/papercard";
 import Loading from "../components/loading";
+import Span from "../components/span";
 import PaperContainer from "../components/paper/papercontainer";
 import PaperGrid from "../components/paper/papergrid";
 import { SEMESTER, STUDY } from "../utils/constant";

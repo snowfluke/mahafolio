@@ -1,5 +1,5 @@
 import { useNavigate } from "@solidjs/router";
-import { createSignal, Suspense } from "solid-js";
+import { createEffect, createSignal, Suspense } from "solid-js";
 
 import ButtonAccent from "../components/form/buttonaccent";
 import Loading from "../components/loading";
@@ -14,6 +14,8 @@ import BigInput from "../components/home/biginput";
 import Span from "../components/span";
 
 import { searchSchema } from "../validations";
+import { useAuthContext } from "../hooks/useAuthContext";
+import { useSignout } from "../hooks/useSignout";
 
 const fetchSearch = async (keyword) =>
   await fetcher(encodeURI(`/api/mahasiswa/search/${keyword}`), {
@@ -24,7 +26,10 @@ function Home() {
   const [result, setResult] = createSignal("");
   const [searching, setSearching] = createSignal("");
   const [error, setError] = createSignal(false);
+
   const navigate = useNavigate();
+  const [user] = useAuthContext();
+  const { logout } = useSignout();
 
   let keyword;
 
@@ -62,17 +67,31 @@ function Home() {
 
       <div className="grid grid-cols-12 mt-10 justify-items-stretch">
         <div className="col-start-2 justify-self-end">
-          <ButtonAccent
-            title={"Masuk"}
-            wrapperStyle={"mt-14 -rotate-90"}
-            action={() => navigate("/coretan")}
-          />
+          <Show
+            when={!user().mhs}
+            fallback={
+              <ButtonAccent
+                title={"Keluar"}
+                wrapperStyle={"mt-14 -rotate-90"}
+                variant={true}
+                action={logout}
+              />
+            }
+          >
+            <ButtonAccent
+              title={"Masuk"}
+              wrapperStyle={"mt-14 -rotate-90"}
+              action={() => navigate("/coretan")}
+            />
+          </Show>
         </div>
 
         <div className="col-start-3 -ml-8 col-end-13">
           <div className="flex items-center space-x-8 mb-4">
             <ButtonClassic title={"Cari"} action={handleSearch} />
-            <Welcome />
+            <Show when={user().mhs}>
+              <Welcome to={user().mhs.email} />
+            </Show>
           </div>
 
           <Show when={error()}>
@@ -85,7 +104,10 @@ function Home() {
             </Show>
 
             <Show when={searching().length}>
-              <Span text={`Menampilkan pencarian untuk "${searching()}":`} />
+              <Span
+                text={`Menampilkan pencarian untuk `}
+                variable={searching()}
+              />
 
               <Suspense fallback={<Loading />}>
                 <Show

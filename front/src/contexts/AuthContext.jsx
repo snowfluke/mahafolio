@@ -1,4 +1,4 @@
-import { createContext, createEffect, createSignal } from "solid-js";
+import { createContext, createEffect, createSignal, onMount } from "solid-js";
 
 export const AuthContext = createContext();
 
@@ -13,8 +13,10 @@ export const AuthContextProvider = (props) => {
     },
   ];
 
-  createEffect(() => {
-    console.log("AuthContext state: ", state());
+  onMount(() => {
+    const user = JSON.parse(localStorage.getItem("mhs"));
+
+    if (user) setState({ mhs: user });
   });
 
   return (

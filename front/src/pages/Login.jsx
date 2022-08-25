@@ -1,4 +1,4 @@
-import { createSignal } from "solid-js";
+import { createSignal, onMount } from "solid-js";
 import ActionButton from "../components/form/actionbutton";
 import Button from "../components/form/button";
 import ErrorIndicator from "../components/form/errorindicator";
@@ -60,7 +60,7 @@ function LoginDisplay() {
         <ActionButton
           title={"Daftar"}
           action={toggleLogin}
-          extend="font-semibold underline underline-offset-2"
+          extend="font-semibold decoration-2"
         />
       </span>
     </LoginCard>
@@ -104,7 +104,7 @@ function RegisterDisplay() {
         <ActionButton
           title={"Masuk"}
           action={toggleLogin}
-          extend="font-semibold underline underline-offset-2"
+          extend="font-semibold decoration-2"
         />
       </span>
     </LoginCard>

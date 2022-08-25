@@ -1,14 +1,14 @@
 import { Link } from "@solidjs/router";
 
-function Welcome() {
+function Welcome({ to }) {
   return (
     <span className="responsive-text">
       Selamat datang kembali,{" "}
       <Link
-        href="/mahasiswa/"
+        href="/mahasiswa"
         className="underline text-green underline-offset-2"
       >
-        wilisetiawan087@gmail.com
+        {to}
       </Link>
     </span>
   );
