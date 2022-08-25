@@ -1,7 +1,7 @@
 import { createEffect, createResource } from "solid-js";
 import { createStore } from "solid-js/store";
-import ButtonAccent from "../components/input/buttonaccent";
-import Dropdown from "../components/input/dropdown";
+import ButtonAccent from "../components/form/buttonaccent";
+import Dropdown from "../components/form/dropdown";
 import PaperCard from "../components/paper/papercard";
 import PaperContainer from "../components/paper/papercontainer";
 import PaperGrid from "../components/paper/papergrid";
@@ -25,12 +25,8 @@ function Leaderboard() {
   return (
     <section>
       <div className="flex items-center justify-center sm:justify-end space-x-4 responsive-text">
-        <div>
-          <Dropdown items={STUDY} signal={setKeyword}></Dropdown>
-        </div>
-        <div>
-          <Dropdown items={SEMESTER} signal={setKeyword}></Dropdown>
-        </div>
+        <Dropdown items={STUDY} signal={setKeyword}></Dropdown>
+        <Dropdown items={SEMESTER} signal={setKeyword}></Dropdown>
       </div>
       <div className="grid grid-cols-12 mt-10 justify-items-stretch">
         <div className="col-start-2 justify-self-end">
@@ -48,7 +44,8 @@ function Leaderboard() {
               when={topTen()?.length}
               fallback={() => (
                 <span className="responsive-text">
-                  - Tidak terdapat klasemen saat ini
+                  {" "}
+                  Tidak terdapat klasemen saat ini
                 </span>
               )}
             >

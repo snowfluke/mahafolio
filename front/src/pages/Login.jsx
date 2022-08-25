@@ -1,80 +1,122 @@
 import { Link } from "@solidjs/router";
 import { createSignal, Show } from "solid-js";
+import ActionButton from "../components/form/actionbutton";
+import Button from "../components/form/button";
+import Input from "../components/form/input";
+import LoginCard from "../components/login/logincard";
+import fetcher from "../utils/fetcher";
+import ModalCard from "../components/modal/modalcard";
+
+import { loginSchema } from "../validations";
+
+const [login, setLogin] = createSignal(true);
+const [modal, setModal] = createSignal(true);
+const [error, setError] = createSignal(false);
 
 function Login() {
-  const [login, setLogin] = createSignal(true);
-  const [modal, setModal] = createSignal(true);
-
   return (
     <section>
-      <div className="w-full sm:w-[60%] md:w-[50%] lg:w-[30%] mx-auto bg-white rounded-lg shadow-lg p-6 space-y-4">
-        <Show when={login()}>
-          <h1 className="text-center font-semibold text-xl mb-2">Login</h1>
-          <input type="email" className="border-green/70 border px-4 py-2 w-full rounded-md outline-none" placeholder="Masukkan email" />
-          <input type="password" className="border-green/70 border px-4 py-2 w-full rounded-md outline-none" placeholder="Masukkan password" />
-          <button className="w-full text-right" type="button" data-modal-toggle="lupaPass" onClick={() => setModal(!modal())}>
-            Lupa Password?
-          </button>
+      <Show when={login()} fallback={<RegisterDisplay />}>
+        <LoginDisplay />
+      </Show>
 
-          <button className="font-semibold w-full text-center bg-green text-white tracking-widest rounded-md py-2">Masuk</button>
-          <span className="w-full text-center inline-block">
-            Belum terdaftar?{" "}
-            <button onClick={() => setLogin(!login())} className="font-semibold underline underline-offset-4">
-              Daftar!
-            </button>
-          </span>
-
-          <Show when={!modal()}>
-            <div
-              id="lupaPass"
-              tabindex="-1"
-              className="overflow-y-auto overflow-x-hidden fixed 
-              top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 z-50 w-full justify-center items-center flex"
-              aria-modal="true"
-              role="dialog"
-            >
-              <div className="relative p-4 w-full max-w-md ">
-                <div className="relative bg-white rounded-lg shadow-md py-14 px-4 space-y-4">
-                  <h3 className="text-xl font-semibold text-center">Lupa Kata Sandi?</h3>
-                  <p className="leading-relaxed text-center text-sm">Jangan khawatir! Mereset kata sandi Anda sangat mudah. Ketikkan email akun Anda yang terdaftar di Mahafolio.</p>
-                  <div className="px-4 space-y-4">
-                    <div className="space-y-1">
-                      <label htmlFor="email" className="font-semibold font-sm">
-                        Email
-                      </label>
-                      <input type="email" className="border-green/70 border px-4 py-2 w-full rounded-md outline-none" placeholder="Masukkan email Anda" />
-                    </div>
-
-                    <button className="font-semibold w-full text-center bg-green text-white tracking-widest rounded-md py-2">Kirim</button>
-                    <span className="w-full text-center inline-block">
-                      Ingat kata sandi Anda?{" "}
-                      <button onClick={() => setModal(!modal())} className="font-semibold underline underline-offset-4">
-                        Coba Login!
-                      </button>
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </Show>
-        </Show>
-
-        <Show when={!login()}>
-          <h1 className="text-center font-semibold text-xl mb-2">Register</h1>
-          <input type="email" className="border border-green/70 px-4 py-2 w-full rounded-md outline-none" placeholder="Masukkan email" />
-          <input type="password" className="border border-green/70 px-4 py-2 w-full rounded-md outline-none" placeholder="Masukkan password" />
-          <input type="password" className="border border-green/70 px-4 py-2 w-full rounded-md outline-none" placeholder="Konfirmasi password" />
-          <button className="font-semibold w-full text-center bg-green text-white tracking-widest rounded-md py-2">Daftar</button>
-          <span className="w-full text-center inline-block">
-            Sudah terdaftar?{" "}
-            <button onClick={() => setLogin(!login())} className="font-semibold underline underline-offset-4">
-              Login
-            </button>
-          </span>
-        </Show>
-      </div>
+      {/* <ModalCard /> */}
     </section>
   );
 }
 
 export default Login;
+
+function LoginDisplay() {
+  return (
+    <LoginCard title={"Masuk"}>
+      <form onSubmit={handleLogin}>
+        <Input type="email" name="email" placeholder="Masukkan email" />
+        <Input
+          type="password"
+          name="password"
+          placeholder="Masukkan kata sandi"
+        />
+        <ActionButton title="Lupa Kata Sandi?" action={toggleModal} />
+        <Show when={error()}>
+          <div className="bg-red-100 border[1px] border-red-500 p-2 text-red-500 text-sm rounded-md">
+            {error()}
+          </div>
+        </Show>
+        <Button title={"Masuk"} />
+      </form>
+      <span className="w-full text-center inline-block">
+        Belum terdaftar?{" "}
+        <ActionButton
+          title={"Daftar"}
+          onClick={toggleLogin}
+          className="font-semibold underline underline-offset-4"
+        />
+      </span>
+    </LoginCard>
+  );
+}
+
+function RegisterDisplay() {
+  return (
+    <LoginCard title={"Daftar"}>
+      <form>
+        <Input type="email" name="email" placeholder="Masukkan email" />
+        <Input
+          type="password"
+          name="password"
+          placeholder="Masukkan kata sandi"
+        />
+        <Input
+          type="password"
+          name="password"
+          placeholder="Konfirmasi kata sandi"
+        />
+        <Button title={"Daftar"} />
+      </form>
+      <span className="w-full text-center inline-block">
+        Sudah terdaftar?{" "}
+        <ActionButton
+          title={"Masuk"}
+          onClick={toggleLogin}
+          className="font-semibold underline underline-offset-4"
+        />
+      </span>
+    </LoginCard>
+  );
+}
+
+async function handleLogin(e) {
+  e.preventDefault();
+  setError(false);
+
+  let formData = {
+    email: e.target.email.value,
+    password: e.target.password.value,
+  };
+
+  try {
+    await loginSchema.validate(formData);
+    const res = await fetcher("/api/mahasiswa/signin", {
+      method: "POST",
+      body: JSON.stringify(formData),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (res.error) {
+      setError(res.error);
+    }
+  } catch (error) {
+    setError(error.errors[0]);
+  }
+}
+
+function toggleLogin() {
+  setLogin(!login());
+}
+
+function toggleModal() {
+  setModal(!modal());
+}
