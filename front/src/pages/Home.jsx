@@ -1,5 +1,5 @@
 import { useNavigate } from "@solidjs/router";
-import { createEffect, createSignal, Suspense, createResource } from "solid-js";
+import { createSignal, Suspense, createResource } from "solid-js";
 
 import ButtonAccent from "../components/form/buttonaccent";
 import Loading from "../components/loading";
@@ -31,10 +31,6 @@ function Home() {
   const navigate = useNavigate();
   const [user] = useAuthContext();
   const { logout } = useSignout();
-
-  // createEffect(() => {
-  //   console.log(searchResult());
-  // });
 
   let keyword;
 
@@ -70,7 +66,7 @@ function Home() {
         </div>
       </div>
 
-      <div className="grid grid-cols-12 mt-10 justify-items-stretch">
+      <div className="grid grid-cols-12 mt-4 justify-items-stretch">
         <div className="col-start-2 justify-self-end">
           <Show
             when={!user().mhs}
@@ -115,7 +111,7 @@ function Home() {
 
               <Suspense fallback={<Loading />}>
                 <Show
-                  when={searchResult()}
+                  when={searchResult()?.length}
                   fallback={() => (
                     <Span text="Pencarian mahasiswa tidak ditemukan" />
                   )}
