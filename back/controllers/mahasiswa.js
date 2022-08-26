@@ -67,6 +67,7 @@ const searchMhs = async (req, res) => {
         { nim: { $regex: query, $options: "i" } },
       ],
     })
+      .sort({ createdAt: -1 })
       .skip(0)
       .limit(10)
       .select("_id name nim createdAt");
