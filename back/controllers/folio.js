@@ -11,14 +11,18 @@ const form = formidable({
   maxFileSize: 2 * 1024 * 1024,
 });
 
-// get all Folio
+// get 1 Folio by mhs id
 const getFolios = async (req, res) => {
   try {
     const { id } = req.params;
     if (!validator.isMongoId(id)) {
       throw Error("ID mahasiswa tidak valid");
     }
-    const folios = await Folio.find({ author: id }).sort({ createdAt: -1 });
+    const folios = await Folio.find({ author: id })
+      .sort({ createdAt: -1 })
+      .skip(0)
+      .limit(1)
+      .select("_id title type");
     res.status(200).json(folios);
   } catch (error) {
     return res.status(200).json({ error: error.message });

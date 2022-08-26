@@ -39,9 +39,11 @@ const signupMhs = async (req, res) => {
 const getMhs = async (req, res) => {
   const { id } = req.params;
   try {
-    if (!validator.isMongoId(id)) throw Error("ID mahasiswa tidak valid");
+    if (!validator.isMongoId(id)) throw Error("Mahasiswa tidak ditemukan");
 
-    const mhs = await Mahasiswa.findById(id);
+    const mhs = await Mahasiswa.findById(id).select(
+      "email score name bio photo study semester nim"
+    );
     if (!mhs) {
       return res.status(404).json({ error: "Mahasiswa tidak ditemukan" });
     }
