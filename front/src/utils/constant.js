@@ -20,7 +20,6 @@ const SEMESTER = [
 const NAV_MENU = [
   { name: "Beranda", route: "/" },
   { name: "Klasemen", route: "/klasemen" },
-  { name: "Bergabung", route: "/coretan" },
 ];
 
 export { BACKEND_URL, STUDY, SEMESTER, NAV_MENU };

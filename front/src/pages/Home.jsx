@@ -1,5 +1,5 @@
 import { useNavigate } from "@solidjs/router";
-import { createEffect, createSignal, Suspense } from "solid-js";
+import { createEffect, createSignal, Suspense, createResource } from "solid-js";
 
 import ButtonAccent from "../components/form/buttonaccent";
 import Loading from "../components/loading";
@@ -23,13 +23,18 @@ const fetchSearch = async (keyword) =>
   });
 
 function Home() {
-  const [result, setResult] = createSignal("");
-  const [searching, setSearching] = createSignal("");
+  const [searching, setSearching] = createSignal(false);
+  const [searchResult] = createResource(searching, fetchSearch);
+
   const [error, setError] = createSignal(false);
 
   const navigate = useNavigate();
   const [user] = useAuthContext();
   const { logout } = useSignout();
+
+  // createEffect(() => {
+  //   console.log(searchResult());
+  // });
 
   let keyword;
 
@@ -39,17 +44,16 @@ function Home() {
 
     try {
       await searchSchema.validate({ keyword: keyword.value });
-
-      let response = await fetchSearch(keyword.value);
-      if (response.error) return setError(response.error);
-
       setSearching(keyword.value);
-      setResult(response);
-
       keyword.value = "";
     } catch (error) {
       setError(error.errors[0]);
     }
+  }
+
+  function handleKeypress(e) {
+    if (e.key !== "Enter") return;
+    handleSearch(e);
   }
 
   return (
@@ -58,6 +62,7 @@ function Home() {
         <div className="col-start-1 md:col-start-2 col-end-13 md:col-end-12">
           <BigInput
             ref={keyword}
+            onKeyPress={handleKeypress}
             placeholder={
               "Cari kemajuan mahasiswa berdasarkan nama, email atau nim..."
             }
@@ -99,11 +104,10 @@ function Home() {
           </Show>
 
           <PaperCard>
-            <Show when={!searching()}>
-              <Span text="Semua berawal dari keingintahuaan" />
-            </Show>
-
-            <Show when={searching().length}>
+            <Show
+              when={searching()}
+              fallback={<Span text="Semua berawal dari keingintahuaan" />}
+            >
               <Span
                 text={`Menampilkan pencarian untuk `}
                 variable={searching()}
@@ -111,13 +115,13 @@ function Home() {
 
               <Suspense fallback={<Loading />}>
                 <Show
-                  when={result().length}
+                  when={searchResult()}
                   fallback={() => (
                     <Span text="Pencarian mahasiswa tidak ditemukan" />
                   )}
                 >
                   <PaperContainer>
-                    <For each={result()}>
+                    <For each={searchResult()}>
                       {(item, index) => (
                         <PaperGrid data={item} index={index} search={true} />
                       )}
