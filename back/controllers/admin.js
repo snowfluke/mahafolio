@@ -27,9 +27,9 @@ const adminLogin = async (req, res) => {
 // delete 1 mhs
 const adminDeleteMhs = async (req, res) => {
   const { id } = req.params;
-  if (!validator.isMongoId(id)) throw Error("ID mahasiswa tidak valid");
-
   try {
+    if (!validator.isMongoId(id)) throw Error("ID mahasiswa tidak valid");
+
     const mhs = await Mahasiswa.findOneAndDelete({ _id: id });
     if (!mhs) {
       return res.status(404).json({ error: "Mahasiswa tidak ditemukan" });
