@@ -13,14 +13,14 @@ const {
 const auth = require("../middlewares/auth");
 const router = express.Router();
 
-// GET all folio
+// GET latest folio
 router.get("/mahasiswa/:id", getFolios);
-
-// GET single folio
-router.get("/:id", getFolio);
 
 // GET a search folio
 router.get("/search", searchFolio);
+
+// GET single folio
+router.get("/:id", getFolio);
 
 //* Require Authorization
 router.use(auth);
