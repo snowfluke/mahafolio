@@ -20,7 +20,7 @@ router.get("/mahasiswa/:id", getFolios);
 router.get("/:id", getFolio);
 
 // GET a search folio
-router.get("/search/:keyword", searchFolio);
+router.get("/search", searchFolio);
 
 //* Require Authorization
 router.use(auth);

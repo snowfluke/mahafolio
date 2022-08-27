@@ -142,16 +142,24 @@ const deleteFolio = async (req, res) => {
 
 // search a Folio
 const searchFolio = async (req, res) => {
-  const { keyword } = req.params;
+  const { q, mahasiswa, semester, type } = req.query;
   try {
-    if (keyword.length < 3 || keyword.length > 15) {
-      throw Error("Kata kunci hanya 3-15 karakter!");
+    if (!validator.isMongoId(mahasiswa))
+      throw Error("ID mahasiswa tidak valid");
+
+    if (q.length < 3 || q.length > 25) {
+      throw Error("Kata kunci hanya 3-25 karakter!");
     }
 
+    const search = { _id: mahasiswa };
+    if (semester) search.semester = parseInt(semester);
+    if (type) search.type = type;
+
     const folios = await Folio.find({
-      title: { $regex: keyword.trim(), $options: "i" },
-      subject: { $regex: keyword.trim(), $options: "i" },
-      description: { $regex: keyword.trim(), $options: "i" },
+      search,
+      title: { $regex: q.trim(), $options: "i" },
+      subject: { $regex: q.trim(), $options: "i" },
+      description: { $regex: q.trim(), $options: "i" },
     });
     if (!folios) {
       return res.status(404).json({ error: "Folio tidak ditemukan" });
