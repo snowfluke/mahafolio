@@ -44,36 +44,38 @@ function Profiles() {
   return (
     <section>
       <Show when={mhs()}>
-        <HeroContainer>
-          <HeroEmail email={mhs().email} edit={editing()} ref={email} />
-          <HeroBanner>
-            <HeroTitle
-              score={mhs().score}
-              name={mhs().name}
+        <form onSubmit={(e) => console.log(e)} encType="multipart/form-data">
+          <HeroContainer>
+            <HeroEmail email={mhs().email} edit={editing()} ref={email} />
+            <HeroBanner>
+              <HeroTitle
+                score={mhs().score}
+                name={mhs().name}
+                edit={editing()}
+                ref={name}
+              />
+              <HeroPhoto photo={mhs().photo} edit={editing()} />
+            </HeroBanner>
+            <HeroBio
               edit={editing()}
-              ref={name}
+              refStudy={study}
+              refSemester={semester}
+              study={mhs().study}
+              semester={mhs().semester}
+              bio={mhs().bio}
             />
-            <HeroPhoto photo={mhs().photo} edit={editing()} />
-          </HeroBanner>
-          <HeroBio
-            edit={editing()}
-            refStudy={study}
-            refSemester={semester}
-            study={mhs().study}
-            semester={mhs().semester}
-            bio={mhs().bio}
-          />
-          <Show when={error()}>
-            <ErrorIndicator message={error()} />
-          </Show>
+            <Show when={error()}>
+              <ErrorIndicator message={error()} />
+            </Show>
 
-          <Show
-            when={editing()}
-            fallback={<ButtonClassic title={"Ubah"} action={toggleEditing} />}
-          >
-            <ButtonClassic title={"Simpan"} action={toggleEditing} />
-          </Show>
-        </HeroContainer>
+            <Show
+              when={editing()}
+              fallback={<ButtonClassic title={"Ubah"} action={toggleEditing} />}
+            >
+              <ButtonClassic title={"Simpan"} action={toggleEditing} />
+            </Show>
+          </HeroContainer>
+        </form>
 
         <div className="grid grid-cols-12 mt-8 justify-items-stretch">
           <div className="col-start-2 justify-self-end">
