@@ -16,6 +16,11 @@ const errors = {
     max: "Panjang pencarian maksimal 15 huruf",
     req: "Silakan mengisi kata kunci pencarian",
   },
+  folioSearch: {
+    min: "Panjang pencarian minimal 3 huruf",
+    max: "Panjang pencarian maksimal 25 huruf",
+    req: "Silakan mengisi kata kunci pencarian",
+  },
 };
 
 export const loginSchema = object({
@@ -33,4 +38,11 @@ export const searchSchema = object({
     .min(3, errors.keyword.min)
     .max(15, errors.keyword.max)
     .required(errors.keyword.req),
+});
+
+export const folioSearchSchema = object({
+  q: string()
+    .min(3, errors.folioSearch.min)
+    .max(25, errors.folioSearch.max)
+    .required(errors.folioSearch.req),
 });

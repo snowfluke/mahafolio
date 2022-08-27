@@ -11,14 +11,18 @@ const form = formidable({
   maxFileSize: 2 * 1024 * 1024,
 });
 
-// get all Folio
+// get 1 Folio by mhs id
 const getFolios = async (req, res) => {
   try {
     const { id } = req.params;
     if (!validator.isMongoId(id)) {
       throw Error("ID mahasiswa tidak valid");
     }
-    const folios = await Folio.find({ author: id }).sort({ createdAt: -1 });
+    const folios = await Folio.find({ author: id })
+      .sort({ createdAt: -1 })
+      .skip(0)
+      .limit(1)
+      .select("_id title type");
     res.status(200).json(folios);
   } catch (error) {
     return res.status(200).json({ error: error.message });
@@ -138,17 +142,27 @@ const deleteFolio = async (req, res) => {
 
 // search a Folio
 const searchFolio = async (req, res) => {
-  const { keyword } = req.params;
+  const { q, mahasiswa, semester, type } = req.query;
   try {
-    if (keyword.length < 3 || keyword.length > 15) {
-      throw Error("Kata kunci hanya 3-15 karakter!");
+    if (!mahasiswa || !validator.isMongoId(mahasiswa))
+      throw Error("ID mahasiswa tidak valid");
+
+    if (!q || q.length < 3 || q.length > 25) {
+      throw Error("Kata kunci terdiri dari 3-25 karakter!");
     }
 
+    const search = { author: mahasiswa };
+    if (semester) search.semester = parseInt(semester);
+    if (type) search.type = type;
+
     const folios = await Folio.find({
-      title: { $regex: keyword.trim(), $options: "i" },
-      subject: { $regex: keyword.trim(), $options: "i" },
-      description: { $regex: keyword.trim(), $options: "i" },
-    });
+      $or: [
+        { title: { $regex: q.trim(), $options: "i" } },
+        { subject: { $regex: q.trim(), $options: "i" } },
+        { description: { $regex: q.trim(), $options: "i" } },
+      ],
+      $and: [search],
+    }).select("_id updatedAt title type");
     if (!folios) {
       return res.status(404).json({ error: "Folio tidak ditemukan" });
     }

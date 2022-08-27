@@ -1,5 +1,5 @@
 import { useNavigate } from "@solidjs/router";
-import { createEffect, createSignal, Suspense } from "solid-js";
+import { createSignal, Suspense, createResource } from "solid-js";
 
 import ButtonAccent from "../components/form/buttonaccent";
 import Loading from "../components/loading";
@@ -16,6 +16,8 @@ import Span from "../components/span";
 import { searchSchema } from "../validations";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { useSignout } from "../hooks/useSignout";
+import PaperLeft from "../components/paper/paperleft";
+import PaperCenter from "../components/paper/papercenter";
 
 const fetchSearch = async (keyword) =>
   await fetcher(encodeURI(`/api/mahasiswa/search/${keyword}`), {
@@ -23,8 +25,9 @@ const fetchSearch = async (keyword) =>
   });
 
 function Home() {
-  const [result, setResult] = createSignal("");
-  const [searching, setSearching] = createSignal("");
+  const [searching, setSearching] = createSignal(false);
+  const [searchResult] = createResource(searching, fetchSearch);
+
   const [error, setError] = createSignal(false);
 
   const navigate = useNavigate();
@@ -39,28 +42,27 @@ function Home() {
 
     try {
       await searchSchema.validate({ keyword: keyword.value });
-
-      let response = await fetchSearch(keyword.value);
-      if (response.error) return setError(response.error);
-
       setSearching(keyword.value);
-      setResult(response);
-
       keyword.value = "";
     } catch (error) {
       setError(error.errors[0]);
     }
   }
 
+  function handleKeypress(e) {
+    if (e.key !== "Enter") return;
+    handleSearch(e);
+  }
+
   return (
     <section>
       <div className="grid grid-cols-12">
         <div className="col-start-1 md:col-start-2 col-end-13 md:col-end-12">
-          <BigInput ref={keyword} placeholder={"Cari kemajuan mahasiswa berdasarkan nama, email atau nim..."} />
+          <BigInput ref={keyword} onKeyPress={handleKeypress} placeholder={"Cari kemajuan mahasiswa berdasarkan nama, email atau nim..."} />
         </div>
       </div>
 
-      <div className="grid grid-cols-12 mt-10 justify-items-stretch">
+      <div className="grid grid-cols-12 mt-4 justify-items-stretch">
         <div className="col-start-2 justify-self-end">
           <Show when={!user().mhs} fallback={<ButtonAccent title={"Keluar"} wrapperStyle={"mt-14 -rotate-90"} variant={true} action={logout} />}>
             <ButtonAccent title={"Masuk"} wrapperStyle={"mt-14 -rotate-90"} action={() => navigate("/coretan")} />
@@ -80,17 +82,20 @@ function Home() {
           </Show>
 
           <PaperCard>
-            <Show when={!searching()}>
-              <Span text="Semua berawal dari keingintahuaan" />
-            </Show>
-
-            <Show when={searching().length}>
+            <Show when={searching()} fallback={<Span text="Semua berawal dari keingintahuaan" />}>
               <Span text={`Menampilkan pencarian untuk `} variable={searching()} />
 
               <Suspense fallback={<Loading />}>
-                <Show when={result().length} fallback={() => <Span text="Maaf, pencarian mahasiswa tidak ditemukan" />}>
+                <Show when={searchResult()?.length} fallback={() => <Span text="Pencarian mahasiswa tidak ditemukan" />}>
                   <PaperContainer>
-                    <For each={result()}>{(item, index) => <PaperGrid data={item} index={index} search={true} />}</For>
+                    <For each={searchResult()}>
+                      {(item, index) => (
+                        <PaperGrid link={"/mahasiswa/" + item._id}>
+                          <PaperLeft content={index() + 1} />
+                          <PaperCenter content={`${item.nim} _ ${item.name}`} />
+                        </PaperGrid>
+                      )}
+                    </For>
                   </PaperContainer>
                 </Show>
               </Suspense>

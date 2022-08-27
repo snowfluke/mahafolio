@@ -9,6 +9,9 @@ import PaperContainer from "../components/paper/papercontainer";
 import PaperGrid from "../components/paper/papergrid";
 import { SEMESTER, STUDY } from "../utils/constant";
 import fetcher from "../utils/fetcher";
+import PaperLeft from "../components/paper/paperleft";
+import PaperCenter from "../components/paper/papercenter";
+import PaperRight from "../components/paper/paperright";
 
 const fetchTopTen = async ({ study, semester }) =>
   await fetcher(
@@ -21,12 +24,21 @@ const fetchTopTen = async ({ study, semester }) =>
 function Leaderboard() {
   const [keyword, setKeyword] = createStore({ study: "", semester: "" });
   const [topTen] = createResource(() => ({ ...keyword }), fetchTopTen);
+  let study, semester;
 
   return (
     <section>
       <div className="flex items-center justify-center sm:justify-end space-x-4 responsive-text">
-        <Dropdown items={STUDY} signal={setKeyword}></Dropdown>
-        <Dropdown items={SEMESTER} signal={setKeyword}></Dropdown>
+        <Dropdown
+          items={STUDY}
+          onChange={() => setKeyword("study", study.value)}
+          ref={study}
+        />
+        <Dropdown
+          items={SEMESTER}
+          onChange={() => setKeyword("semester", semester.value)}
+          ref={semester}
+        />
       </div>
       <div className="grid grid-cols-12 mt-10 justify-items-stretch">
         <div className="col-start-2 justify-self-end">
@@ -49,12 +61,15 @@ function Leaderboard() {
                 <PaperContainer>
                   <For each={topTen()}>
                     {(item, index) => (
-                      <PaperGrid
-                        data={item}
-                        index={index}
-                        color={true}
-                        search={false}
-                      />
+                      <PaperGrid link={"/mahasiswa/" + item._id}>
+                        <PaperLeft color={index() + 1} content={index() + 1} />
+                        <PaperCenter
+                          content={item.name}
+                          emoji={true}
+                          index={index()}
+                        />
+                        <PaperRight content={item.score + "pts"} />
+                      </PaperGrid>
                     )}
                   </For>
                 </PaperContainer>

@@ -28,6 +28,7 @@ const mhsSchema = new Schema(
       type: String,
       unique: true,
       minLength: 4,
+      required: true,
       maxLength: 12,
     },
     name: {
