@@ -15,17 +15,20 @@ function Router() {
   return (
     <Routes>
       <Route path="/" component={Home} />
-      <Route path="/coretan" component={() => <>{user().mhs ? <Navigate href="/" /> : <Login />}</>} />
+      <Route
+        path="/coretan"
+        component={() => <>{user().mhs ? <Navigate href="/" /> : <Login />}</>}
+      />
 
       <Route path="/dashboard" component={Dashboard} />
       <Route path="/klasemen" component={Leaderboard} />
-      <Route path="/mahasiswa/:id" component={Profile} />
       <Route
         path="/mahasiswa"
         component={() => (
           <>{user().mhs ? <Profiles /> : <Navigate href="/" />}</>
         )}
       />
+      <Route path="/mahasiswa/:id" component={Profile} />
       <Route
         path="/*"
         component={<ErrorDisplay err={"404 - Halaman tidak ditemukan"} />}
