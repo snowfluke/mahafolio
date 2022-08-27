@@ -16,7 +16,7 @@ const signinMhs = async (req, res) => {
     const mhs = await Mahasiswa.signin(email, password);
     const token = createToken(mhs._id);
 
-    res.status(200).json({ email, token });
+    res.status(200).json({ email, token, _id: mhs._id });
   } catch (error) {
     res.status(200).json({ error: error.message });
   }
