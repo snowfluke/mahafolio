@@ -156,12 +156,12 @@ const searchFolio = async (req, res) => {
     if (type) search.type = type;
 
     const folios = await Folio.find({
-      search,
       $or: [
         { title: { $regex: q.trim(), $options: "i" } },
         { subject: { $regex: q.trim(), $options: "i" } },
         { description: { $regex: q.trim(), $options: "i" } },
       ],
+      $and: [search],
     });
     if (!folios) {
       return res.status(404).json({ error: "Folio tidak ditemukan" });
