@@ -162,7 +162,7 @@ const searchFolio = async (req, res) => {
         { description: { $regex: q.trim(), $options: "i" } },
       ],
       $and: [search],
-    });
+    }).select("_id updatedAt title type");
     if (!folios) {
       return res.status(404).json({ error: "Folio tidak ditemukan" });
     }
