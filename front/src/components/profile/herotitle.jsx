@@ -8,18 +8,33 @@ function HeroTitle(props) {
       <Show
         when={props.edit}
         fallback={
-          <span className="text-green font-semibold text-xl">{props.name}</span>
+          <>
+            <span className="text-green font-semibold text-xl">
+              {props.name}
+            </span>
+            <span className="text-green font-semibold text-lg">
+              {props.nim}
+            </span>
+          </>
         }
       >
         <input
           type="text"
           value={props.name}
+          spellCheck={false}
+          maxLength={25}
           name="name"
           class="border-b-2 text-green font-semibold text-xl border-green bg-transparent w-full"
         />
+        <input
+          type="text"
+          value={props.nim}
+          spellCheck={false}
+          maxLength={12}
+          name="nim"
+          class="border-b-2 text-green font-semibold text-xl border-green bg-transparent w-full"
+        />
       </Show>
-
-      <span className="text-green font-semibold text-lg">{props.nim}</span>
     </div>
   );
 }

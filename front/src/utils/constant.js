@@ -5,6 +5,8 @@ const STUDY = [
   { name: "Sistem Informasi", value: "SISTEM INFORMASI" },
 ];
 
+const STUDY_NAME = STUDY.slice(1, STUDY.length).map((el) => el.value);
+
 const SEMESTER = [
   { name: "Sepanjang masa", value: "" },
   { name: "Semester 1", value: 1 },
@@ -50,4 +52,4 @@ const TYPE = [
   { name: "UAS", value: "UAS" },
 ];
 
-export { BACKEND_URL, STUDY, SEMESTER, NAV_MENU, TYPE, SEMESTER2 };
+export { BACKEND_URL, STUDY, SEMESTER, NAV_MENU, TYPE, SEMESTER2, STUDY_NAME };
