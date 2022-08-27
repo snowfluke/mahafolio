@@ -1,6 +1,6 @@
 function PaperLeft({ content, color = false }) {
   return (
-    <td className="md:w-[10%] lg:w-[5%] w-[15%] border-r border-slate-700/50 p-1">
+    <td className="md:w-[20%] lg:w-[15%] w-[15%] border-r border-slate-700/50 p-1">
       <div
         className={
           "border border-slate-700/50 flex items-center " +

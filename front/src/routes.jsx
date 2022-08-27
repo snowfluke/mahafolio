@@ -1,6 +1,7 @@
 import { lazy } from "solid-js";
 import { Routes, Route, Navigate } from "@solidjs/router";
 import { useAuthContext } from "./hooks/useAuthContext";
+import ErrorDisplay from "./components/error";
 const Leaderboard = lazy(() => import("./pages/Leaderboard"));
 const Home = lazy(() => import("./pages/Home"));
 const Login = lazy(() => import("./pages/Login"));
@@ -18,13 +19,17 @@ function Router() {
         component={() => <>{user().mhs ? <Navigate href="/" /> : <Login />}</>}
       />
       <Route path="/klasemen" component={Leaderboard} />
+      <Route path="/mahasiswa/:id" component={Profile} />
       <Route
         path="/mahasiswa"
         component={() => (
           <>{user().mhs ? <Profiles /> : <Navigate href="/" />}</>
         )}
       />
-      <Route path="/mahasiswa/:id" component={Profile} />
+      <Route
+        path="/*"
+        component={<ErrorDisplay err={"404 - Halaman tidak ditemukan"} />}
+      />
     </Routes>
   );
 }

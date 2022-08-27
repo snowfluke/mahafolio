@@ -1,5 +1,6 @@
-import { Link, useParams } from "@solidjs/router";
-import { createEffect, createResource, createSignal, Show } from "solid-js";
+import { Link, Navigate, useParams } from "@solidjs/router";
+import { createResource, createSignal, Show } from "solid-js";
+import { useNavigate } from "@solidjs/router";
 
 import ButtonAccent from "../components/form/buttonaccent";
 import HeroContainer from "../components/profile/herocontainer";
@@ -46,6 +47,8 @@ const fetchSearch = async ({ q, semester, type, id }) =>
 
 function Profile() {
   const mhs_id = useParams().id;
+  const navigate = useNavigate();
+
   const [mhs] = createResource(mhs_id, fetchMhs);
   const [searching, setSearching] = createSignal(false);
   const [latestFolio] = createResource(mhs_id, fetchLatestFolio);
@@ -71,7 +74,6 @@ function Profile() {
       });
       keyword.value = "";
     } catch (error) {
-      console.log(error);
       setError(error.errors[0]);
     }
   }
@@ -82,7 +84,7 @@ function Profile() {
   }
   return (
     <section>
-      <Show when={mhs()}>
+      <Show when={mhs() && !mhs().error}>
         <HeroContainer>
           <HeroEmail email={mhs().email} />
           <HeroBanner>
@@ -99,7 +101,7 @@ function Profile() {
         <div class={"mb-2"}>
           <span>
             Publikasi terakhir:{" "}
-            <Show when={latestFolio()?.length}>
+            <Show when={latestFolio()?.length} fallback={<>Tidak ada</>}>
               <Link
                 href={`/folio/${latestFolio()[0]._id}`}
                 class="hover:underline text-green"
@@ -124,7 +126,7 @@ function Profile() {
             <ButtonAccent
               title={"Buat"}
               wrapperStyle={"mt-14 -rotate-90"}
-              action={() => navigate("/coretan")}
+              action={() => navigate("/mahasiswa")}
             />
           </div>
           <div className="col-start-3 -ml-8 col-end-13">
@@ -157,9 +159,13 @@ function Profile() {
                   >
                     <PaperContainer>
                       <For each={searchResult()}>
-                        {(item, index) => (
+                        {(item) => (
                           <PaperGrid link={"/folio/" + item._id}>
-                            <PaperLeft content={index() + 1} />
+                            <PaperLeft
+                              content={new Date(
+                                item.updatedAt
+                              ).toLocaleDateString("id-ID")}
+                            />
                             <PaperCenter
                               content={`[${item.type}] ${item.title}`}
                             />
