@@ -10,10 +10,7 @@ function Nav() {
       <For each={NAV_MENU}>
         {(item) => (
           <li>
-            <Link
-              href={item.route}
-              class="underline text-green underline-offset-2"
-            >
+            <Link href={item.route} class="underline text-green underline-offset-4">
               {item.name}
             </Link>
           </li>
