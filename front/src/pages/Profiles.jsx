@@ -39,41 +39,53 @@ function Profiles() {
   const [user] = useAuthContext();
   const [mhs] = createResource(user().mhs._id, fetchMhs);
 
-  let email, study, semester, name;
+  function handleSubmit(e) {
+    e.preventDefault();
+    const fields = {
+      _id: mhs().id,
+      name: e.target.name.value,
+      email: e.target.email.value,
+      semester: e.target.semester.value,
+      study: e.target.study.value,
+      bio: e.target.bio.value,
+    };
+
+    console.log(fields);
+  }
 
   return (
     <section>
       <Show when={mhs()}>
-        <HeroContainer>
-          <HeroEmail email={mhs().email} edit={editing()} ref={email} />
-          <HeroBanner>
-            <HeroTitle
-              score={mhs().score}
-              name={mhs().name}
+        <form onSubmit={handleSubmit} encType="multipart/form-data">
+          <HeroContainer>
+            <HeroEmail email={mhs().email} edit={editing()} />
+            <HeroBanner>
+              <HeroTitle
+                score={mhs().score}
+                name={mhs().name}
+                edit={editing()}
+                nim={mhs().nim}
+              />
+              <HeroPhoto photo={mhs().photo} edit={editing()} />
+            </HeroBanner>
+            <HeroBio
               edit={editing()}
-              ref={name}
+              study={mhs().study}
+              semester={mhs().semester}
+              bio={mhs().bio}
             />
-            <HeroPhoto photo={mhs().photo} edit={editing()} />
-          </HeroBanner>
-          <HeroBio
-            edit={editing()}
-            refStudy={study}
-            refSemester={semester}
-            study={mhs().study}
-            semester={mhs().semester}
-            bio={mhs().bio}
-          />
-          <Show when={error()}>
-            <ErrorIndicator message={error()} />
-          </Show>
+            <Show when={error()}>
+              <ErrorIndicator message={error()} />
+            </Show>
 
-          <Show
-            when={editing()}
-            fallback={<ButtonClassic title={"Ubah"} action={toggleEditing} />}
-          >
-            <ButtonClassic title={"Simpan"} action={toggleEditing} />
-          </Show>
-        </HeroContainer>
+            <Show
+              when={editing()}
+              fallback={<ButtonClassic title={"Ubah"} action={toggleEditing} />}
+            >
+              <ButtonClassic title={"Simpan"} />
+            </Show>
+          </HeroContainer>
+        </form>
 
         <div className="grid grid-cols-12 mt-8 justify-items-stretch">
           <div className="col-start-2 justify-self-end">

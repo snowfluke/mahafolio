@@ -1,4 +1,4 @@
-function Dropdown({ items, ref, selected = "", onChange = () => false }) {
+function Dropdown({ items, ref, name = "", selected = "", onChange = () => false }) {
   return (
     <div class="dropdown relative">
       <select className="px-4 py-2 shadow rounded-md block w-full" ref={ref} onChange={onChange}>

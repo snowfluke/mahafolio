@@ -14,10 +14,12 @@ function HeroTitle(props) {
         <input
           type="text"
           value={props.name}
-          ref={props.ref}
+          name="name"
           class="border-b-2 text-green font-semibold text-xl border-green bg-transparent w-full"
         />
       </Show>
+
+      <span className="text-green font-semibold text-lg">{props.nim}</span>
     </div>
   );
 }

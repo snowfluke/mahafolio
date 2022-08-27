@@ -14,10 +14,10 @@ function HeroBio(props) {
             </>
           }
         >
-          <Dropdown items={STUDY} ref={props.refStudy} selected={props.study} />
+          <Dropdown items={STUDY} name="study" selected={props.study} />
           <Dropdown
             items={SEMESTER2}
-            ref={props.refSemester}
+            name="semester"
             selected={props.semester}
           />
         </Show>
