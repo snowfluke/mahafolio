@@ -7,13 +7,13 @@ function Footer() {
         <Link href="#">© Mahafolio 2022</Link>
       </span>
       <ul className="font-normal responsive-text lg:list-disc flex flex-col sm:flex-row justify-center sm:space-x-4 lg:space-x-8">
-        <li className="cursor-pointer">
+        <li className="cursor-pointer hover:underline hover:underline-offset-4">
           <Link href="#">Tentang</Link>
         </li>
-        <li className="cursor-pointer">
+        <li className="cursor-pointer hover:underline hover:underline-offset-4">
           <Link href="#">Kontak</Link>
         </li>
-        <li className="cursor-pointer">
+        <li className="cursor-pointer hover:underline hover:underline-offset-4">
           <Link href="#">Kebijakan Penggunaan</Link>
         </li>
       </ul>

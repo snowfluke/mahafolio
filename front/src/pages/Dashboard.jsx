@@ -22,7 +22,7 @@ const fetchSearch = async (keyword) =>
     method: "GET",
   });
 
-function Home() {
+function Dashboard() {
   const [result, setResult] = createSignal("");
   const [searching, setSearching] = createSignal("");
   const [error, setError] = createSignal(false);
@@ -55,19 +55,13 @@ function Home() {
   return (
     <section>
       <div className="grid grid-cols-12">
-        <div className="col-start-1 md:col-start-2 col-end-13 md:col-end-12">
+        <div className="col-start-1 col-end-13">
           <BigInput ref={keyword} placeholder={"Cari kemajuan mahasiswa berdasarkan nama, email atau nim..."} />
         </div>
       </div>
 
       <div className="grid grid-cols-12 mt-10 justify-items-stretch">
-        <div className="col-start-2 justify-self-end">
-          <Show when={!user().mhs} fallback={<ButtonAccent title={"Keluar"} wrapperStyle={"mt-14 -rotate-90"} variant={true} action={logout} />}>
-            <ButtonAccent title={"Masuk"} wrapperStyle={"mt-14 -rotate-90"} action={() => navigate("/coretan")} />
-          </Show>
-        </div>
-
-        <div className="col-start-3 -ml-8 col-end-13">
+        <div className="col-start-1 col-end-13">
           <div className="flex items-center space-x-8 mb-4">
             <ButtonClassic title={"Cari"} action={handleSearch} />
             <Show when={user().mhs}>
@@ -81,7 +75,7 @@ function Home() {
 
           <PaperCard>
             <Show when={!searching()}>
-              <Span text="Semua berawal dari keingintahuaan" />
+              <Span text="Cari pengguna mahafolio" />
             </Show>
 
             <Show when={searching().length}>
@@ -90,7 +84,7 @@ function Home() {
               <Suspense fallback={<Loading />}>
                 <Show when={result().length} fallback={() => <Span text="Maaf, pencarian mahasiswa tidak ditemukan" />}>
                   <PaperContainer>
-                    <For each={result()}>{(item, index) => <PaperGrid data={item} index={index} search={true} />}</For>
+                    <For each={result()}>{(item, index) => <PaperGrid data={item} index={index} userAction={false} />}</For>
                   </PaperContainer>
                 </Show>
               </Suspense>
@@ -101,4 +95,4 @@ function Home() {
     </section>
   );
 }
-export default Home;
+export default Dashboard;
