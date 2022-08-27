@@ -18,7 +18,11 @@ import fetcher from "../utils/fetcher";
 import Span from "../components/span";
 import ErrorIndicator from "../components/form/errorindicator";
 
-import { searchSchema } from "../validations";
+import { folioSearchSchema } from "../validations";
+import Dropdown from "../components/form/dropdown";
+import { SEMESTER2, TYPE } from "../utils/constant";
+import PaperLeft from "../components/paper/paperleft";
+import PaperCenter from "../components/paper/papercenter";
 
 const fetchMhs = async (id) =>
   await fetcher(encodeURI(`/api/mahasiswa/${id}`), {
@@ -30,10 +34,15 @@ const fetchLatestFolio = async (id) =>
     method: "GET",
   });
 
-const fetchSearch = async (keyword) =>
-  await fetcher(encodeURI(`/api/folio/search/${keyword}`), {
-    method: "GET",
-  });
+const fetchSearch = async ({ q, semester, type, id }) =>
+  await fetcher(
+    encodeURI(
+      `/api/folio/search?mahasiswa=${id}&q=${q}&type=${type}&semester=${semester}`
+    ),
+    {
+      method: "GET",
+    }
+  );
 
 function Profile() {
   const mhs_id = useParams().id;
@@ -44,15 +53,22 @@ function Profile() {
 
   const [error, setError] = createSignal(false);
 
-  let keyword;
+  let keyword = "",
+    type,
+    semester;
 
   async function handleSearch(e) {
     e.preventDefault();
     setError(false);
 
     try {
-      await searchSchema.validate({ keyword: keyword.value });
-      setSearching(keyword.value);
+      await folioSearchSchema.validate({ q: keyword.value });
+      setSearching({
+        q: keyword.value,
+        type: type.value,
+        semester: semester.value,
+        id: mhs_id,
+      });
       keyword.value = "";
     } catch (error) {
       console.log(error);
@@ -83,7 +99,7 @@ function Profile() {
         <div class={"mb-2"}>
           <span>
             Publikasi terakhir:{" "}
-            <Show when={latestFolio()}>
+            <Show when={latestFolio()?.length}>
               <Link
                 href={`/folio/${latestFolio()[0]._id}`}
                 class="hover:underline text-green"
@@ -106,39 +122,15 @@ function Profile() {
         <div className="grid grid-cols-12 mt-4 justify-items-stretch">
           <div className="col-start-2 justify-self-end">
             <ButtonAccent
-              title={"Masuk"}
+              title={"Buat"}
               wrapperStyle={"mt-14 -rotate-90"}
               action={() => navigate("/coretan")}
             />
           </div>
           <div className="col-start-3 -ml-8 col-end-13">
             <div className="flex items-center space-x-8 mb-4">
-              <select>
-                <option>Semua tipe</option>
-                <option>Catatan</option>
-                <option>Karya</option>
-                <option>Jurnal</option>
-                <option>Tugas</option>
-                <option>UTS</option>
-                <option>UAS</option>
-              </select>
-              <select>
-                <option>Semua semester</option>
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
-                <option>6</option>
-                <option>7</option>
-                <option>8</option>
-                <option>9</option>
-                <option>10</option>
-                <option>11</option>
-                <option>12</option>
-                <option>13</option>
-                <option>14</option>
-              </select>
+              <Dropdown items={TYPE} ref={type} />
+              <Dropdown items={SEMESTER2} ref={semester} />
               <ButtonClassic title={"Cari"} action={handleSearch} />
             </div>
 
@@ -149,24 +141,29 @@ function Profile() {
             <PaperCard>
               <Show
                 when={searching()}
-                fallback={<Span text="Semua berawal dari keingintahuaan" />}
+                fallback={<Span text="Sekecil apapun usaha tetaplah usaha" />}
               >
                 <Span
                   text={`Menampilkan pencarian untuk `}
-                  variable={searching()}
+                  variable={searching().q}
                 />
 
                 <Suspense fallback={<Loading />}>
                   <Show
                     when={searchResult()?.length}
                     fallback={() => (
-                      <Span text="Pencarian mahasiswa tidak ditemukan" />
+                      <Span text="Pencarian folio tidak ditemukan" />
                     )}
                   >
                     <PaperContainer>
                       <For each={searchResult()}>
                         {(item, index) => (
-                          <PaperGrid data={item} index={index} search={true} />
+                          <PaperGrid link={"/folio/" + item._id}>
+                            <PaperLeft content={index() + 1} />
+                            <PaperCenter
+                              content={`[${item.type}] ${item.title}`}
+                            />
+                          </PaperGrid>
                         )}
                       </For>
                     </PaperContainer>

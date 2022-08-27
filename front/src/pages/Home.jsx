@@ -16,6 +16,8 @@ import Span from "../components/span";
 import { searchSchema } from "../validations";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { useSignout } from "../hooks/useSignout";
+import PaperLeft from "../components/paper/paperleft";
+import PaperCenter from "../components/paper/papercenter";
 
 const fetchSearch = async (keyword) =>
   await fetcher(encodeURI(`/api/mahasiswa/search/${keyword}`), {
@@ -119,7 +121,10 @@ function Home() {
                   <PaperContainer>
                     <For each={searchResult()}>
                       {(item, index) => (
-                        <PaperGrid data={item} index={index} search={true} />
+                        <PaperGrid link={"/mahasiswa/" + item._id}>
+                          <PaperLeft content={index() + 1} />
+                          <PaperCenter content={`${item.nim} _ ${item.name}`} />
+                        </PaperGrid>
                       )}
                     </For>
                   </PaperContainer>
