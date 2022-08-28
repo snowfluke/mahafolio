@@ -1,13 +1,36 @@
-import { createEffect, createSignal, onCleanup, onMount } from "solid-js";
-import { BACKEND_URL } from "../../utils/constant";
+import { createEffect, createSignal } from "solid-js";
 import ErrorIndicator from "../form/errorindicator";
 import Loading from "../loading";
 
 function HeroPhoto(props) {
   const [uploading, setUploading] = createSignal(false);
   const [error, setError] = createSignal(false);
+  const [tag, setTag] = createSignal();
   const [tempPhoto, setTempPhoto] = createSignal("");
-  const [photo, setPhoto] = createSignal();
+
+  createEffect(() => {
+    if (props.edit !== true) setTempPhoto("");
+  });
+
+  createEffect(() => {
+    function renderImageTag(src) {
+      console.log("render triggered", src);
+      if (src == undefined) return;
+
+      const img = new Image();
+      img.src = src;
+      img
+        .decode()
+        .then(() => {
+          setTag(img);
+        })
+        .catch((encodingError) => {
+          console.log(encodingError);
+        });
+    }
+
+    renderImageTag(props.fetchUri);
+  });
 
   function handleFileChange(e) {
     setUploading(true);
@@ -31,29 +54,15 @@ function HeroPhoto(props) {
     };
   }
 
-  const img = new Image();
-  img.src = `${BACKEND_URL}/api/photo/${props.id}`;
-  img.alt = "Profil";
-  img.className = "w-32";
-  img
-    .decode()
-    .then(() => {
-      setPhoto(img);
-    })
-    .catch(() => {
-      img.src = "/src/assets/profile.png";
-      setPhoto(img);
-    });
-
   return (
     <div className="flex-[0.7] flex space-x-6 justify-end">
       <Show
         when={props.edit}
         fallback={
-          <Show fallback={<Loading />} when={photo()}>
+          <Show fallback={<Loading />} when={tag()}>
             <div
               class="bg-cover bg-center h-30 block flex-1"
-              style={`background-image: url(${photo().src})`}
+              style={`background-image: url(${tag().src})`}
             ></div>
           </Show>
         }
@@ -77,13 +86,13 @@ function HeroPhoto(props) {
         <Show
           when={props.edit}
           fallback={
-            <Show when={photo()} fallback={<Loading />}>
-              {photo()}
+            <Show when={tag()} fallback={<Loading />}>
+              {tag()}
             </Show>
           }
         >
           <img
-            src={tempPhoto().length ? tempPhoto() : photo()?.src}
+            src={tempPhoto() ? tempPhoto() : tag().src}
             alt="Profil"
             className="w-32"
           />

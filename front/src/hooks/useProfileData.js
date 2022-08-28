@@ -3,6 +3,8 @@ import fetcher from "../utils/fetcher";
 import { UserContext } from "../contexts/UserContext";
 import { useContext } from "solid-js";
 import { useAuthContext } from "./useAuthContext";
+import { BACKEND_URL } from "../utils/constant";
+import { refresher } from "../utils/string";
 
 export const useProfileData = () => {
   const context = useContext(UserContext);
@@ -26,7 +28,12 @@ export const useProfileData = () => {
     }
 
     setIsLoading(false);
-    updateProfileData(response);
+    updateProfileData({
+      ...response,
+      fetchUri: `${BACKEND_URL}/api/photo/${
+        response._id
+      }?refresh=${refresher()}`,
+    });
   };
 
   const updateProfile = async (data) => {
@@ -48,7 +55,12 @@ export const useProfileData = () => {
       return response;
     }
 
-    updateProfileData(response);
+    updateProfileData({
+      ...response,
+      fetchUri: `${BACKEND_URL}/api/photo/${
+        response._id
+      }?refresh=${refresher()}`,
+    });
     return response;
   };
   return {

@@ -1,6 +1,5 @@
 import { Link, useParams } from "@solidjs/router";
 import { createResource, createSignal, createEffect, Show } from "solid-js";
-import { useNavigate } from "@solidjs/router";
 
 import ButtonAccent from "../components/form/buttonaccent";
 import HeroContainer from "../components/profile/herocontainer";
@@ -63,7 +62,7 @@ function Profiles() {
       if (update.error) return setError(update.error);
 
       setEditing(false);
-      tempPhoto.value = " ";
+      tempPhoto.value = "";
     } catch (error) {
       console.log(error);
       if (error.name == "ValidationError") {
@@ -89,7 +88,7 @@ function Profiles() {
                   />
                   <HeroPhoto
                     ref={tempPhoto}
-                    id={profileData()._id || user().mhs._id}
+                    fetchUri={profileData().mhs.fetchUri}
                     edit={editing()}
                   />
                 </HeroBanner>
