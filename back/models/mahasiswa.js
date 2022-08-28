@@ -46,7 +46,7 @@ const mhsSchema = new Schema(
       type: Number,
       required: true,
       min: 1,
-      max: 16,
+      max: 14,
       default: 1,
     },
     bio: {

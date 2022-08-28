@@ -1,4 +1,4 @@
-import { createContext, createEffect, createSignal, onMount } from "solid-js";
+import { createContext, createSignal, onMount } from "solid-js";
 
 export const AuthContext = createContext();
 

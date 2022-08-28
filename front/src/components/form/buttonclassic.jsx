@@ -1,8 +1,13 @@
-function ButtonClassic({ title, action }) {
+function ButtonClassic({ title, action, alter = false }) {
   return (
     <button
       onClick={action}
-      className="bg-green responsive-text text-white font-semibold px-10 py-2 tracking-widest border-y-2 border-green hover:text-green hover:bg-white"
+      className={
+        "responsive-text font-semibold px-10 py-2 tracking-widest border-y-2 " +
+        (alter
+          ? "bg-white text-red-500 hover:bg-red-100 border-red-500"
+          : "border-green bg-green text-white hover:text-green hover:bg-white")
+      }
     >
       {title}
     </button>

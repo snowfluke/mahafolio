@@ -10,6 +10,7 @@ const app = express();
 // Routes import
 const routerMahasiswa = require("./routes/mahasiswa");
 const routerFolio = require("./routes/folio");
+const routerPhoto = require("./routes/photo");
 const routerAdmin = require("./routes/admin");
 const origin = require("./middlewares/origin");
 
@@ -26,6 +27,7 @@ app.use(cors(), origin);
 app.use(xss());
 
 // Routes
+app.use("/api/photo", routerPhoto);
 app.use("/api/mahasiswa", routerMahasiswa);
 app.use("/api/folio", routerFolio);
 app.use("/admin", routerAdmin);

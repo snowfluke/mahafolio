@@ -29,7 +29,7 @@ const signupMhs = async (req, res) => {
   try {
     const mhs = await Mahasiswa.signup(email, password);
     const token = createToken(mhs._id);
-    res.status(200).json({ email, token });
+    res.status(200).json({ email, token, _id: mhs._id });
   } catch (error) {
     res.status(200).json({ error: error.message });
   }
@@ -42,7 +42,7 @@ const getMhs = async (req, res) => {
     if (!validator.isMongoId(id)) throw Error("Mahasiswa tidak ditemukan");
 
     const mhs = await Mahasiswa.findById(id).select(
-      "email score name bio photo study semester nim"
+      "email score name bio study semester nim _id"
     );
     if (!mhs) {
       return res.status(404).json({ error: "Mahasiswa tidak ditemukan" });
@@ -93,8 +93,8 @@ const updateMhs = async (req, res) => {
 
     let update = req.body;
 
-    delete update.email;
     delete update.password;
+    delete update.score;
 
     const mhs = await Mahasiswa.findOneAndUpdate(
       { _id: id },
@@ -102,7 +102,8 @@ const updateMhs = async (req, res) => {
         ...update,
       },
       { new: true }
-    );
+    ).select("email score name bio study semester nim _id");
+
     if (!mhs) {
       return res.status(404).json({ error: "Mahasiswa tidak ditemukan" });
     }

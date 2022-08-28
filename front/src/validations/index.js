@@ -1,32 +1,22 @@
-import { object, string, number, ref } from "yup";
+import { object, string, number } from "yup";
+import { STUDY_NAME } from "../utils/constant";
 
 const errors = {
-  email: {
-    val: "Masukkkan email yang valid!",
-    req: "Silakan masukkan emailmu",
-  },
+  min: (n, x) => `Panjang ${x} minimal ${n} karakter!`,
+  max: (n, x) => `Panjang ${x} maksimal ${n} karakter!`,
+  req: (x) => `${x} wajib diisi!`,
+  email: "Masukkkan email yang valid!",
+  semester: (n, x) => `Semester ${x} adalah ${n}`,
   password: {
-    req: "Silakan masukkan kata sandimu",
-    confirm: "Kata sandi yang dimasukan tidak sesuai!",
     matches:
       "Kata sandi harus terdiri setidaknya 8 karakter, huruf kapital, huruf kecil, angka dan karakter spesial!",
-  },
-  keyword: {
-    min: "Panjang pencarian minimal 3 huruf",
-    max: "Panjang pencarian maksimal 15 huruf",
-    req: "Silakan mengisi kata kunci pencarian",
-  },
-  folioSearch: {
-    min: "Panjang pencarian minimal 3 huruf",
-    max: "Panjang pencarian maksimal 25 huruf",
-    req: "Silakan mengisi kata kunci pencarian",
   },
 };
 
 export const loginSchema = object({
-  email: string().email(errors.email).required(errors.email.req),
+  email: string().email(errors.email).required(errors.req("Email")),
   password: string()
-    .required(errors.password.req)
+    .required(errors.req("Kata sandi"))
     .matches(
       /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
       errors.password.matches
@@ -35,14 +25,35 @@ export const loginSchema = object({
 
 export const searchSchema = object({
   keyword: string()
-    .min(3, errors.keyword.min)
-    .max(15, errors.keyword.max)
-    .required(errors.keyword.req),
+    .min(3, errors.min(3, "kata kunci mahasiswa"))
+    .max(15, errors.max(15, "kata kunci mahasiswa"))
+    .required(errors.req("Kata kunci mahasiswa")),
 });
 
 export const folioSearchSchema = object({
   q: string()
-    .min(3, errors.folioSearch.min)
-    .max(25, errors.folioSearch.max)
-    .required(errors.folioSearch.req),
+    .min(3, errors.min(3, "Kata kunci"))
+    .max(25, errors.max(25, "Kata kunci"))
+    .required(errors.req("Kata kunci")),
+});
+
+export const updateProfileSchema = object({
+  name: string()
+    .min(3, errors.min(3, "nama"))
+    .max(25, errors.max(25, "nama"))
+    .required(errors.req("Nama")),
+  email: string().email(errors.email).required(errors.req("Email")),
+  semester: number()
+    .min(1, errors.semester("minimal", 1))
+    .max(14, errors.semester("maksimal", 14))
+    .required(errors.req("Semester")),
+  study: string().oneOf(STUDY_NAME),
+  bio: string()
+    .min(10, errors.min(10, "bio"))
+    .max(200, errors.max(200, "bio"))
+    .required(errors.req("Bio")),
+  nim: string()
+    .min(4, errors.min(4, "NIM"))
+    .max(12, errors.max(12, "NIM"))
+    .required(errors.req("NIM")),
 });
