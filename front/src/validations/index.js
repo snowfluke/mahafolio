@@ -25,8 +25,8 @@ export const loginSchema = object({
 
 export const searchSchema = object({
   keyword: string()
-    .min(3, errors.min(3, "Kata kunci mahasiswa"))
-    .max(15, errors.max(15, "Kata kunci mahasiswa"))
+    .min(3, errors.min(3, "kata kunci mahasiswa"))
+    .max(15, errors.max(15, "kata kunci mahasiswa"))
     .required(errors.req("Kata kunci mahasiswa")),
 });
 
@@ -39,8 +39,8 @@ export const folioSearchSchema = object({
 
 export const updateProfileSchema = object({
   name: string()
-    .min(3, errors.min(3, "Nama"))
-    .max(25, errors.max(25, "Nama"))
+    .min(3, errors.min(3, "nama"))
+    .max(25, errors.max(25, "nama"))
     .required(errors.req("Nama")),
   email: string().email(errors.email).required(errors.req("Email")),
   semester: number()
@@ -49,8 +49,8 @@ export const updateProfileSchema = object({
     .required(errors.req("Semester")),
   study: string().oneOf(STUDY_NAME),
   bio: string()
-    .min(10, errors.min(10, "Bio"))
-    .max(200, errors.max(200, "Bio"))
+    .min(10, errors.min(10, "bio"))
+    .max(200, errors.max(200, "bio"))
     .required(errors.req("Bio")),
   nim: string()
     .min(4, errors.min(4, "NIM"))

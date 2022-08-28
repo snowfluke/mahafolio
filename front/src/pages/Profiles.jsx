@@ -63,6 +63,7 @@ function Profiles() {
       if (update.error) return setError(update.error);
 
       setEditing(false);
+      tempPhoto.value = " ";
     } catch (error) {
       console.log(error);
       if (error.name == "ValidationError") {
@@ -105,13 +106,19 @@ function Profiles() {
                 <Show
                   when={editing()}
                   fallback={
-                    <ButtonClassic title={"Ubah"} action={toggleEditing} />
+                    <ButtonClassic
+                      title={"Ubah"}
+                      action={() => setEditing(true)}
+                    />
                   }
                 >
                   <ButtonClassic
                     alter={true}
                     title={"Batal"}
-                    action={() => setEditing(false)}
+                    action={() => {
+                      setError(false);
+                      setEditing(false);
+                    }}
                   />
                   <ButtonClassic title={"Simpan"} />
                 </Show>
@@ -142,7 +149,3 @@ function Profiles() {
   );
 }
 export default Profiles;
-
-function toggleEditing() {
-  setEditing(!editing());
-}
