@@ -1,5 +1,5 @@
 import { Link, useParams } from "@solidjs/router";
-import { createResource, createSignal, onMount, Show } from "solid-js";
+import { createResource, createSignal, createEffect, Show } from "solid-js";
 import { useNavigate } from "@solidjs/router";
 
 import ButtonAccent from "../components/form/buttonaccent";
@@ -35,7 +35,7 @@ function Profiles() {
   const { profileData, setProfile, updateProfile, isLoading, contextError } =
     useProfileData();
 
-  onMount(() => {
+  createEffect(() => {
     if (profileData().mhs == null) setProfile(user().mhs._id);
   });
 
@@ -108,6 +108,11 @@ function Profiles() {
                     <ButtonClassic title={"Ubah"} action={toggleEditing} />
                   }
                 >
+                  <ButtonClassic
+                    alter={true}
+                    title={"Batal"}
+                    action={() => setEditing(false)}
+                  />
                   <ButtonClassic title={"Simpan"} />
                 </Show>
               </HeroContainer>

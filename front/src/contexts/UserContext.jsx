@@ -12,8 +12,6 @@ export const UserContextProvider = (props) => {
     },
   ];
 
-  createEffect(() => console.log("ProfileData Context:", profileData()));
-
   return (
     <UserContext.Provider value={mhs}>{props.children}</UserContext.Provider>
   );

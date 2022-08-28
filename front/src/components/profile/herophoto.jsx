@@ -1,4 +1,4 @@
-import { createEffect, createSignal } from "solid-js";
+import { createEffect, createSignal, onCleanup, onMount } from "solid-js";
 import { BACKEND_URL } from "../../utils/constant";
 import ErrorIndicator from "../form/errorindicator";
 import Loading from "../loading";
@@ -78,7 +78,7 @@ function HeroPhoto(props) {
           when={props.edit}
           fallback={
             <Show when={photo()} fallback={<Loading />}>
-              {photo}
+              {photo()}
             </Show>
           }
         >
