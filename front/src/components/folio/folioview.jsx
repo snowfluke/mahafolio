@@ -6,64 +6,104 @@ import PaperCenter from "../paper/papercenter";
 import EmptyPaperRow from "../paper/emptypaperrow";
 import PaperGrid from "../paper/papergrid";
 import PaperCard from "../paper/papercard";
-import {
-  capitalize,
-  elipsis,
-  formatDate,
-  timeFromNow,
-} from "../../utils/string";
+import { capitalize, formatDate, timeFromNow } from "../../utils/string";
+import { SEMESTER2, TYPE } from "../../utils/constant";
 
-function FolioView({ data }) {
+import { createSignal } from "solid-js";
+import ButtonClassic from "../form/buttonclassic";
+import FolioText from "./foliotext";
+import FolioDropDown from "./foliodropdown";
+import FolioFile from "./foliofile";
+
+function FolioView(props) {
+  const [error, setError] = createSignal("");
+  let title, description, subject, semester, type, url, file;
+
   return (
-    <PaperCard>
-      <Span text="Kamu dapat langsung mengubah folio" />
-      <PaperContainer>
-        <PaperRow>
-          <PaperLeft content={"ttl."} />
-          <b>
-            <PaperCenter content={data.title} />
-          </b>
-        </PaperRow>
-        <PaperRow>
-          <PaperLeft content={"dsc."} />
-          <PaperCenter content={data.description} />
-        </PaperRow>
-
-        <PaperRow>
-          <PaperLeft content={"sbj."} />
-          <PaperCenter content={capitalize(data.subject)} />
-        </PaperRow>
-        <PaperRow>
-          <PaperLeft content={"smt."} />
-          <PaperCenter content={"Semester " + data.semester} />
-        </PaperRow>
-
-        <PaperRow>
-          <PaperLeft content={"typ."} />
-          <PaperCenter content={capitalize(data.type)} />
-        </PaperRow>
-        <PaperGrid link={data.url}>
-          <PaperLeft content={"→"} />
-          <PaperCenter content={elipsis(data.url)} />
-        </PaperGrid>
-        <EmptyPaperRow />
-
-        <PaperRow>
-          <PaperLeft content={"upd."} />
-          <PaperCenter
-            content={"Terakhir diperbarui " + timeFromNow(data.updatedAt)}
+    <>
+      <Show when={props.edit}>
+        <div className="flex items-center space-x-4 mb-4">
+          <ButtonClassic title={"Simpan"} action={() => {}} />
+          <ButtonClassic alter={true} title={"Hapus"} action={() => {}} />
+        </div>
+      </Show>
+      <PaperCard>
+        <Show when={props.edit}>
+          <Span text="Kamu dapat langsung mengubah folio di kolom yang ada" />
+        </Show>
+        <Show when={error()}>
+          <ErrorIndicator message={error()} />
+        </Show>
+        <PaperContainer>
+          <FolioText
+            bold={true}
+            key={"Judul: "}
+            left="ttl."
+            data={props.data.title}
+            edit={props.edit}
+            ref={title}
           />
-        </PaperRow>
-        <PaperGrid link={"mahasiswa/" + data.author._id}>
-          <PaperLeft content={"→"} />
-          <PaperCenter
-            content={`Dipublikasi oleh ${data.author.name} tanggal ${formatDate(
-              data.createdAt
-            )}`}
+          <FolioText
+            key={"Deskripsi: "}
+            left="desc."
+            data={props.data.description}
+            edit={props.edit}
+            ref={description}
           />
-        </PaperGrid>
-      </PaperContainer>
-    </PaperCard>
+          <FolioText
+            key={"Mata kuliah: "}
+            left="sbj."
+            data={props.data.subject}
+            edit={props.edit}
+            ref={subject}
+          />
+
+          <FolioDropDown
+            left={"smt."}
+            edit={props.edit}
+            fallback={"Semester " + props.data.semester}
+            items={SEMESTER2}
+            ref={semester}
+            selected={props.data.semester}
+          />
+
+          <FolioDropDown
+            left={"typ."}
+            edit={props.edit}
+            fallback={capitalize(props.data.type)}
+            items={TYPE}
+            ref={type}
+            selected={props.data.type}
+          />
+          <FolioFile
+            edit={props.edit}
+            url={url}
+            file={file}
+            data={{ url: props.data.url }}
+          />
+          <EmptyPaperRow />
+
+          <Show when={!props.edit}>
+            <PaperRow>
+              <PaperLeft content={"upd."} />
+              <PaperCenter
+                content={
+                  "Terakhir diperbarui " + timeFromNow(props.data.updatedAt)
+                }
+              />
+            </PaperRow>
+            <PaperGrid link={"mahasiswa/" + props.data.author._id}>
+              <PaperLeft content={"→"} />
+              <PaperCenter
+                content={`Dipublikasi oleh ${
+                  props.data.author.name
+                } tanggal ${formatDate(props.data.createdAt)}`}
+              />
+            </PaperGrid>
+          </Show>
+        </PaperContainer>
+      </PaperCard>
+    </>
   );
 }
 export default FolioView;

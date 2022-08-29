@@ -54,7 +54,6 @@ function Profiles() {
       setEditing(false);
       tempPhoto.value = "";
     } catch (error) {
-      console.log(error);
       if (error.name == "ValidationError") {
         return setError(error.errors[0]);
       }

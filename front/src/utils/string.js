@@ -9,14 +9,17 @@ export const formatDate = (time) =>
 
 export const timeFromNow = (time) => dayjs(time).locale("id").fromNow();
 
-export const capitalize = (str) =>
-  str.length == 3
+export const capitalize = (str) => {
+  if (!str) return "";
+
+  return str.length <= 3
     ? str
     : str
         .toLowerCase()
         .split(" ")
         .map((el) => el[0].toUpperCase() + el.substring(1))
         .join(" ");
+};
 
 export const refresher = () => Date.now().toString();
 

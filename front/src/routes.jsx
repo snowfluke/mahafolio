@@ -8,6 +8,7 @@ const Login = lazy(() => import("./pages/Login"));
 const Profiles = lazy(() => import("./pages/Profiles"));
 const Profile = lazy(() => import("./pages/Profile"));
 const Folio = lazy(() => import("./pages/Folio"));
+const Folios = lazy(() => import("./pages/Folios"));
 const Dashboard = lazy(() => import("./pages/Dashboard"));
 
 function Router() {
@@ -29,7 +30,13 @@ function Router() {
           <>{user().mhs ? <Profiles /> : <Navigate href="/" />}</>
         )}
       />
+
       <Route path="/mahasiswa/:id" component={Profile} />
+      <Route
+        path="/folio"
+        component={() => <>{user().mhs ? <Folios /> : <Navigate href="/" />}</>}
+      />
+
       <Route path="/folio/:id" component={Folio} />
       <Route
         path="/*"

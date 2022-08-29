@@ -1,9 +1,13 @@
-function PaperCenter({ content, emoji = false, index = false }) {
+function PaperCenter(props) {
   return (
     <>
-      <td className="pl-3 md:w-[80%] lg:w-[85%] w-[65%]">
-        {content}
-        <Show when={emoji && index == 0}>
+      <td
+        className={
+          "pl-3 truncate flex flex-1 " + (props.bold ? "font-bold" : "")
+        }
+      >
+        {props.content || props.children}
+        <Show when={props.emoji && props.index == 0}>
           <span className="ml-2">👑</span>
         </Show>
       </td>

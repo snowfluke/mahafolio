@@ -1,4 +1,4 @@
-import { createEffect, createResource } from "solid-js";
+import { createEffect, createResource, createSignal } from "solid-js";
 import ButtonAccent from "../components/form/buttonaccent";
 import Loading from "../components/loading";
 
@@ -6,6 +6,7 @@ import fetcher from "../utils/fetcher";
 
 import { useNavigate, useParams } from "@solidjs/router";
 import FolioView from "../components/folio/folioview";
+import { useAuthContext } from "../hooks/useAuthContext";
 
 const fetchFolio = async (id) =>
   await fetcher(encodeURI(`/api/folio/${id}`), {
@@ -13,14 +14,20 @@ const fetchFolio = async (id) =>
   });
 
 function Folio() {
+  const [canEdit, setCanEdit] = createSignal(false);
   const folioId = useParams().id;
+  const [user] = useAuthContext();
   const [folio] = createResource(folioId, fetchFolio);
 
-  const navigate = useNavigate();
-
   createEffect(() => {
-    console.log(folio());
+    if (user().mhs && folio()) {
+      if (user().mhs._id == folio().author._id) setCanEdit(true);
+    } else {
+      setCanEdit(false);
+    }
   });
+
+  const navigate = useNavigate();
 
   return (
     <section>
@@ -38,7 +45,7 @@ function Folio() {
               />
             </div>
             <div className="col-start-3 -ml-8 col-end-13">
-              <FolioView data={folio()} />
+              <FolioView data={folio()} edit={canEdit()} />
             </div>
           </div>
         </Show>
