@@ -55,13 +55,20 @@ function HeroPhoto(props) {
   }
 
   return (
-    <div className="flex-[0.7] flex space-x-6 justify-end">
+    <div className="flex-[0.7] flex space-x-6 justify-center">
       <Show
         when={props.edit}
         fallback={
-          <Show when={tag()} fallback={<Loading />}>
+          <Show
+            when={tag()}
+            fallback={
+              <div className="flex items-center flex-1 justify-center">
+                <Loading />
+              </div>
+            }
+          >
             <div
-              class="bg-cover bg-center h-30 block flex-1"
+              class="bg-cover bg-center h-30 block flex-1 border-4 border-white"
               style={`background-image: url(${tag().src})`}
             ></div>
           </Show>
@@ -82,7 +89,7 @@ function HeroPhoto(props) {
           </Show>
         </div>
       </Show>
-      <div className="w-32">
+      <div className="w-32 flex items-center justify-center">
         <Show
           when={props.edit}
           fallback={

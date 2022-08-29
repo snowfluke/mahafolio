@@ -22,14 +22,14 @@ const getFolios = async (req, res) => {
       .sort({ createdAt: -1 })
       .skip(0)
       .limit(1)
-      .select("_id title type");
+      .select("_id title type updatedAt");
     res.status(200).json(folios);
   } catch (error) {
     return res.status(200).json({ error: error.message });
   }
 };
 
-// get 1 Folio
+// get 1 Folio by id folio
 const getFolio = async (req, res) => {
   const { id } = req.params;
   try {
@@ -37,7 +37,11 @@ const getFolio = async (req, res) => {
       throw Error("ID folio tidak valid");
     }
 
-    const folio = await Folio.findById(id);
+    const folio = await Folio.findById(id)
+      .select(
+        "_id title description subject semester type url createdAt updatedAt author"
+      )
+      .populate({ path: "author", select: "_id name" });
     if (!folio) {
       return res.status(404).json({ error: "Folio tidak ditemukan" });
     }

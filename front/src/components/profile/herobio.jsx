@@ -1,4 +1,5 @@
 import { SEMESTER2, STUDY } from "../../utils/constant";
+import { capitalize } from "../../utils/string";
 import Dropdown from "../form/dropdown";
 
 function HeroBio(props) {
@@ -9,8 +10,8 @@ function HeroBio(props) {
           when={props.edit}
           fallback={
             <>
-              <span autoCapitalize="words">{props.study}</span>
-              <span autoCapitalize="words">SEMESTER {props.semester}</span>
+              <span autoCapitalize="words">{capitalize(props.study)}</span>
+              <span autoCapitalize="words">Semester {props.semester}</span>
             </>
           }
         >

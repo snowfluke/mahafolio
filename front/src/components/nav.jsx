@@ -15,7 +15,7 @@ function Nav() {
             <NavLink
               href={item.route}
               inactiveClass="underline text-green underline-offset-4"
-              activeClass="text-slate-700 font-bold font-bold"
+              activeClass="font-bold"
               end={true}
             >
               {item.name}
@@ -31,7 +31,7 @@ function Nav() {
             <NavLink
               href={"/coretan"}
               inactiveClass="underline text-green underline-offset-4"
-              activeClass="text-slate-700 font-bold"
+              activeClass="font-bold"
             >
               Bergabung
             </NavLink>
@@ -42,7 +42,8 @@ function Nav() {
           <NavLink
             href={"/mahasiswa"}
             inactiveClass="underline text-green underline-offset-4"
-            activeClass="text-slate-700 font-bold"
+            activeClass="font-bold"
+            end={true}
           >
             Profil
           </NavLink>
@@ -51,7 +52,7 @@ function Nav() {
           <NavLink
             href={"/folio"}
             inactiveClass="underline text-green underline-offset-4"
-            activeClass="text-slate-700 font-bold"
+            activeClass="font-bold"
           >
             Folio
           </NavLink>
