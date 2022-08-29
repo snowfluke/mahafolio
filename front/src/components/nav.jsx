@@ -1,4 +1,4 @@
-import { Link } from "@solidjs/router";
+import { NavLink } from "@solidjs/router";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { useSignout } from "../hooks/useSignout";
 import { NAV_MENU } from "../utils/constant";
@@ -12,12 +12,14 @@ function Nav() {
       <For each={NAV_MENU}>
         {(item) => (
           <li>
-            <Link
+            <NavLink
               href={item.route}
-              class="underline text-green underline-offset-4"
+              inactiveClass="underline text-green underline-offset-4"
+              activeClass="text-slate-700 font-bold font-bold"
+              end={true}
             >
               {item.name}
-            </Link>
+            </NavLink>
           </li>
         )}
       </For>
@@ -26,34 +28,40 @@ function Nav() {
         when={user().mhs}
         fallback={
           <li>
-            <Link
+            <NavLink
               href={"/coretan"}
-              class="underline text-green underline-offset-4"
+              inactiveClass="underline text-green underline-offset-4"
+              activeClass="text-slate-700 font-bold"
             >
               Bergabung
-            </Link>
+            </NavLink>
           </li>
         }
       >
         <li>
-          <Link
+          <NavLink
             href={"/mahasiswa"}
-            class="underline text-green underline-offset-4"
+            inactiveClass="underline text-green underline-offset-4"
+            activeClass="text-slate-700 font-bold"
           >
             Profil
-          </Link>
+          </NavLink>
         </li>
         <li>
-          <Link href={"/folio"} class="underline text-green underline-offset-4">
+          <NavLink
+            href={"/folio"}
+            inactiveClass="underline text-green underline-offset-4"
+            activeClass="text-slate-700 font-bold"
+          >
             Folio
-          </Link>
+          </NavLink>
         </li>
         <li>
           <div
             onClick={logout}
             class="cursor-pointer underline text-red-500 underline-offset-4"
           >
-            [Keluar]
+            Keluar
           </div>
         </li>
       </Show>

@@ -65,7 +65,7 @@ function Search({ id }) {
 
   return (
     <>
-      <div className="grid grid-cols-12">
+      <div className="grid grid-cols-12 mt-4">
         <di v className="col-start-1 md:col-start-2 col-end-13 md:col-end-12">
           <BigInput
             ref={keyword}

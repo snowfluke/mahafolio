@@ -54,7 +54,7 @@ function Leaderboard() {
           />
         </div>
         <div className="col-start-3 -ml-8 col-end-13">
-          <PaperCard title={"Klasemen perolehan poin mahafolio:"}>
+          <PaperCard>
             <Span text="Klasemen perolehan poin mahafolio:" />
             <Suspense fallback={<Loading />}>
               <Show

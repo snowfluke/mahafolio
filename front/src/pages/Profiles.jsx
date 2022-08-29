@@ -91,26 +91,27 @@ function Profiles() {
                 <Show when={error()}>
                   <ErrorIndicator message={error()} />
                 </Show>
-
-                <Show
-                  when={editing()}
-                  fallback={
+                <div className="flex space-x-4">
+                  <Show
+                    when={editing()}
+                    fallback={
+                      <ButtonClassic
+                        title={"Ubah"}
+                        action={() => setEditing(true)}
+                      />
+                    }
+                  >
+                    <ButtonClassic title={"Simpan"} />
                     <ButtonClassic
-                      title={"Ubah"}
-                      action={() => setEditing(true)}
+                      alter={true}
+                      title={"Batal"}
+                      action={() => {
+                        setError(false);
+                        setEditing(false);
+                      }}
                     />
-                  }
-                >
-                  <ButtonClassic
-                    alter={true}
-                    title={"Batal"}
-                    action={() => {
-                      setError(false);
-                      setEditing(false);
-                    }}
-                  />
-                  <ButtonClassic title={"Simpan"} />
-                </Show>
+                  </Show>
+                </div>
               </HeroContainer>
             </form>
 

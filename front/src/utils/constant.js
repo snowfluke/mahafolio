@@ -1,4 +1,11 @@
 const BACKEND_URL = "http://localhost:4000";
+const NAV_MENU = [
+  { name: "Beranda", route: "/" },
+  { name: "Klasemen", route: "/klasemen" },
+];
+
+const EMPTY_STR = "‎";
+
 const STUDY = [
   { name: "Semua Jurusan", value: "" },
   { name: "Teknik Informatika", value: "TEKNIK INFORMATIKA" },
@@ -37,11 +44,6 @@ const SEMESTER2 = [
   { name: "Semester 14", value: 14 },
 ];
 
-const NAV_MENU = [
-  { name: "Beranda", route: "/" },
-  { name: "Klasemen", route: "/klasemen" },
-];
-
 const TYPE = [
   { name: "Semua tipe", value: "" },
   { name: "Catatan", value: "CATATAN" },
@@ -52,4 +54,13 @@ const TYPE = [
   { name: "UAS", value: "UAS" },
 ];
 
-export { BACKEND_URL, STUDY, SEMESTER, NAV_MENU, TYPE, SEMESTER2, STUDY_NAME };
+export {
+  BACKEND_URL,
+  STUDY,
+  SEMESTER,
+  NAV_MENU,
+  TYPE,
+  SEMESTER2,
+  STUDY_NAME,
+  EMPTY_STR,
+};
