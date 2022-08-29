@@ -3,7 +3,7 @@ function FolioInput(props) {
     <input
       className="flex-1 ml-2 underline-offset-2 underline"
       spellCheck={false}
-      ref={props.ref}
+      name={props.name}
       type={"text"}
       value={props.value || ""}
     />

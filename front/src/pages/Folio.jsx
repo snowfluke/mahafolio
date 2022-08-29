@@ -7,6 +7,7 @@ import fetcher from "../utils/fetcher";
 import { useNavigate, useParams } from "@solidjs/router";
 import FolioView from "../components/folio/folioview";
 import { useAuthContext } from "../hooks/useAuthContext";
+import ErrorIndicator from "../components/form/errorindicator";
 
 const fetchFolio = async (id) =>
   await fetcher(encodeURI(`/api/folio/${id}`), {
@@ -15,9 +16,11 @@ const fetchFolio = async (id) =>
 
 function Folio() {
   const [canEdit, setCanEdit] = createSignal(false);
+  const [error, setError] = createSignal("");
   const folioId = useParams().id;
   const [user] = useAuthContext();
   const [folio] = createResource(folioId, fetchFolio);
+  const navigate = useNavigate();
 
   createEffect(() => {
     if (user().mhs && folio()) {
@@ -27,7 +30,21 @@ function Folio() {
     }
   });
 
-  const navigate = useNavigate();
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    let fields = {
+      title: e.target.title.value,
+      description: e.target.description.value,
+      subject: e.target.subject.value,
+      semester: e.target.semester.value,
+      type: e.target.type.value,
+      url: "",
+      file: "",
+    };
+
+    console.log(fields);
+  };
 
   return (
     <section>
@@ -45,7 +62,17 @@ function Folio() {
               />
             </div>
             <div className="col-start-3 -ml-8 col-end-13">
-              <FolioView data={folio()} edit={canEdit()} />
+              <Show
+                when={canEdit()}
+                fallback={<FolioView data={folio()} edit={false} />}
+              >
+                <form onSubmit={handleSubmit}>
+                  <Show when={error()}>
+                    <ErrorIndicator message={error()} />
+                  </Show>
+                  <FolioView data={folio()} edit={canEdit()} />
+                </form>
+              </Show>
             </div>
           </div>
         </Show>

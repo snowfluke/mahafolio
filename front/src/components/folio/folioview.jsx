@@ -9,21 +9,19 @@ import PaperCard from "../paper/papercard";
 import { capitalize, formatDate, timeFromNow } from "../../utils/string";
 import { SEMESTER2, TYPE } from "../../utils/constant";
 
-import { createSignal } from "solid-js";
 import ButtonClassic from "../form/buttonclassic";
 import FolioText from "./foliotext";
 import FolioDropDown from "./foliodropdown";
 import FolioFile from "./foliofile";
 
 function FolioView(props) {
-  const [error, setError] = createSignal("");
-  let title, description, subject, semester, type, url, file;
+  let url, file;
 
   return (
     <>
       <Show when={props.edit}>
         <div className="flex items-center space-x-4 mb-4">
-          <ButtonClassic title={"Simpan"} action={() => {}} />
+          <ButtonClassic title={"Simpan"} />
           <ButtonClassic alter={true} title={"Hapus"} action={() => {}} />
         </div>
       </Show>
@@ -31,9 +29,7 @@ function FolioView(props) {
         <Show when={props.edit}>
           <Span text="Kamu dapat langsung mengubah folio di kolom yang ada" />
         </Show>
-        <Show when={error()}>
-          <ErrorIndicator message={error()} />
-        </Show>
+
         <PaperContainer>
           <FolioText
             bold={true}
@@ -41,21 +37,21 @@ function FolioView(props) {
             left="ttl."
             data={props.data.title}
             edit={props.edit}
-            ref={title}
+            name={"title"}
           />
           <FolioText
             key={"Deskripsi: "}
             left="desc."
             data={props.data.description}
             edit={props.edit}
-            ref={description}
+            name={"description"}
           />
           <FolioText
             key={"Mata kuliah: "}
             left="sbj."
             data={props.data.subject}
             edit={props.edit}
-            ref={subject}
+            name={"subject"}
           />
 
           <FolioDropDown
@@ -63,7 +59,7 @@ function FolioView(props) {
             edit={props.edit}
             fallback={"Semester " + props.data.semester}
             items={SEMESTER2}
-            ref={semester}
+            name={"semester"}
             selected={props.data.semester}
           />
 
@@ -72,7 +68,7 @@ function FolioView(props) {
             edit={props.edit}
             fallback={capitalize(props.data.type)}
             items={TYPE}
-            ref={type}
+            name={"type"}
             selected={props.data.type}
           />
           <FolioFile

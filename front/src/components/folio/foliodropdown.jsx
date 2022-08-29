@@ -14,7 +14,7 @@ function FolioDropDown(props) {
         <PaperCenter>
           <Dropdown
             items={props.items}
-            ref={props.ref}
+            name={props.name}
             selected={props.selected}
           />
         </PaperCenter>

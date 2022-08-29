@@ -89,7 +89,7 @@ function HeroPhoto(props) {
           </Show>
         </div>
       </Show>
-      <div className="w-32 flex items-center justify-center">
+      <div className="w-32 h-32 flex items-center justify-center">
         <Show
           when={props.edit}
           fallback={
@@ -101,7 +101,7 @@ function HeroPhoto(props) {
           <img
             src={tempPhoto() ? tempPhoto() : tag().src}
             alt="Profil"
-            className="w-32"
+            className="w-32 h-32"
           />
         </Show>
       </div>

@@ -10,7 +10,7 @@ function FolioText(props) {
       <Show when={props.edit} fallback={<PaperCenter content={props.data} />}>
         <PaperCenter bold={props.bold}>
           {props.key}
-          <FolioInput ref={props.ref} value={props.data} />
+          <FolioInput name={props.name} value={props.data} />
         </PaperCenter>
       </Show>
     </PaperRow>
