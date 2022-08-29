@@ -1,21 +1,23 @@
 import { useNavigate } from "@solidjs/router";
 import { createSignal, Suspense, createResource } from "solid-js";
+import { useAuthContext } from "../hooks/useAuthContext";
+import { useSignout } from "../hooks/useSignout";
+import { searchSchema } from "../validations";
+import fetcher from "../utils/fetcher";
 
 import ButtonAccent from "../components/form/buttonaccent";
-import Loading from "../components/loading";
+import ErrorIndicator from "../components/form/errorindicator";
+import ButtonClassic from "../components/form/buttonclassic";
+
 import PaperCard from "../components/paper/papercard";
 import PaperGrid from "../components/paper/papergrid";
 import PaperContainer from "../components/paper/papercontainer";
+
 import Welcome from "../components/home/welcome";
-import ButtonClassic from "../components/form/buttonclassic";
-import fetcher from "../utils/fetcher";
-import ErrorIndicator from "../components/form/errorindicator";
 import BigInput from "../components/home/biginput";
+import Loading from "../components/loading";
 import Span from "../components/span";
 
-import { searchSchema } from "../validations";
-import { useAuthContext } from "../hooks/useAuthContext";
-import { useSignout } from "../hooks/useSignout";
 import PaperLeft from "../components/paper/paperleft";
 import PaperCenter from "../components/paper/papercenter";
 
@@ -58,14 +60,34 @@ function Home() {
     <section>
       <div className="grid grid-cols-12">
         <div className="col-start-1 md:col-start-2 col-end-13 md:col-end-12">
-          <BigInput ref={keyword} onKeyPress={handleKeypress} placeholder={"Cari kemajuan mahasiswa berdasarkan nama, email atau nim..."} />
+          <BigInput
+            ref={keyword}
+            onKeyPress={handleKeypress}
+            placeholder={
+              "Cari kemajuan mahasiswa berdasarkan nama, email atau nim..."
+            }
+          />
         </div>
       </div>
 
       <div className="grid grid-cols-12 mt-4 justify-items-stretch">
         <div className="col-start-2 justify-self-end">
-          <Show when={!user().mhs} fallback={<ButtonAccent title={"Keluar"} wrapperStyle={"mt-14 -rotate-90"} variant={true} action={logout} />}>
-            <ButtonAccent title={"Masuk"} wrapperStyle={"mt-14 -rotate-90"} action={() => navigate("/coretan")} />
+          <Show
+            when={!user().mhs}
+            fallback={
+              <ButtonAccent
+                title={"Keluar"}
+                wrapperStyle={"mt-14 -rotate-90"}
+                variant={true}
+                action={logout}
+              />
+            }
+          >
+            <ButtonAccent
+              title={"Masuk"}
+              wrapperStyle={"mt-14 -rotate-90"}
+              action={() => navigate("/coretan")}
+            />
           </Show>
         </div>
 
@@ -82,11 +104,22 @@ function Home() {
           </Show>
 
           <PaperCard>
-            <Show when={searching()} fallback={<Span text="Semua berawal dari keingintahuaan" />}>
-              <Span text={`Menampilkan pencarian untuk `} variable={searching()} />
+            <Show
+              when={searching()}
+              fallback={<Span text="Semua berawal dari keingintahuaan" />}
+            >
+              <Span
+                text={`Menampilkan pencarian untuk `}
+                variable={searching()}
+              />
 
               <Suspense fallback={<Loading />}>
-                <Show when={searchResult()?.length} fallback={() => <Span text="Pencarian mahasiswa tidak ditemukan" />}>
+                <Show
+                  when={searchResult()?.length}
+                  fallback={() => (
+                    <Span text="Pencarian mahasiswa tidak ditemukan" />
+                  )}
+                >
                   <PaperContainer>
                     <For each={searchResult()}>
                       {(item, index) => (

@@ -1,6 +1,7 @@
 import { createResource, createSignal } from "solid-js";
 import { folioSearchSchema } from "../../validations";
 import { SEMESTER2, TYPE } from "../../utils/constant";
+import { useNavigate } from "@solidjs/router";
 import fetcher from "../../utils/fetcher";
 
 import Dropdown from "../form/dropdown";
@@ -17,7 +18,6 @@ import PaperCenter from "../paper/papercenter";
 import PaperCard from "../paper/papercard";
 import PaperGrid from "../paper/papergrid";
 import PaperContainer from "../paper/papercontainer";
-import { useNavigate } from "@solidjs/router";
 
 const fetchSearch = async ({ q, semester, type, id }) =>
   await fetcher(

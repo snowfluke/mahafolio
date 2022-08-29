@@ -1,5 +1,7 @@
 import { Link, useParams } from "@solidjs/router";
 import { createResource } from "solid-js";
+import { BACKEND_URL } from "../utils/constant";
+import fetcher from "../utils/fetcher";
 
 import HeroContainer from "../components/profile/herocontainer";
 import HeroEmail from "../components/profile/heroemail";
@@ -7,11 +9,9 @@ import HeroBanner from "../components/profile/herobanner";
 import HeroTitle from "../components/profile/herotitle";
 import HeroPhoto from "../components/profile/herophoto";
 import HeroBio from "../components/profile/herobio";
-import Loading from "../components/loading";
 
-import fetcher from "../utils/fetcher";
+import Loading from "../components/loading";
 import Search from "../components/profile/search";
-import { BACKEND_URL } from "../utils/constant";
 
 const fetchMhs = async (id) =>
   await fetcher(encodeURI(`/api/mahasiswa/${id}`), {

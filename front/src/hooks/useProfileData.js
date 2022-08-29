@@ -1,10 +1,10 @@
-import { createSignal } from "solid-js";
-import fetcher from "../utils/fetcher";
+import { createSignal, useContext } from "solid-js";
 import { UserContext } from "../contexts/UserContext";
-import { useContext } from "solid-js";
 import { useAuthContext } from "./useAuthContext";
+
 import { BACKEND_URL } from "../utils/constant";
 import { refresher } from "../utils/string";
+import fetcher from "../utils/fetcher";
 
 export const useProfileData = () => {
   const context = useContext(UserContext);
