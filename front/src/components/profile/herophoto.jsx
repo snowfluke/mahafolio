@@ -14,7 +14,6 @@ function HeroPhoto(props) {
 
   createEffect(() => {
     function renderImageTag(src) {
-      console.log("render triggered", src);
       if (src == undefined) return;
 
       const img = new Image();
@@ -24,8 +23,9 @@ function HeroPhoto(props) {
         .then(() => {
           setTag(img);
         })
-        .catch((encodingError) => {
-          console.log(encodingError);
+        .catch(() => {
+          img.src = "/src/assets/profile.png";
+          setTag(img);
         });
     }
 
@@ -59,7 +59,7 @@ function HeroPhoto(props) {
       <Show
         when={props.edit}
         fallback={
-          <Show fallback={<Loading />} when={tag()}>
+          <Show when={tag()} fallback={<Loading />}>
             <div
               class="bg-cover bg-center h-30 block flex-1"
               style={`background-image: url(${tag().src})`}

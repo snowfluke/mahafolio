@@ -25,6 +25,7 @@ import PaperLeft from "../components/paper/paperleft";
 import PaperCenter from "../components/paper/papercenter";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { useProfileData } from "../hooks/useProfileData";
+import Search from "../components/profile/search";
 
 const [editing, setEditing] = createSignal(false);
 const [error, setError] = createSignal(false);
@@ -124,20 +125,7 @@ function Profiles() {
               </HeroContainer>
             </form>
 
-            <div className="grid grid-cols-12 mt-8 justify-items-stretch">
-              <div className="col-start-2 justify-self-end">
-                <ButtonAccent
-                  title={"Publikasi"}
-                  wrapperStyle={"mt-14 -rotate-90"}
-                  action={() => console.log("Buat button clicked")}
-                />
-              </div>
-              <div className="col-start-3 -ml-8 col-end-13">
-                <PaperCard>
-                  <Span text="Sekecil apapun usaha tetaplah usaha" />
-                </PaperCard>
-              </div>
-            </div>
+            <Search id={profileData().mhs._id} />
           </Show>
         </section>
       </Show>
