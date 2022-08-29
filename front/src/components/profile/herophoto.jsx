@@ -18,7 +18,7 @@ function HeroPhoto(props) {
 
       const img = new Image();
       img.src = src;
-      img.className = "w-32 h-32";
+      img.className = "w-32 h-32 object-cover";
       img
         .decode()
         .then(() => {
