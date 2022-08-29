@@ -1,31 +1,20 @@
-import { Link, useParams } from "@solidjs/router";
-import { createResource, createSignal, createEffect, Show } from "solid-js";
+import { createSignal, createEffect, Show } from "solid-js";
+import { useAuthContext } from "../hooks/useAuthContext";
+import { useProfileData } from "../hooks/useProfileData";
+import { updateProfileSchema } from "../validations";
 
-import ButtonAccent from "../components/form/buttonaccent";
 import HeroContainer from "../components/profile/herocontainer";
 import HeroEmail from "../components/profile/heroemail";
 import HeroBanner from "../components/profile/herobanner";
 import HeroTitle from "../components/profile/herotitle";
 import HeroPhoto from "../components/profile/herophoto";
 import HeroBio from "../components/profile/herobio";
-import Loading from "../components/loading";
-import PaperCard from "../components/paper/papercard";
-import PaperGrid from "../components/paper/papergrid";
-import PaperContainer from "../components/paper/papercontainer";
-import BigInput from "../components/home/biginput";
+
 import ButtonClassic from "../components/form/buttonclassic";
-import fetcher from "../utils/fetcher";
-import Span from "../components/span";
 import ErrorIndicator from "../components/form/errorindicator";
 
-import { folioSearchSchema, updateProfileSchema } from "../validations";
-import Dropdown from "../components/form/dropdown";
-import { SEMESTER2, TYPE } from "../utils/constant";
-import PaperLeft from "../components/paper/paperleft";
-import PaperCenter from "../components/paper/papercenter";
-import { useAuthContext } from "../hooks/useAuthContext";
-import { useProfileData } from "../hooks/useProfileData";
 import Search from "../components/profile/search";
+import Loading from "../components/loading";
 
 const [editing, setEditing] = createSignal(false);
 const [error, setError] = createSignal(false);
