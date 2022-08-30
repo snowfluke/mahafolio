@@ -211,6 +211,9 @@ const updateFolio = async (req, res) => {
 
         if (url && url !== oldFolio.url) {
           data.url = url;
+          if (!file && oldFolio.fileId) {
+            await deleteFile(oldFolio.fileId);
+          }
         }
 
         if (file) {
