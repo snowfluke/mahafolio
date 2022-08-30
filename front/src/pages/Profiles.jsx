@@ -14,6 +14,7 @@ import ButtonClassic from "../components/form/buttonclassic";
 import ErrorIndicator from "../components/form/errorindicator";
 
 import Search from "../components/profile/search";
+import ErrorDisplay from "../components/error";
 import Loading from "../components/loading";
 
 const [editing, setEditing] = createSignal(false);
