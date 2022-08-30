@@ -29,12 +29,12 @@ async function uploadFile(name, buffer, parents = [ROOT_FOLDER]) {
     const file = await service.files.create({
       resource: fileMetadata,
       media,
-      fields: "webContentLink, id",
+      fields: "webContentLink, webViewLink, id",
     });
 
     return {
       id: file.data.id,
-      link: file.data.webContentLink,
+      link: file.data.webViewLink,
       name: fileMetadata.name,
     };
   } catch (error) {

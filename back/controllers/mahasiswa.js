@@ -71,7 +71,7 @@ const searchMhs = async (req, res) => {
     })
       .sort({ createdAt: -1 })
       .skip(0)
-      .limit(10)
+      .limit(50)
       .select("_id name nim createdAt");
     if (!mhss) {
       return res.status(404).json({ error: "Mahasiswa tidak ditemukan" });
@@ -109,6 +109,8 @@ const updateMhs = async (req, res) => {
     }
     res.status(200).json(mhs);
   } catch (error) {
+    if (11000 === error.code || 11001 === error.code)
+      return res.status(200).json({ error: "NIM telah dipakai!" });
     return res.status(200).json({ error: error.message });
   }
 };

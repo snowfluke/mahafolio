@@ -39,7 +39,7 @@ const getFolio = async (req, res) => {
 
     const folio = await Folio.findById(id)
       .select(
-        "_id title description subject semester type url createdAt updatedAt author"
+        "_id title fileId description subject semester type url createdAt updatedAt author"
       )
       .populate({ path: "author", select: "_id name" });
     if (!folio) {
@@ -104,7 +104,7 @@ const createFolio = async (req, res) => {
 
         res.status(200).json(folio);
       } catch (error) {
-        return res.status(500).json({
+        return res.status(400).json({
           error: error.message || "Terjadi kesalahan server internal",
         });
       }
@@ -117,14 +117,15 @@ const createFolio = async (req, res) => {
 // delete a Folio
 const deleteFolio = async (req, res) => {
   try {
-    const { id, author } = req.params;
-    if (author !== req.mhs._id.toString()) throw Error("Akses ilegal!");
-
+    const { id } = req.params;
     if (!validator.isMongoId(id)) {
       throw Error("ID folio tidak valid");
     }
 
-    const folio = await Folio.findOneAndDelete({ _id: id });
+    const folio = await Folio.findOneAndDelete({
+      _id: id,
+      author: req.mhs._id.toString(),
+    });
     if (!folio) {
       return res.status(404).json({ error: "Folio tidak ditemukan" });
     }
@@ -151,8 +152,8 @@ const searchFolio = async (req, res) => {
     if (!mahasiswa || !validator.isMongoId(mahasiswa))
       throw Error("ID mahasiswa tidak valid");
 
-    if (!q || q.length < 3 || q.length > 25) {
-      throw Error("Kata kunci terdiri dari 3-25 karakter!");
+    if (q.length > 25) {
+      throw Error("Kata kunci tidak boleh lebih dari 25 karakter!");
     }
 
     const search = { author: mahasiswa };
@@ -166,7 +167,11 @@ const searchFolio = async (req, res) => {
         { description: { $regex: q.trim(), $options: "i" } },
       ],
       $and: [search],
-    }).select("_id updatedAt title type");
+    })
+      .sort({ updatedAt: -1 })
+      .skip(0)
+      .limit(50)
+      .select("_id updatedAt title type");
     if (!folios) {
       return res.status(404).json({ error: "Folio tidak ditemukan" });
     }
@@ -179,9 +184,8 @@ const searchFolio = async (req, res) => {
 
 // update a folio
 const updateFolio = async (req, res) => {
-  const { id, author } = req.params;
+  const { id } = req.params;
   try {
-    if (author !== req.mhs._id.toString()) throw Error("Akses ilegal!");
     if (!validator.isMongoId(id)) throw Error("ID folio tidak valid");
 
     form.parse(req, async (err, fields, files) => {
@@ -189,49 +193,67 @@ const updateFolio = async (req, res) => {
         if (err) throw Error(err.message);
 
         const { file } = files;
-        const update = fields;
+        const { title, description, subject, type, semester, url } = fields;
 
-        if (!update.type) throw Error("Tipe tidak boleh kosong!");
-        if (!update.semester) throw Error("Semester tidak boleh kosong!");
+        if (!type) throw Error("Tipe tidak boleh kosong!");
+        if (!semester) throw Error("Semester tidak boleh kosong!");
 
-        if (update.url && !validator.isURL(update.url))
-          throw Error("Link tidak valid!");
+        if (url && !validator.isURL(url)) throw Error("Link tidak valid!");
 
-        delete update.author;
-        let data = {};
+        const oldFolio = await Folio.findOne({ _id: id });
+        if (!oldFolio)
+          return res.status(404).json({ error: "Folio tidak ditemukan" });
 
-        if (update.url) data.url = update.url;
+        if (oldFolio.author.toString() !== req.mhs._id.toString())
+          throw Error("Akses ilegal!");
+
+        const data = {};
+
+        if (url && url !== oldFolio.url) {
+          data.url = url;
+        }
 
         if (file) {
-          if (!update.fileId) throw Error("File id tidak valid");
-
-          let folderName = update.semester + "@" + req.mhs.email;
+          let folderName = semester + "@" + req.mhs.email;
           const folder = await searchFolder(folderName, [req.mhs.folderId]);
-          await deleteFile(update.fileId);
 
           let filename = Date.now() + "_" + file.originalFilename;
           const newFile = await uploadFile(filename, file.filepath, [
             folder.id,
           ]);
 
+          if (oldFolio.fileId) {
+            await deleteFile(oldFolio.fileId);
+          }
+
           data.url = newFile.link;
           data.fileId = newFile.id;
         }
 
-        let newScore = SCORING[update.type]();
-        let newFolio = { ...update, ...data, score: newScore };
-
-        const folio = await Folio.findOneAndUpdate({ _id: id }, newFolio);
+        let newScore = SCORING[type]();
+        const folio = await Folio.findOneAndUpdate(
+          { _id: id },
+          {
+            title: title || oldFolio.title,
+            description: description || oldFolio.description,
+            subject: subject || oldFolio.subject,
+            semester: semester || oldFolio.semester,
+            type: type || oldFolio.type,
+            ...data,
+            score: newScore,
+          },
+          { new: true }
+        ).select("title description _id author updatedAt");
 
         if (!folio)
           return res.status(404).json({ error: "Folio tidak ditemukan" });
 
         await Mahasiswa.findOneAndUpdate(
           { _id: folio.author },
-          { $inc: { score: newScore - folio.score } }
+          { $inc: { score: newScore - oldFolio.score } }
         );
 
-        res.status(200).json({ ...folio.toJSON(), ...newFolio });
+        res.status(200).json(folio);
       } catch (error) {
         return res.status(500).json({
           error: error.message || "Terjadi kesalahan server internal",
