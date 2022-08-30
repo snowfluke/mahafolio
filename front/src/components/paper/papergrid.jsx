@@ -1,13 +1,15 @@
-import { Link } from "@solidjs/router";
+import { useNavigate } from "@solidjs/router";
 
 function PaperGrid({ children, link }) {
+  const navigate = useNavigate();
+
   return (
-    <Link
-      href={link}
-      className="table-row border-b border-slate-700/50 hover:bg-slate-100"
+    <div
+      onClick={() => navigate(link)}
+      className="cursor-pointer table-row border-b border-slate-700/50 hover:bg-slate-100"
     >
       {children}
-    </Link>
+    </div>
   );
 }
 export default PaperGrid;

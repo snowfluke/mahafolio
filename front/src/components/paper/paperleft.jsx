@@ -1,14 +1,28 @@
-function PaperLeft({ content, color = false }) {
+import { Link } from "@solidjs/router";
+
+function PaperLeft({ content, color = false, href = false }) {
   return (
     <td className="md:w-[20%] lg:w-[15%] w-[15%] border-r border-slate-700/50 p-1">
-      <div
-        className={
-          "border border-slate-700/50 flex items-center " +
-          getBgColor(color ? color : 4)
+      <Show
+        when={!href}
+        fallback={
+          <Link
+            href={href}
+            className="border border-slate-700/50 flex items-center hover:bg-slate-100"
+          >
+            <span className="mx-auto px-2 text-center truncate">{content}</span>
+          </Link>
         }
       >
-        <span className="mx-auto px-2 text-center truncate">{content}</span>
-      </div>
+        <div
+          className={
+            "border border-slate-700/50 flex items-center " +
+            getBgColor(color ? color : 4)
+          }
+        >
+          <span className="mx-auto px-2 text-center truncate">{content}</span>
+        </div>
+      </Show>
     </td>
   );
 }

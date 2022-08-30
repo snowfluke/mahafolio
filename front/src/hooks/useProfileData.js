@@ -63,11 +63,14 @@ export const useProfileData = () => {
     });
     return response;
   };
+
+  const resetProfile = () => updateProfileData(null);
   return {
     profileData,
     setProfile,
     updateProfile,
     isLoading,
     contextError,
+    resetProfile,
   };
 };

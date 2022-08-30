@@ -1,6 +1,5 @@
-import { createEffect, createResource, createSignal } from "solid-js";
+import { createResource } from "solid-js";
 import { useNavigate, useParams } from "@solidjs/router";
-import { useAuthContext } from "../hooks/useAuthContext";
 import fetcher from "../utils/fetcher";
 
 import FolioPublish from "../components/folio/foliopublish";
@@ -14,19 +13,9 @@ const fetchFolio = async (id) =>
   });
 
 function Folio() {
-  const [canEdit, setCanEdit] = createSignal(false);
   const folioId = useParams().id;
-  const [user] = useAuthContext();
   const [folio] = createResource(folioId, fetchFolio);
   const navigate = useNavigate();
-
-  createEffect(() => {
-    if (user().mhs && folio()) {
-      if (user().mhs._id == folio().author._id) setCanEdit(user().mhs._id);
-    } else {
-      setCanEdit(false);
-    }
-  });
 
   return (
     <section>
@@ -44,7 +33,7 @@ function Folio() {
               />
             </div>
             <div className="col-start-3 -ml-8 col-end-13">
-              <FolioPublish data={folio()} canEdit={canEdit()} />
+              <FolioPublish data={folio()} authorId={folio().author._id} />
             </div>
           </div>
         </Show>

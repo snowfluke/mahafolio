@@ -102,7 +102,15 @@ const createFolio = async (req, res) => {
           { $inc: { score: folioScore } }
         );
 
-        res.status(200).json(folio);
+        const fjson = folio.toJSON();
+        const returnedValue = {
+          title: fjson.title,
+          _id: fjson._id,
+          createdAt: fjson.createdAt,
+          author: fjson.author,
+        };
+
+        res.status(200).json(returnedValue);
       } catch (error) {
         return res.status(400).json({
           error: error.message || "Terjadi kesalahan server internal",
@@ -193,7 +201,10 @@ const updateFolio = async (req, res) => {
         if (err) throw Error(err.message);
 
         const { file } = files;
-        const { title, description, subject, type, semester, url } = fields;
+        const { title, description, subject, type, semester, url, author } =
+          fields;
+
+        if (author !== req.mhs._id.toString()) throw Error("Akses ilegal!");
 
         if (!type) throw Error("Tipe tidak boleh kosong!");
         if (!semester) throw Error("Semester tidak boleh kosong!");
@@ -203,9 +214,6 @@ const updateFolio = async (req, res) => {
         const oldFolio = await Folio.findOne({ _id: id });
         if (!oldFolio)
           return res.status(404).json({ error: "Folio tidak ditemukan" });
-
-        if (oldFolio.author.toString() !== req.mhs._id.toString())
-          throw Error("Akses ilegal!");
 
         const data = {};
 
@@ -247,7 +255,7 @@ const updateFolio = async (req, res) => {
             score: newScore,
           },
           { new: true }
-        ).select("title description _id author updatedAt");
+        ).select("title _id author updatedAt");
 
         if (!folio)
           return res.status(404).json({ error: "Folio tidak ditemukan" });

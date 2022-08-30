@@ -27,14 +27,16 @@ function Router() {
       <Route
         path="/mahasiswa"
         component={() => (
-          <>{user().mhs ? <Profiles /> : <Navigate href="/" />}</>
+          <>{user().mhs ? <Profiles /> : <Navigate href="/coretan" />}</>
         )}
       />
 
       <Route path="/mahasiswa/:id" component={Profile} />
       <Route
         path="/folio"
-        component={() => <>{user().mhs ? <Folios /> : <Navigate href="/" />}</>}
+        component={() => (
+          <>{user().mhs ? <Folios /> : <Navigate href="/coretan" />}</>
+        )}
       />
 
       <Route path="/folio/:id" component={Folio} />

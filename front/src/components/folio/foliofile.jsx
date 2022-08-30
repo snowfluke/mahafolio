@@ -15,9 +15,9 @@ function FolioFile(props) {
     <Show
       when={props.edit}
       fallback={
-        <PaperGrid link={props.data.url}>
+        <PaperGrid link={props.url}>
           <PaperLeft content={"→"} />
-          <PaperCenter content={elipsis(props.data.url)} />
+          <PaperCenter content={elipsis(props.url)} />
         </PaperGrid>
       }
     >
@@ -60,7 +60,11 @@ function FolioFile(props) {
           <PaperLeft content={"→"} />
           <PaperCenter>
             URL:
-            <FolioInput name="url" value={props.data.url} />
+            <FolioInput
+              name="url"
+              value={props.url}
+              placeholder={props.placeholder}
+            />
           </PaperCenter>
         </PaperRow>
         <PaperRow>

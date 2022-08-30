@@ -12,8 +12,6 @@ const STUDY = [
   { name: "Sistem Informasi", value: "SISTEM INFORMASI" },
 ];
 
-const STUDY_NAME = STUDY.slice(1, STUDY.length).map((el) => el.value);
-
 const SEMESTER = [
   { name: "Sepanjang masa", value: "" },
   { name: "Semester 1", value: 1 },
@@ -54,6 +52,9 @@ const TYPE = [
   { name: "UAS", value: "UAS" },
 ];
 
+const STUDY_NAME = STUDY.slice(1, STUDY.length).map((el) => el.value);
+const TYPE_NAME = TYPE.slice(1, TYPE.length).map((el) => el.value);
+
 export {
   BACKEND_URL,
   STUDY,
@@ -62,5 +63,6 @@ export {
   TYPE,
   SEMESTER2,
   STUDY_NAME,
+  TYPE_NAME,
   EMPTY_STR,
 };

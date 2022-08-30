@@ -26,7 +26,7 @@ function Folios() {
               />
             </div>
             <div className="col-start-3 -ml-8 col-end-13">
-              <FolioPublish data={false} canEdit={true} />
+              <FolioPublish data={false} authorId={user().mhs._id} />
             </div>
           </div>
         </Show>
