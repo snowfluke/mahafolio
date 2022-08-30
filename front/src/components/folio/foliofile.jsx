@@ -40,8 +40,11 @@ function FolioFile(props) {
             <PaperRow>
               <PaperLeft content={"→"} />
               <PaperCenter>
-                <input type={"file"} onChange={() => {}} />
-                <input type="hidden" ref={props.file} />
+                <input
+                  type={"file"}
+                  name="file"
+                  onChange={(e) => props.setFile(e.target.files[0])}
+                />
               </PaperCenter>
             </PaperRow>
             <PaperRow>
@@ -57,7 +60,7 @@ function FolioFile(props) {
           <PaperLeft content={"→"} />
           <PaperCenter>
             URL:
-            <FolioInput ref={props.url} value={props.data.url} />
+            <FolioInput name="url" value={props.data.url} />
           </PaperCenter>
         </PaperRow>
         <PaperRow>

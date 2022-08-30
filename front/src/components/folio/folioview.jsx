@@ -15,14 +15,18 @@ import FolioDropDown from "./foliodropdown";
 import FolioFile from "./foliofile";
 
 function FolioView(props) {
-  let url, file;
-
   return (
     <>
       <Show when={props.edit}>
         <div className="flex items-center space-x-4 mb-4">
           <ButtonClassic title={"Simpan"} />
-          <ButtonClassic alter={true} title={"Hapus"} action={() => {}} />
+          <ButtonClassic
+            alter={true}
+            title={"Hapus"}
+            action={() => {
+              console.log("hapus clicked");
+            }}
+          />
         </div>
       </Show>
       <PaperCard>
@@ -72,9 +76,8 @@ function FolioView(props) {
             selected={props.data.type}
           />
           <FolioFile
+            setFile={props.setFile}
             edit={props.edit}
-            url={url}
-            file={file}
             data={{ url: props.data.url }}
           />
           <EmptyPaperRow />

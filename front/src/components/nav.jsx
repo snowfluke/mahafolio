@@ -53,6 +53,7 @@ function Nav() {
             href={"/folio"}
             inactiveClass="underline text-green underline-offset-4"
             activeClass="font-bold"
+            end={true}
           >
             Folio
           </NavLink>

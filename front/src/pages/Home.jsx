@@ -47,7 +47,9 @@ function Home() {
       setSearching(keyword.value);
       keyword.value = "";
     } catch (error) {
-      setError(error.errors[0]);
+      if (error.name == "ValidationError") {
+        return setError(error.errors[0]);
+      }
     }
   }
 
