@@ -213,6 +213,7 @@ const updateFolio = async (req, res) => {
           data.url = url;
           if (!file && oldFolio.fileId) {
             await deleteFile(oldFolio.fileId);
+            data.fileId = "";
           }
         }
 
