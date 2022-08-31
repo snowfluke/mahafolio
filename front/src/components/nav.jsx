@@ -12,7 +12,7 @@ function Nav() {
       <For each={NAV_MENU}>
         {(item) => (
           <li>
-            <NavLink href={item.route} inactiveClass="nav-list text-green" activeClass="font-bold" end={true}>
+            <NavLink href={item.route} inactiveClass="text-list text-green" activeClass="font-bold" end={true}>
               {item.name}
             </NavLink>
           </li>
@@ -23,24 +23,24 @@ function Nav() {
         when={user().mhs}
         fallback={
           <li>
-            <NavLink href={"/coretan"} inactiveClass="nav-list text-green" activeClass="font-bold">
+            <NavLink href={"/coretan"} inactiveClass="text-list text-green" activeClass="font-bold">
               Bergabung
             </NavLink>
           </li>
         }
       >
         <li>
-          <NavLink href={"/mahasiswa"} inactiveClass="nav-list text-green" activeClass="font-bold" end={true}>
+          <NavLink href={"/mahasiswa"} inactiveClass="text-list text-green" activeClass="font-bold" end={true}>
             Profil
           </NavLink>
         </li>
         <li>
-          <NavLink href={"/folio"} inactiveClass="nav-list text-green" activeClass="font-bold" end={true}>
+          <NavLink href={"/folio"} inactiveClass="text-list text-green" activeClass="font-bold" end={true}>
             Folio
           </NavLink>
         </li>
         <li>
-          <div onClick={logout} class="nav-list text-red-500">
+          <div onClick={logout} class="text-list text-red-500">
             Keluar
           </div>
         </li>

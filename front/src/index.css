@@ -24,6 +24,10 @@
     @apply col-start-1 md:col-start-2 col-end-13;
   }
 
+  .search-input {
+    @apply px-4 md:px-8 py-4 focus:outline-green w-full responsive-text truncate shadow-sm;
+  }
+
   .home-paper-grid {
     @apply grid grid-cols-12 mt-4 justify-items-stretch;
   }
@@ -56,7 +60,7 @@
     @apply inline-flex gap-4 responsive-text justify-center md:justify-start;
   }
 
-  .nav-list {
+  .text-list {
     @apply cursor-pointer underline underline-offset-4;
   }
 
