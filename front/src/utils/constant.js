@@ -7,7 +7,7 @@ const NAV_MENU = [
 const EMPTY_STR = "‎";
 
 const STUDY = [
-  { name: "Semua Jurusan", value: "" },
+  { name: "Semua jurusan", value: "" },
   { name: "Teknik Informatika", value: "TEKNIK INFORMATIKA" },
   { name: "Sistem Informasi", value: "SISTEM INFORMASI" },
 ];
@@ -25,7 +25,7 @@ const SEMESTER = [
 ];
 
 const SEMESTER2 = [
-  { name: "Semua Semester", value: "" },
+  { name: "Semua semester", value: "" },
   { name: "Semester 1", value: 1 },
   { name: "Semester 2", value: 2 },
   { name: "Semester 3", value: 3 },
