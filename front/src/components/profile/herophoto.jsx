@@ -1,5 +1,6 @@
 import { createEffect, createSignal } from "solid-js";
 import ErrorIndicator from "../form/errorindicator";
+import imgSrc from "../../assets/profile.png";
 import Loading from "../loading";
 
 function HeroPhoto(props) {
@@ -25,7 +26,7 @@ function HeroPhoto(props) {
           setTag(img);
         })
         .catch(() => {
-          img.src = "/src/assets/profile.png";
+          img.src = imgSrc;
           setTag(img);
         });
     }
