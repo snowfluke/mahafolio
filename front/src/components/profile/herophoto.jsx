@@ -17,6 +17,7 @@ function HeroPhoto(props) {
     function renderImageTag(src) {
       if (src == undefined) return;
 
+      setTag("");
       const img = new Image();
       img.src = src;
       img.className = "w-32 h-32 object-cover";

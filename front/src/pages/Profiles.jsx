@@ -18,11 +18,13 @@ import Search from "../components/profile/search";
 import ErrorDisplay from "../components/error";
 import Loading from "../components/loading";
 
-const [editing, setEditing] = createSignal(false);
-const [error, setError] = createSignal(false);
-
 function Profiles() {
   const [user] = useAuthContext();
+
+  const [editing, setEditing] = createSignal(false);
+  const [error, setError] = createSignal(false);
+  const [loading, setLoading] = createSignal(false);
+
   const { profileData, setProfile, updateProfile, isLoading, contextError } =
     useProfileData();
 
@@ -36,6 +38,7 @@ function Profiles() {
   async function handleSubmit(e) {
     e.preventDefault();
     setError(false);
+    setLoading(true);
 
     const fields = {
       _id: user().mhs._id,
@@ -52,11 +55,16 @@ function Profiles() {
     try {
       await updateProfileSchema.validate(fields);
       let update = await updateProfile(fields);
-      if (update.error) return setError(update.error);
+      if (update.error) {
+        setLoading(false);
+        return setError(update.error);
+      }
 
       setEditing(false);
       tempPhoto.value = "";
+      setLoading(false);
     } catch (error) {
+      setLoading(false);
       if (error.name == "ValidationError") {
         return setError(error.errors[0]);
       }
@@ -103,15 +111,18 @@ function Profiles() {
                       />
                     }
                   >
-                    <ButtonClassic title={"Simpan"} />
-                    <ButtonClassic
-                      alter={true}
-                      title={"Batal"}
-                      action={() => {
-                        setError(false);
-                        setEditing(false);
-                      }}
-                    />
+                    <Show when={!loading()} fallback={<Loading />}>
+                      <ButtonClassic title={"Simpan"} />
+                      <ButtonClassic
+                        alter={true}
+                        title={"Batal"}
+                        action={() => {
+                          setError(false);
+                          setEditing(false);
+                          setLoading(false);
+                        }}
+                      />
+                    </Show>
                   </Show>
                 </div>
               </HeroContainer>
