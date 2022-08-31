@@ -11,12 +11,12 @@ RUN yarn install
 COPY . .
 
 ENV PORT=4000
-ENV GDRIVE_SA=''
-ENV ROOT_FOLDER=''
-ENV MONGO_URI=
-ENV ADMIN_APP_SECRET=
-ENV APP_SECRET=
-ENV FRONTEND_ORIGIN=''
+ENV GDRIVE_SA='mahafolio-70438c7fb3a.json'
+ENV ROOT_FOLDER='1UdBGAfWFeBRegQHYOUShTR-Zvm2SWubB'
+ENV MONGO_URI=mongodb+srv://mahaadminfolio:kertasfolio1@mahafolio.bavkqgu.mongodb.net/?retryWrites=true&w=majority
+ENV ADMIN_APP_SECRET=$nowadmin1
+ENV APP_SECRET=yukinoshitaYUKIN0
+ENV FRONTEND_ORIGIN='http://localhost:3000'
 
 EXPOSE 4000
 

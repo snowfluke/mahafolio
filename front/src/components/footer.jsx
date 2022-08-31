@@ -2,18 +2,18 @@ import { Link } from "@solidjs/router";
 
 function Footer() {
   return (
-    <footer className="p-4 text-center lg:flex lg:space-x-16">
-      <span className="font-semibold text-green">
+    <footer className="footer-class">
+      <span className="footer-title">
         <Link href="#">© Mahafolio 2022</Link>
       </span>
-      <ul className="font-normal responsive-text lg:list-disc flex flex-col sm:flex-row justify-center sm:space-x-4 lg:space-x-8">
-        <li className="cursor-pointer hover:underline hover:underline-offset-4">
+      <ul className="footer-nav">
+        <li className="footer-list">
           <Link href="#">Tentang</Link>
         </li>
-        <li className="cursor-pointer hover:underline hover:underline-offset-4">
+        <li className="footer-list">
           <Link href="#">Kontak</Link>
         </li>
-        <li className="cursor-pointer hover:underline hover:underline-offset-4">
+        <li className="footer-list">
           <Link href="#">Kebijakan Penggunaan</Link>
         </li>
       </ul>

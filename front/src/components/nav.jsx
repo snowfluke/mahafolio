@@ -8,16 +8,11 @@ function Nav() {
   const { logout } = useSignout();
 
   return (
-    <ul className="inline-flex gap-4">
+    <ul className="nav-ul">
       <For each={NAV_MENU}>
         {(item) => (
           <li>
-            <NavLink
-              href={item.route}
-              inactiveClass="underline text-green underline-offset-4"
-              activeClass="font-bold"
-              end={true}
-            >
+            <NavLink href={item.route} inactiveClass="nav-list text-green" activeClass="font-bold" end={true}>
               {item.name}
             </NavLink>
           </li>
@@ -28,41 +23,24 @@ function Nav() {
         when={user().mhs}
         fallback={
           <li>
-            <NavLink
-              href={"/coretan"}
-              inactiveClass="underline text-green underline-offset-4"
-              activeClass="font-bold"
-            >
+            <NavLink href={"/coretan"} inactiveClass="nav-list text-green" activeClass="font-bold">
               Bergabung
             </NavLink>
           </li>
         }
       >
         <li>
-          <NavLink
-            href={"/mahasiswa"}
-            inactiveClass="underline text-green underline-offset-4"
-            activeClass="font-bold"
-            end={true}
-          >
+          <NavLink href={"/mahasiswa"} inactiveClass="nav-list text-green" activeClass="font-bold" end={true}>
             Profil
           </NavLink>
         </li>
         <li>
-          <NavLink
-            href={"/folio"}
-            inactiveClass="underline text-green underline-offset-4"
-            activeClass="font-bold"
-            end={true}
-          >
+          <NavLink href={"/folio"} inactiveClass="nav-list text-green" activeClass="font-bold" end={true}>
             Folio
           </NavLink>
         </li>
         <li>
-          <div
-            onClick={logout}
-            class="cursor-pointer underline text-red-500 underline-offset-4"
-          >
+          <div onClick={logout} class="nav-list text-red-500">
             Keluar
           </div>
         </li>

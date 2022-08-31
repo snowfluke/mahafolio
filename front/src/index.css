@@ -16,7 +16,35 @@
     @apply selection:text-white selection:bg-green font-nunito;
   }
 
+  .container-body {
+    @apply w-[85%] grid my-20 min-h-screen mx-auto space-y-5;
+  }
+
   .responsive-text {
     @apply text-xs sm:text-sm md:text-base;
+  }
+
+  .nav-ul {
+    @apply inline-flex gap-4 responsive-text justify-center md:justify-start;
+  }
+
+  .nav-list {
+    @apply cursor-pointer underline underline-offset-4;
+  }
+
+  .footer-class {
+    @apply text-center lg:flex lg:space-x-16 space-y-2 sm:space-y-0;
+  }
+
+  .footer-title {
+    @apply font-semibold text-green;
+  }
+
+  .footer-nav {
+    @apply responsive-text lg:list-disc flex flex-col sm:flex-row justify-center sm:space-x-4 lg:space-x-8 space-y-2 sm:space-y-0;
+  }
+
+  .footer-list {
+    @apply cursor-pointer hover:underline hover:underline-offset-4;
   }
 }
