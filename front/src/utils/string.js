@@ -25,3 +25,16 @@ export const refresher = () => Date.now().toString();
 
 export const elipsis = (str) =>
   str.length < 100 ? str : str.substring(0, 70) + "...";
+
+export const wordsCase = (str) => {
+  if (!str) return "";
+  return str
+    .split("")
+    .map((el) => el[0].toUpperCase() + el.substring(1))
+    .join(" ");
+};
+
+export const titleCase = (str) => {
+  if (!str) return "";
+  return str[0].toUpperCase() + str.substring(1);
+};

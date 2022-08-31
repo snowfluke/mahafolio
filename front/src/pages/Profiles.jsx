@@ -2,6 +2,7 @@ import { createSignal, createEffect, Show } from "solid-js";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { useProfileData } from "../hooks/useProfileData";
 import { updateProfileSchema } from "../validations";
+import { capitalize } from "../utils/string";
 
 import HeroContainer from "../components/profile/herocontainer";
 import HeroEmail from "../components/profile/heroemail";
@@ -37,7 +38,7 @@ function Profiles() {
 
     const fields = {
       _id: user().mhs._id,
-      name: e.target.name.value,
+      name: capitalize(e.target.name.value),
       email: e.target.email.value,
       semester: e.target.semester.value,
       study: e.target.study.value,
