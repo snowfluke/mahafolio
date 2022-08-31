@@ -29,7 +29,7 @@ export const elipsis = (str) =>
 export const wordsCase = (str) => {
   if (!str) return "";
   return str
-    .split("")
+    .split(" ")
     .map((el) => el[0].toUpperCase() + el.substring(1))
     .join(" ");
 };
