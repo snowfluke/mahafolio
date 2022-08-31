@@ -60,41 +60,21 @@ function Home() {
 
   return (
     <section>
-      <div className="grid grid-cols-12">
-        <div className="col-start-1 md:col-start-2 col-end-13 md:col-end-12">
-          <BigInput
-            ref={keyword}
-            onKeyPress={handleKeypress}
-            placeholder={
-              "Cari kemajuan mahasiswa berdasarkan nama, email atau nim..."
-            }
-          />
+      <div className="search-grid">
+        <div className="search-wrap">
+          <BigInput ref={keyword} onKeyPress={handleKeypress} placeholder={"Cari kemajuan mahasiswa berdasarkan nama, email atau nim..."} />
         </div>
       </div>
 
-      <div className="grid grid-cols-12 mt-4 justify-items-stretch">
-        <div className="col-start-2 justify-self-end">
-          <Show
-            when={!user().mhs}
-            fallback={
-              <ButtonAccent
-                title={"Keluar"}
-                wrapperStyle={"mt-14 -rotate-90"}
-                variant={true}
-                action={logout}
-              />
-            }
-          >
-            <ButtonAccent
-              title={"Masuk"}
-              wrapperStyle={"mt-14 -rotate-90"}
-              action={() => navigate("/coretan")}
-            />
+      <div className="home-paper-grid">
+        <div className="home-btn-wrap">
+          <Show when={!user().mhs} fallback={<ButtonAccent title={"Keluar"} wrapperStyle={"home-btn-rotate"} variant={true} action={logout} />}>
+            <ButtonAccent title={"Masuk"} wrapperStyle={"home-btn-rotate"} action={() => navigate("/coretan")} />
           </Show>
         </div>
 
-        <div className="col-start-3 -ml-8 col-end-13">
-          <div className="flex items-center space-x-8 mb-4">
+        <div className="home-paper-wrap">
+          <div className="home-paper-wrap-btn">
             <ButtonClassic title={"Cari"} action={handleSearch} />
             <Show when={user().mhs}>
               <Welcome to={user().mhs.email} />
@@ -106,22 +86,11 @@ function Home() {
           </Show>
 
           <PaperCard>
-            <Show
-              when={searching()}
-              fallback={<Span text="Semua berawal dari keingintahuaan" />}
-            >
-              <Span
-                text={`Menampilkan pencarian untuk `}
-                variable={searching()}
-              />
+            <Show when={searching()} fallback={<Span text="Semua berawal dari keingintahuaan." />}>
+              <Span text={`Menampilkan pencarian untuk `} variable={searching()} />
 
               <Suspense fallback={<Loading />}>
-                <Show
-                  when={searchResult()?.length}
-                  fallback={() => (
-                    <Span text="Pencarian mahasiswa tidak ditemukan" />
-                  )}
-                >
+                <Show when={searchResult()?.length} fallback={() => <Span text="Pencarian mahasiswa tidak ditemukan" />}>
                   <PaperContainer>
                     <For each={searchResult()}>
                       {(item, index) => (

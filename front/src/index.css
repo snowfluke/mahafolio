@@ -16,6 +16,34 @@
     @apply selection:text-white selection:bg-green font-nunito;
   }
 
+  .search-grid {
+    @apply grid grid-cols-12;
+  }
+
+  .search-wrap {
+    @apply col-start-1 md:col-start-2 col-end-13;
+  }
+
+  .home-paper-grid {
+    @apply grid grid-cols-12 mt-4 justify-items-stretch;
+  }
+
+  .home-btn-wrap {
+    @apply col-start-2 justify-self-end;
+  }
+
+  .home-btn-rotate {
+    @apply mt-12 -rotate-90;
+  }
+
+  .home-paper-wrap {
+    @apply col-start-3 -ml-8 col-end-13;
+  }
+
+  .home-paper-wrap-btn {
+    @apply flex items-center space-x-4 md:space-x-8 mb-4;
+  }
+
   .container-body {
     @apply w-[85%] grid my-20 min-h-screen mx-auto space-y-5;
   }
