@@ -19,7 +19,7 @@ function Folio() {
 
   createEffect(() => {
     if (folio()) {
-      document.title = `Mahafolio - ${folio().title}`;
+      document.title = `Mahafolio - ${folio().title || ""}`;
     }
   });
 

@@ -33,7 +33,7 @@ function Profile() {
 
   createEffect(() => {
     if (mhs()) {
-      document.title = `Mahafolio - ${mhs().name}`;
+      document.title = `Mahafolio - ${mhs().name || ""}`;
     }
   });
 

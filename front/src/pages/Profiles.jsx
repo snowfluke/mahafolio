@@ -30,7 +30,7 @@ function Profiles() {
 
   createEffect(() => {
     if (profileData().mhs == null) return setProfile(user().mhs._id);
-    document.title = `Mahafolio - ${profileData().mhs.name}`;
+    document.title = `Mahafolio - ${profileData().mhs.name || ""}`;
   });
 
   let tempPhoto;
