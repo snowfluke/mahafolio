@@ -1,4 +1,4 @@
-import { createResource, createSignal, Suspense } from "solid-js";
+import { createResource, createSignal, onMount, Suspense } from "solid-js";
 import { SEMESTER, STUDY } from "../utils/constant";
 import fetcher from "../utils/fetcher";
 
@@ -29,6 +29,10 @@ function Leaderboard() {
   const [filtering, setFiltering] = createSignal({ study: "", semester: "" });
   const [topTen] = createResource(filtering, fetchTopTen);
   let study, semester;
+
+  onMount(() => {
+    document.title = `Mahafolio - Klasemen sementara perolehan poin`;
+  });
 
   function handleFilter(e) {
     e.preventDefault();

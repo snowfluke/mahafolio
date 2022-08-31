@@ -1,4 +1,4 @@
-import { createSignal, createEffect, Show } from "solid-js";
+import { createSignal, createEffect } from "solid-js";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { useProfileData } from "../hooks/useProfileData";
 import { updateProfileSchema } from "../validations";
@@ -27,7 +27,8 @@ function Profiles() {
     useProfileData();
 
   createEffect(() => {
-    if (profileData().mhs == null) setProfile(user().mhs._id);
+    if (profileData().mhs == null) return setProfile(user().mhs._id);
+    document.title = `Mahafolio - ${profileData().mhs.name}`;
   });
 
   let tempPhoto;

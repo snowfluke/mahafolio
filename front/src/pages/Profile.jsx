@@ -1,5 +1,5 @@
 import { Link, useParams } from "@solidjs/router";
-import { createResource } from "solid-js";
+import { createEffect, createResource } from "solid-js";
 import { BACKEND_URL } from "../utils/constant";
 import fetcher from "../utils/fetcher";
 
@@ -30,6 +30,12 @@ function Profile() {
 
   const [mhs] = createResource(mhs_id, fetchMhs);
   const [latestFolio] = createResource(mhs_id, fetchLatestFolio);
+
+  createEffect(() => {
+    if (mhs()) {
+      document.title = `Mahafolio - ${mhs().name}`;
+    }
+  });
 
   return (
     <section>

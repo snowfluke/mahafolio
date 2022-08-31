@@ -1,4 +1,4 @@
-import { createResource } from "solid-js";
+import { createEffect, createResource } from "solid-js";
 import { useNavigate, useParams } from "@solidjs/router";
 import fetcher from "../utils/fetcher";
 
@@ -16,6 +16,12 @@ function Folio() {
   const folioId = useParams().id;
   const [folio] = createResource(folioId, fetchFolio);
   const navigate = useNavigate();
+
+  createEffect(() => {
+    if (folio()) {
+      document.title = `Mahafolio - ${folio().title}`;
+    }
+  });
 
   return (
     <section>
