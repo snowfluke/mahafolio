@@ -38,3 +38,11 @@ export const titleCase = (str) => {
   if (!str) return "";
   return str[0].toUpperCase() + str.substring(1);
 };
+
+export const abbreviate = (str) => {
+  if (!str) return "";
+  return str
+    .split(" ")
+    .map((el) => el[0])
+    .join("");
+};
