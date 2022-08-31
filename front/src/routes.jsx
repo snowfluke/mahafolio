@@ -34,7 +34,7 @@ function Router() {
       <Route path="/coretan" component={loginCheck} />
       <Route path="/dashboard" component={Dashboard} />
       <Route path="/klasemen" component={Leaderboard} />
-      <Route path="/mahasiswa" coContactmponent={mahasiswaLoginCheck} />
+      <Route path="/mahasiswa" component={mahasiswaLoginCheck} />
       <Route path="/mahasiswa/:id" component={Profile} />
       <Route path="/folio" component={folioLoginCheck} />
       <Route path="/folio/:id" component={Folio} />
