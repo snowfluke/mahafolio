@@ -41,8 +41,7 @@ function Profiles() {
     setLoading(true);
 
     const fields = {
-      _id: user().mhs._id,
-      name: capitalize(e.target.name.value),
+      name: e.target.name.value,
       email: e.target.email.value,
       semester: e.target.semester.value,
       study: e.target.study.value,
@@ -50,7 +49,22 @@ function Profiles() {
       nim: e.target.nim.value,
     };
 
+    let different = false;
+    for (const key of Object.keys(fields)) {
+      if (fields[key] != profileData().mhs[key]) {
+        different = true;
+        break;
+      }
+    }
+
+    if (!different && tempPhoto.value == "") {
+      setEditing(false);
+      return setLoading(false);
+    }
+
     if (tempPhoto.value !== "") fields.photo = tempPhoto.value;
+    fields._id = user().mhs._id;
+    fields.name = capitalize(fields.name);
 
     try {
       await updateProfileSchema.validate(fields);
@@ -60,8 +74,8 @@ function Profiles() {
         return setError(update.error);
       }
 
-      setEditing(false);
       tempPhoto.value = "";
+      setEditing(false);
       setLoading(false);
     } catch (error) {
       setLoading(false);

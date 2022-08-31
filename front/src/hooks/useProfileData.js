@@ -54,8 +54,8 @@ export const useProfileData = () => {
     }
 
     let newProfileData = {
+      ...profileData().mhs,
       ...response,
-      fetchUri: `${BACKEND_URL}/api/photo/${response._id}`,
     };
 
     if (data.photo) {
