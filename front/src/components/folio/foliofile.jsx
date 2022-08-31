@@ -3,7 +3,7 @@ import { EMPTY_STR } from "../../utils/constant";
 import { elipsis } from "../../utils/string";
 import Dropdown from "../form/dropdown";
 import PaperCenter from "../paper/papercenter";
-import PaperGrid from "../paper/papergrid";
+import PaperGridLink from "../paper/papergridlink";
 import PaperLeft from "../paper/paperleft";
 import PaperRow from "../paper/paperrow";
 import FolioInput from "./folioinput";
@@ -15,10 +15,10 @@ function FolioFile(props) {
     <Show
       when={props.edit}
       fallback={
-        <PaperGrid link={props.url}>
+        <PaperGridLink link={props.url}>
           <PaperLeft content={"→"} />
           <PaperCenter content={elipsis(props.url)} />
-        </PaperGrid>
+        </PaperGridLink>
       }
     >
       <PaperRow>
