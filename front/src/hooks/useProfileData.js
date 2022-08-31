@@ -30,9 +30,7 @@ export const useProfileData = () => {
     setIsLoading(false);
     updateProfileData({
       ...response,
-      fetchUri: `${BACKEND_URL}/api/photo/${
-        response._id
-      }?refresh=${refresher()}`,
+      fetchUri: `${BACKEND_URL}/api/photo/${response._id}`,
     });
   };
 
@@ -55,12 +53,17 @@ export const useProfileData = () => {
       return response;
     }
 
-    updateProfileData({
+    let newProfileData = {
       ...response,
-      fetchUri: `${BACKEND_URL}/api/photo/${
+    };
+
+    if (data.photo) {
+      newProfileData.fetchUri = `${BACKEND_URL}/api/photo/${
         response._id
-      }?refresh=${refresher()}`,
-    });
+      }?refresh=${refresher()}`;
+    }
+
+    updateProfileData(newProfileData);
     return response;
   };
 
