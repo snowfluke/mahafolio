@@ -2,7 +2,7 @@ import { useNavigate } from "@solidjs/router";
 import { createSignal } from "solid-js";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import fetcher from "../../utils/fetcher";
-import { refresher } from "../../utils/string";
+import { refresher, titleCase, wordsCase } from "../../utils/string";
 import { folioSchema } from "../../validations";
 
 import ErrorIndicator from "../form/errorindicator";
@@ -51,9 +51,9 @@ function FolioPublish(props) {
 
     try {
       let fields = {
-        title: e.target.title.value,
-        description: e.target.description?.value || "",
-        subject: e.target.subject.value,
+        title: titleCase(e.target.title.value),
+        description: titleCase(e.target.description?.value || ""),
+        subject: wordsCase(e.target.subject.value),
         semester: e.target.semester?.value || 0,
         type: e.target.type.value,
         url: e.target.url?.value || "",

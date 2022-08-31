@@ -1,9 +1,9 @@
 {
-  "name": "vite-template-solid",
-  "version": "0.0.0",
-  "description": "",
+  "name": "mahafolio-frontend",
+  "version": "0.0.99",
+  "description": "Mahafolio's frontend webpage",
   "scripts": {
-    "start": "vite",
+    "start": "yarn build && yarn serve",
     "dev": "vite",
     "build": "vite build",
     "serve": "vite preview"
