@@ -1,8 +1,8 @@
-import { createResource, Suspense } from "solid-js";
-import { createStore } from "solid-js/store";
+import { createResource, createSignal, onMount, Suspense } from "solid-js";
 import { SEMESTER, STUDY } from "../utils/constant";
 import fetcher from "../utils/fetcher";
 
+import ButtonClassic from "../components/form/buttonclassic";
 import ButtonAccent from "../components/form/buttonaccent";
 import Dropdown from "../components/form/dropdown";
 
@@ -15,6 +15,7 @@ import PaperGrid from "../components/paper/papergrid";
 import PaperLeft from "../components/paper/paperleft";
 import PaperCenter from "../components/paper/papercenter";
 import PaperRight from "../components/paper/paperright";
+import { abbreviate } from "../utils/string";
 
 const fetchTopTen = async ({ study, semester }) =>
   await fetcher(
@@ -25,23 +26,35 @@ const fetchTopTen = async ({ study, semester }) =>
   );
 
 function Leaderboard() {
-  const [keyword, setKeyword] = createStore({ study: "", semester: "" });
-  const [topTen] = createResource(() => ({ ...keyword }), fetchTopTen);
+  const [filtering, setFiltering] = createSignal({ study: "", semester: "" });
+  const [topTen] = createResource(filtering, fetchTopTen);
   let study, semester;
+
+  onMount(() => {
+    document.title = `Mahafolio - Klasemen sementara perolehan poin`;
+  });
+
+  function handleFilter(e) {
+    e.preventDefault();
+
+    if (
+      study.value == filtering().study &&
+      semester.value == filtering().semester
+    )
+      return;
+
+    setFiltering({
+      study: study.value,
+      semester: semester.value,
+    });
+  }
 
   return (
     <section>
       <div className="flex items-center justify-center sm:justify-end space-x-4 responsive-text">
-        <Dropdown
-          items={STUDY}
-          onChange={() => setKeyword("study", study.value)}
-          ref={study}
-        />
-        <Dropdown
-          items={SEMESTER}
-          onChange={() => setKeyword("semester", semester.value)}
-          ref={semester}
-        />
+        <Dropdown items={STUDY} ref={study} />
+        <Dropdown items={SEMESTER} ref={semester} />
+        <ButtonClassic title={"Filter"} action={handleFilter} />
       </div>
       <div className="grid grid-cols-12 mt-10 justify-items-stretch">
         <div className="col-start-2 justify-self-end">
@@ -67,7 +80,9 @@ function Leaderboard() {
                       <PaperGrid link={"/mahasiswa/" + item._id}>
                         <PaperLeft color={index() + 1} content={index() + 1} />
                         <PaperCenter
-                          content={item.name}
+                          content={`${abbreviate(item.study)}${
+                            item.semester
+                          } _ ${item.name}`}
                           emoji={true}
                           index={index()}
                         />

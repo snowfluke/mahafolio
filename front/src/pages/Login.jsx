@@ -1,4 +1,4 @@
-import { createSignal } from "solid-js";
+import { createSignal, onMount } from "solid-js";
 import { useSignin } from "../hooks/useSignin";
 import { useSignup } from "../hooks/useSignup";
 
@@ -13,6 +13,10 @@ import LoginCard from "../components/login/logincard";
 const [login, setLogin] = createSignal(true);
 
 function Login() {
+  onMount(() => {
+    document.title = `Mahafolio - Bergabung bersama kami`;
+  });
+
   return (
     <section>
       <Show when={login()} fallback={<RegisterDisplay />}>
