@@ -100,7 +100,7 @@ function HeroPhoto(props) {
           }
         >
           <img
-            src={tempPhoto() ? tempPhoto() : tag().src}
+            src={tempPhoto() ? tempPhoto() : tag()?.src}
             alt="Profil"
             className="w-32"
           />
