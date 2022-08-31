@@ -1,6 +1,6 @@
 import { Link } from "@solidjs/router";
 
-function ErrorDisplay({ err, reset }) {
+function ErrorDisplay({ err = "Kesalahan internal", reset }) {
   return (
     <div className="flex flex-col justify-start items-center font-semibold text-red-400">
       <div className="text-xl">Terjadi Kesalahan:</div>

@@ -1,11 +1,16 @@
 const BACKEND_URL = "http://localhost:4000";
+const NAV_MENU = [
+  { name: "Beranda", route: "/" },
+  { name: "Klasemen", route: "/klasemen" },
+];
+
+const EMPTY_STR = "‎";
+
 const STUDY = [
   { name: "Semua Jurusan", value: "" },
   { name: "Teknik Informatika", value: "TEKNIK INFORMATIKA" },
   { name: "Sistem Informasi", value: "SISTEM INFORMASI" },
 ];
-
-const STUDY_NAME = STUDY.slice(1, STUDY.length).map((el) => el.value);
 
 const SEMESTER = [
   { name: "Sepanjang masa", value: "" },
@@ -37,11 +42,6 @@ const SEMESTER2 = [
   { name: "Semester 14", value: 14 },
 ];
 
-const NAV_MENU = [
-  { name: "Beranda", route: "/" },
-  { name: "Klasemen", route: "/klasemen" },
-];
-
 const TYPE = [
   { name: "Semua tipe", value: "" },
   { name: "Catatan", value: "CATATAN" },
@@ -52,4 +52,17 @@ const TYPE = [
   { name: "UAS", value: "UAS" },
 ];
 
-export { BACKEND_URL, STUDY, SEMESTER, NAV_MENU, TYPE, SEMESTER2, STUDY_NAME };
+const STUDY_NAME = STUDY.slice(1, STUDY.length).map((el) => el.value);
+const TYPE_NAME = TYPE.slice(1, TYPE.length).map((el) => el.value);
+
+export {
+  BACKEND_URL,
+  STUDY,
+  SEMESTER,
+  NAV_MENU,
+  TYPE,
+  SEMESTER2,
+  STUDY_NAME,
+  TYPE_NAME,
+  EMPTY_STR,
+};

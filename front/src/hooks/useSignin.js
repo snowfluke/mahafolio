@@ -32,6 +32,7 @@ export const useSignin = () => {
       setAuthContextLoggedIn(response);
       setIsLoading(false);
     } catch (error) {
+      setIsLoading(false);
       if (error.name == "ValidationError") {
         return setError(error.errors[0]);
       }

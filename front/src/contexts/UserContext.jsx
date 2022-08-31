@@ -1,4 +1,4 @@
-import { createContext, createEffect, createSignal } from "solid-js";
+import { createContext, createSignal } from "solid-js";
 
 export const UserContext = createContext();
 

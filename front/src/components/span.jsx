@@ -1,9 +1,9 @@
-function Span({ text, variable = false }) {
+function Span(props) {
   return (
     <span className="responsive-text block">
-      {text}
-      <Show when={variable}>
-        "<b>{variable}</b>":
+      {props.text}
+      <Show when={props.variable}>
+        "<b>{props.variable}</b>":
       </Show>
     </span>
   );

@@ -9,8 +9,8 @@ const folioSchema = new Schema(
     title: {
       type: String,
       required: [true, "Judul tidak boleh kosong!"],
-      minLength: 5,
-      maxLength: [70, "Jumlah judul melebihi 70 karakter!"],
+      minLength: [5, "Panjang judul tidak boleh kurang dari 5 karakter!"],
+      maxLength: [70, "Panjang judul tidak boleh melebihi 70 karakter!"],
     },
     author: {
       type: Schema.Types.ObjectId,

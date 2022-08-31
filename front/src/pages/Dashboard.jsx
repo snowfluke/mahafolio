@@ -48,7 +48,9 @@ function Dashboard() {
 
       keyword.value = "";
     } catch (error) {
-      setError(error.errors[0]);
+      if (error.name == "ValidationError") {
+        return setError(error.errors[0]);
+      }
     }
   }
 
@@ -56,7 +58,12 @@ function Dashboard() {
     <section>
       <div className="grid grid-cols-12">
         <div className="col-start-1 col-end-13">
-          <BigInput ref={keyword} placeholder={"Cari kemajuan mahasiswa berdasarkan nama, email atau nim..."} />
+          <BigInput
+            ref={keyword}
+            placeholder={
+              "Cari kemajuan mahasiswa berdasarkan nama, email atau nim..."
+            }
+          />
         </div>
       </div>
 
@@ -79,12 +86,28 @@ function Dashboard() {
             </Show>
 
             <Show when={searching().length}>
-              <Span text={`Menampilkan pencarian untuk `} variable={searching()} />
+              <Span
+                text={`Menampilkan pencarian untuk `}
+                variable={searching()}
+              />
 
               <Suspense fallback={<Loading />}>
-                <Show when={result().length} fallback={() => <Span text="Maaf, pencarian mahasiswa tidak ditemukan" />}>
+                <Show
+                  when={result().length}
+                  fallback={() => (
+                    <Span text="Maaf, pencarian mahasiswa tidak ditemukan" />
+                  )}
+                >
                   <PaperContainer>
-                    <For each={result()}>{(item, index) => <PaperGrid data={item} index={index} userAction={false} />}</For>
+                    <For each={result()}>
+                      {(item, index) => (
+                        <PaperGrid
+                          data={item}
+                          index={index}
+                          userAction={false}
+                        />
+                      )}
+                    </For>
                   </PaperContainer>
                 </Show>
               </Suspense>

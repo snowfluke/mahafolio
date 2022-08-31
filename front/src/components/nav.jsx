@@ -1,18 +1,25 @@
-import { Link } from "@solidjs/router";
+import { NavLink } from "@solidjs/router";
 import { useAuthContext } from "../hooks/useAuthContext";
+import { useSignout } from "../hooks/useSignout";
 import { NAV_MENU } from "../utils/constant";
 
 function Nav() {
   const [user] = useAuthContext();
+  const { logout } = useSignout();
 
   return (
     <ul className="inline-flex gap-4">
       <For each={NAV_MENU}>
         {(item) => (
           <li>
-            <Link href={item.route} class="underline text-green underline-offset-4">
+            <NavLink
+              href={item.route}
+              inactiveClass="underline text-green underline-offset-4"
+              activeClass="font-bold"
+              end={true}
+            >
               {item.name}
-            </Link>
+            </NavLink>
           </li>
         )}
       </For>
@@ -21,22 +28,43 @@ function Nav() {
         when={user().mhs}
         fallback={
           <li>
-            <Link
+            <NavLink
               href={"/coretan"}
-              class="underline text-green underline-offset-2"
+              inactiveClass="underline text-green underline-offset-4"
+              activeClass="font-bold"
             >
               Bergabung
-            </Link>
+            </NavLink>
           </li>
         }
       >
         <li>
-          <Link
+          <NavLink
             href={"/mahasiswa"}
-            class="underline text-green underline-offset-2"
+            inactiveClass="underline text-green underline-offset-4"
+            activeClass="font-bold"
+            end={true}
           >
             Profil
-          </Link>
+          </NavLink>
+        </li>
+        <li>
+          <NavLink
+            href={"/folio"}
+            inactiveClass="underline text-green underline-offset-4"
+            activeClass="font-bold"
+            end={true}
+          >
+            Folio
+          </NavLink>
+        </li>
+        <li>
+          <div
+            onClick={logout}
+            class="cursor-pointer underline text-red-500 underline-offset-4"
+          >
+            Keluar
+          </div>
         </li>
       </Show>
     </ul>

@@ -4,8 +4,10 @@ const jwt = require("jsonwebtoken");
 
 const Mahasiswa = require("../models/mahasiswa");
 
-function createToken(_id) {
-  return jwt.sign({ _id }, process.env.APP_SECRET, { expiresIn: "3d" });
+function createToken(_id, email, password, folderId) {
+  return jwt.sign({ _id, email, password, folderId }, process.env.APP_SECRET, {
+    expiresIn: "3d",
+  });
 }
 
 // sign in mhs
@@ -14,7 +16,7 @@ const signinMhs = async (req, res) => {
 
   try {
     const mhs = await Mahasiswa.signin(email, password);
-    const token = createToken(mhs._id);
+    const token = createToken(mhs._id, mhs.email, mhs.password, mhs.folderId);
 
     res.status(200).json({ email, token, _id: mhs._id });
   } catch (error) {
@@ -28,7 +30,8 @@ const signupMhs = async (req, res) => {
 
   try {
     const mhs = await Mahasiswa.signup(email, password);
-    const token = createToken(mhs._id);
+    const token = createToken(mhs._id, mhs.email, mhs.password, mhs.folderId);
+
     res.status(200).json({ email, token, _id: mhs._id });
   } catch (error) {
     res.status(200).json({ error: error.message });
@@ -71,7 +74,7 @@ const searchMhs = async (req, res) => {
     })
       .sort({ createdAt: -1 })
       .skip(0)
-      .limit(10)
+      .limit(50)
       .select("_id name nim createdAt");
     if (!mhss) {
       return res.status(404).json({ error: "Mahasiswa tidak ditemukan" });
@@ -109,6 +112,8 @@ const updateMhs = async (req, res) => {
     }
     res.status(200).json(mhs);
   } catch (error) {
+    if (11000 === error.code || 11001 === error.code)
+      return res.status(200).json({ error: "NIM telah dipakai!" });
     return res.status(200).json({ error: error.message });
   }
 };
