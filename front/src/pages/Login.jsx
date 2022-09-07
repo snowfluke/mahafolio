@@ -9,6 +9,7 @@ import Input from "../components/form/input";
 
 import Loading from "../components/loading";
 import LoginCard from "../components/login/logincard";
+import ModalCard from "../components/modal/modalcard";
 
 const [login, setLogin] = createSignal(true);
 
@@ -32,6 +33,7 @@ export default Login;
 
 function LoginDisplay() {
   const { signin, isLoading, error } = useSignin();
+  const [modal, setModal] = createSignal(false);
 
   async function handleLogin(e) {
     e.preventDefault();
@@ -54,8 +56,8 @@ function LoginDisplay() {
 
           <span className="w-full text-right inline-block">
             <ActionButton
-              title="Lupa kata sandi?"
-              action={() => console.log("Modal open")}
+              title="Atur ulang kata sandi"
+              action={() => setModal(true)}
             />
           </span>
           <Show when={error()}>
@@ -72,6 +74,9 @@ function LoginDisplay() {
           />
         </span>
       </LoginCard>
+      <Show when={modal()}>
+        <ModalCard close={() => setModal(false)} />
+      </Show>
     </Show>
   );
 }
