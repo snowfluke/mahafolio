@@ -7,7 +7,7 @@ module.exports = {
         nunito: ["Nunito"],
       },
       colors: {
-        green: "#03989E",
+        green: "#007D84",
         gray: "#F5F5F5",
         emas: "#FFD700",
         perak: "#C0C0C0",
