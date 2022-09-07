@@ -75,7 +75,7 @@ function HeroPhoto(props) {
         }
       ></Show>
 
-      <div className="w-32 flex items-center justify-end">
+      <div className="w-32 flex flex-col space-y-4 items-center justify-end">
         <Show
           when={props.edit}
           fallback={
@@ -84,17 +84,15 @@ function HeroPhoto(props) {
             </Show>
           }
         >
-          <div className="space-y-2">
-            <img src={tempPhoto() ? tempPhoto() : tag()?.src} alt="Profil" className="w-32 h-32 object-cover" />
-            <div className="h-30 block flex-1">
-              <Show when={error()}>
-                <ErrorIndicator message={error()} />
-              </Show>
-              <Show when={!uploading()} fallback={<>Memproses...</>}>
-                <input className="responsive-text" onChange={handleFileChange} type="file" accept="image/*" name="photo" />
-                <input className="responsive-text" type={"hidden"} value={tempPhoto()} ref={props.ref} />
-              </Show>
-            </div>
+          <img src={tempPhoto() ? tempPhoto() : tag()?.src} alt="Profil" className="w-32 h-32 object-cover" />
+          <div className="h-30 block flex-1">
+            <Show when={error()}>
+              <ErrorIndicator message={error()} />
+            </Show>
+            <Show when={!uploading()} fallback={<>Memproses...</>}>
+              <input className="responsive-text" onChange={handleFileChange} type="file" accept="image/*" name="photo" />
+              <input className="responsive-text" type={"hidden"} value={tempPhoto()} ref={props.ref} />
+            </Show>
           </div>
         </Show>
       </div>
