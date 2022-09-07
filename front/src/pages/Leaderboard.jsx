@@ -18,12 +18,9 @@ import PaperRight from "../components/paper/paperright";
 import { abbreviate } from "../utils/string";
 
 const fetchTopTen = async ({ study, semester }) =>
-  await fetcher(
-    encodeURI(`/api/mahasiswa?study=${study}&semester=${semester}`),
-    {
-      method: "GET",
-    }
-  );
+  await fetcher(encodeURI(`/api/mahasiswa?study=${study}&semester=${semester}`), {
+    method: "GET",
+  });
 
 function Leaderboard() {
   const [filtering, setFiltering] = createSignal({ study: "", semester: "" });
@@ -37,11 +34,7 @@ function Leaderboard() {
   function handleFilter(e) {
     e.preventDefault();
 
-    if (
-      study.value == filtering().study &&
-      semester.value == filtering().semester
-    )
-      return;
+    if (study.value == filtering().study && semester.value == filtering().semester) return;
 
     setFiltering({
       study: study.value,
@@ -51,9 +44,11 @@ function Leaderboard() {
 
   return (
     <section>
-      <div className="flex items-center justify-center sm:justify-end space-x-4 responsive-text">
-        <Dropdown items={STUDY} ref={study} />
-        <Dropdown items={SEMESTER} ref={semester} />
+      <div className="flex flex-col sm:flex-row items-center justify-center sm:justify-end space-x-0 space-y-4 sm:space-y-0 sm:space-x-4 responsive-text">
+        <div className="flex space-x-4">
+          <Dropdown items={STUDY} ref={study} />
+          <Dropdown items={SEMESTER} ref={semester} />
+        </div>
         <ButtonClassic title={"Filter"} action={handleFilter} />
       </div>
       <div className="grid grid-cols-12 mt-10 justify-items-stretch">
@@ -70,22 +65,13 @@ function Leaderboard() {
           <PaperCard>
             <Span text="Klasemen perolehan poin mahafolio:" />
             <Suspense fallback={<Loading />}>
-              <Show
-                when={topTen()?.length}
-                fallback={() => <Span text="Hasil klasemen tidak ditemukan" />}
-              >
+              <Show when={topTen()?.length} fallback={() => <Span text="Hasil klasemen tidak ditemukan" />}>
                 <PaperContainer>
                   <For each={topTen()}>
                     {(item, index) => (
                       <PaperGrid link={"/mahasiswa/" + item._id}>
                         <PaperLeft color={index() + 1} content={index() + 1} />
-                        <PaperCenter
-                          content={`${abbreviate(item.study)}${
-                            item.semester
-                          } _ ${item.name}`}
-                          emoji={true}
-                          index={index()}
-                        />
+                        <PaperCenter content={`${abbreviate(item.study)}${item.semester} _ ${item.name}`} emoji={true} index={index()} />
                         <PaperRight content={item.score + "pts"} />
                       </PaperGrid>
                     )}
