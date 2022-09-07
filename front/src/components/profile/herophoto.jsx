@@ -58,41 +58,24 @@ function HeroPhoto(props) {
   }
 
   return (
-    <div className="flex-[0.7] flex space-x-6 justify-center">
+    <div className="lg:flex-[0.7] flex space-x-6 justify-end">
       <Show
         when={props.edit}
         fallback={
           <Show
             when={tag()}
             fallback={
-              <div className="flex items-center flex-1 justify-center">
+              <div className="hidden md:flex items-center flex-1 justify-center">
                 <Loading />
               </div>
             }
           >
-            <div
-              class="bg-cover bg-center h-30 block flex-1 border-4 border-white"
-              style={`background-image: url(${tag().src})`}
-            ></div>
+            <div className="hidden md:block bg-cover bg-center h-32 flex-1 lg:border-4 lg:border-white" style={`background-image: url(${tag().src})`}></div>
           </Show>
         }
-      >
-        <div class=" h-30 block flex-1">
-          <Show when={error()}>
-            <ErrorIndicator message={error()} />
-          </Show>
-          <Show when={!uploading()} fallback={<>Memproses...</>}>
-            <input
-              onChange={handleFileChange}
-              type="file"
-              accept="image/*"
-              name="photo"
-            />
-            <input type={"hidden"} value={tempPhoto()} ref={props.ref} />
-          </Show>
-        </div>
-      </Show>
-      <div className="w-32 flex items-center justify-center">
+      ></Show>
+
+      <div className="w-32 flex items-center justify-end">
         <Show
           when={props.edit}
           fallback={
@@ -101,11 +84,18 @@ function HeroPhoto(props) {
             </Show>
           }
         >
-          <img
-            src={tempPhoto() ? tempPhoto() : tag()?.src}
-            alt="Profil"
-            className="w-32"
-          />
+          <div className="space-y-2">
+            <img src={tempPhoto() ? tempPhoto() : tag()?.src} alt="Profil" className="w-32 h-32 object-cover" />
+            <div className="h-30 block flex-1">
+              <Show when={error()}>
+                <ErrorIndicator message={error()} />
+              </Show>
+              <Show when={!uploading()} fallback={<>Memproses...</>}>
+                <input className="responsive-text" onChange={handleFileChange} type="file" accept="image/*" name="photo" />
+                <input className="responsive-text" type={"hidden"} value={tempPhoto()} ref={props.ref} />
+              </Show>
+            </div>
+          </div>
         </Show>
       </div>
     </div>

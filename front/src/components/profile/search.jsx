@@ -20,14 +20,9 @@ import PaperGrid from "../paper/papergrid";
 import PaperContainer from "../paper/papercontainer";
 
 const fetchSearch = async ({ q, semester, type, id }) =>
-  await fetcher(
-    encodeURI(
-      `/api/folio/search?mahasiswa=${id}&q=${q}&type=${type}&semester=${semester}`
-    ),
-    {
-      method: "GET",
-    }
-  );
+  await fetcher(encodeURI(`/api/folio/search?mahasiswa=${id}&q=${q}&type=${type}&semester=${semester}`), {
+    method: "GET",
+  });
 
 function Search({ id }) {
   const navigate = useNavigate();
@@ -67,28 +62,22 @@ function Search({ id }) {
 
   return (
     <>
-      <div className="grid grid-cols-12 mt-4">
-        <di v className="col-start-1 md:col-start-2 col-end-13 md:col-end-12">
-          <BigInput
-            ref={keyword}
-            onKeyPress={handleKeypress}
-            placeholder={"Cari folio berdasarkan judul atau mata kuliah..."}
-          />
+      <div className="search-grid mt-4">
+        <di v className="search-wrap">
+          <BigInput ref={keyword} onKeyPress={handleKeypress} placeholder={"Cari folio berdasarkan judul atau mata kuliah..."} />
         </di>
       </div>
       <div className="grid grid-cols-12 mt-4 justify-items-stretch">
         <div className="col-start-2 justify-self-end">
-          <ButtonAccent
-            title={"Buat"}
-            wrapperStyle={"mt-14 -rotate-90"}
-            action={() => navigate("/folio")}
-          />
+          <ButtonAccent title={"Buat"} wrapperStyle={"mt-14 -rotate-90"} action={() => navigate("/folio")} />
         </div>
         <div className="col-start-3 -ml-8 col-end-13">
-          <div className="flex items-center space-x-8 mb-4">
-            <Dropdown items={TYPE} ref={type} />
-            <Dropdown items={SEMESTER2} ref={semester} />
+          <div className="flex items-start justify-between mb-4">
             <ButtonClassic title={"Cari"} action={handleSearch} />
+            <div className="flex flex-col sm:flex-row items-end justify-center sm:justify-end space-x-0 space-y-4 sm:space-y-0 sm:space-x-4 responsive-text">
+              <Dropdown items={TYPE} ref={type} />
+              <Dropdown items={SEMESTER2} ref={semester} />
+            </div>
           </div>
 
           <Show when={error()}>
@@ -96,34 +85,17 @@ function Search({ id }) {
           </Show>
 
           <PaperCard>
-            <Show
-              when={searching()}
-              fallback={<Span text="Sekecil apapun usaha tetaplah usaha" />}
-            >
-              <Span
-                text={`Menampilkan pencarian untuk `}
-                variable={searching().q}
-              />
+            <Show when={searching()} fallback={<Span text="Sekecil apapun usaha tetaplah usaha" />}>
+              <Span text={`Menampilkan pencarian untuk `} variable={searching().q} />
 
               <Suspense fallback={<Loading />}>
-                <Show
-                  when={searchResult()?.length}
-                  fallback={() => (
-                    <Span text="Pencarian folio tidak ditemukan" />
-                  )}
-                >
+                <Show when={searchResult()?.length} fallback={() => <Span text="Pencarian folio tidak ditemukan" />}>
                   <PaperContainer>
                     <For each={searchResult()}>
                       {(item) => (
                         <PaperGrid link={"/folio/" + item._id}>
-                          <PaperLeft
-                            content={new Date(
-                              item.updatedAt
-                            ).toLocaleDateString("id-ID")}
-                          />
-                          <PaperCenter
-                            content={`[${item.type}] ${item.title}`}
-                          />
+                          <PaperLeft content={new Date(item.updatedAt).toLocaleDateString("id-ID")} />
+                          <PaperCenter content={`[${item.type}] ${item.title}`} />
                         </PaperGrid>
                       )}
                     </For>
