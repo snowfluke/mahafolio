@@ -11,6 +11,7 @@ import Loading from "../components/loading";
 import LoginCard from "../components/login/logincard";
 import { useModal } from "../hooks/useModal";
 import { useNotif } from "../hooks/useNotif";
+import fetcher from "../utils/fetcher";
 
 const [login, setLogin] = createSignal(true);
 
@@ -30,11 +31,20 @@ function Login() {
 
 export default Login;
 
+const fetchForgot = async (email) =>
+  await fetcher(encodeURI(`/api/mahasiswa/forgot-password`), {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ email }),
+  });
+
 // Form Login
 
 function LoginDisplay() {
   const { signin, isLoading, error } = useSignin();
-  const { showModal } = useModal();
+  const { showModal, closeModal } = useModal();
   const { showNotif } = useNotif();
 
   const inputChildren = (
@@ -54,10 +64,22 @@ function LoginDisplay() {
     signin(email, password);
   }
 
-  function handleReset(e) {
+  async function handleReset(e) {
     e.preventDefault();
-    console.log(e.target.email.value);
-    showNotif("success", "Berhasil mengirimkan kata sandi ");
+    const email = e.target.email.value;
+    if (!email) return;
+
+    closeModal();
+    showNotif("success", "Mengatur ulang kata sandi ...");
+
+    try {
+      console.log(email);
+      const reset = await fetchForgot(email);
+      console.log(reset);
+      showNotif("success", `Tautan dikirimkan ke ${reset.receiver}`);
+    } catch (error) {
+      showNotif("error", error.message);
+    }
   }
 
   function handleModal() {
@@ -111,12 +133,12 @@ function RegisterDisplay() {
 
   async function handleRegister(e) {
     e.preventDefault();
+    showNotif("success", "Mendaftar...");
     let email = e.target.email.value,
       password = e.target.password.value,
       confirm = e.target.confirm.value;
 
     signup(email, password, confirm);
-    showNotif("success", "Berhasil mendaftar");
   }
   return (
     <Show when={!isLoading()} fallback={<Loading />}>

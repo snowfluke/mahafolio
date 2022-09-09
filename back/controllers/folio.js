@@ -147,7 +147,7 @@ const deleteFolio = async (req, res) => {
       { $inc: { score: -folio.score } }
     );
 
-    res.status(200).json(folio);
+    res.status(200).json({ status: "Folio successfully deleted" });
   } catch (error) {
     return res.status(200).json({ error: error.message });
   }

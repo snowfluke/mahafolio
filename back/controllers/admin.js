@@ -37,7 +37,7 @@ const adminDeleteMhs = async (req, res) => {
 
     await deleteFile(mhs.folderId);
 
-    res.status(200).json(mhs);
+    res.status(200).json({ status: "Mahasiswa successfully deleted" });
   } catch (error) {
     return res.status(200).json({ error: error.message });
   }

@@ -1,12 +1,19 @@
 // @ts-check-ignore
 const validator = require("validator").default;
 const jwt = require("jsonwebtoken");
+const { sendMail } = require("../apis/mailer");
 
 const Mahasiswa = require("../models/mahasiswa");
 
 function createToken(_id, email, password, folderId) {
   return jwt.sign({ _id, email, password, folderId }, process.env.APP_SECRET, {
     expiresIn: "3d",
+  });
+}
+
+function createResetToken(_id, email, password) {
+  return jwt.sign({ _id, email, password }, process.env.APP_SECRET + password, {
+    expiresIn: "15m",
   });
 }
 
@@ -142,6 +149,35 @@ const getLeaderboard = async (req, res) => {
   }
 };
 
+const forgotPassword = async (req, res) => {
+  const { email } = req.body;
+
+  try {
+    if (!email) throw Error("Permintaan tidak valid!");
+
+    const mhs = await Mahasiswa.findOne({ email }).select("_id email password");
+    if (!mhs) {
+      throw Error("Mahasiswa tidak terdaftar");
+    }
+
+    const token = createResetToken(mhs._id, mhs.email, mhs.password);
+    const link = `${process.env.DOMAIN}/lupa-sandi?id=${mhs._id}&token=${token}`;
+    console.log(link);
+
+    const mail = await sendMail(
+      mhs.email,
+      "Atur ulang kata sandi",
+      `Untuk mengatur ulang kata sandimu, silakan klik pada tautan berikut: ${link}.
+    
+    
+Catatan: Apabila kamu tidak merasa mengatur ulang kata sandi, silakan abaikan email ini.`
+    );
+    res.status(200).json(mail);
+  } catch (error) {
+    res.status(401).json({ error: error.message });
+  }
+};
+
 module.exports = {
   signinMhs,
   signupMhs,
@@ -149,4 +185,5 @@ module.exports = {
   searchMhs,
   updateMhs,
   getLeaderboard,
+  forgotPassword,
 };

@@ -8,6 +8,7 @@ const {
   searchMhs,
   updateMhs,
   getLeaderboard,
+  forgotPassword,
 } = require("../controllers/mahasiswa");
 const auth = require("../middlewares/auth");
 const router = express.Router();
@@ -20,6 +21,9 @@ router.get("/:id", getMhs);
 
 // POST SIGNIN
 router.post("/signin", signinMhs);
+
+// POST FORGOT PASSWORD
+router.post("/forgot-password", forgotPassword);
 
 // POST SIGNUP
 router.post("/signup", signupMhs);

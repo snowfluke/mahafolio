@@ -3,7 +3,6 @@ import { SEMESTER, STUDY } from "../utils/constant";
 import fetcher from "../utils/fetcher";
 
 import ButtonClassic from "../components/form/buttonclassic";
-import ButtonAccent from "../components/form/buttonaccent";
 import Dropdown from "../components/form/dropdown";
 
 import Loading from "../components/loading";
@@ -18,9 +17,12 @@ import PaperRight from "../components/paper/paperright";
 import { abbreviate } from "../utils/string";
 
 const fetchTopTen = async ({ study, semester }) =>
-  await fetcher(encodeURI(`/api/mahasiswa?study=${study}&semester=${semester}`), {
-    method: "GET",
-  });
+  await fetcher(
+    encodeURI(`/api/mahasiswa?study=${study}&semester=${semester}`),
+    {
+      method: "GET",
+    }
+  );
 
 function Leaderboard() {
   const [filtering, setFiltering] = createSignal({ study: "", semester: "" });
@@ -34,7 +36,11 @@ function Leaderboard() {
   function handleFilter(e) {
     e.preventDefault();
 
-    if (study.value == filtering().study && semester.value == filtering().semester) return;
+    if (
+      study.value == filtering().study &&
+      semester.value == filtering().semester
+    )
+      return;
 
     setFiltering({
       study: study.value,
@@ -52,26 +58,26 @@ function Leaderboard() {
         <ButtonClassic title={"Filter"} action={handleFilter} />
       </div>
       <div className="grid grid-cols-12 mt-10 justify-items-stretch">
-        <div className="col-start-2 justify-self-end">
-          <ButtonAccent
-            title={"Bagikan"}
-            wrapperStyle={"mt-14 -rotate-90"}
-            action={() => {
-              console.log("Bagikan clicked");
-            }}
-          />
-        </div>
-        <div className="col-start-3 -ml-8 col-end-13">
+        <div className="col-span-full">
           <PaperCard>
             <Span text="Klasemen perolehan poin mahafolio:" />
             <Suspense fallback={<Loading />}>
-              <Show when={topTen()?.length} fallback={() => <Span text="Hasil klasemen tidak ditemukan" />}>
+              <Show
+                when={topTen()?.length}
+                fallback={() => <Span text="Hasil klasemen tidak ditemukan" />}
+              >
                 <PaperContainer>
                   <For each={topTen()}>
                     {(item, index) => (
                       <PaperGrid link={"/mahasiswa/" + item._id}>
                         <PaperLeft color={index() + 1} content={index() + 1} />
-                        <PaperCenter content={`${abbreviate(item.study)}${item.semester} _ ${item.name}`} emoji={true} index={index()} />
+                        <PaperCenter
+                          content={`${abbreviate(item.study)}${
+                            item.semester
+                          } _ ${item.name}`}
+                          emoji={true}
+                          index={index()}
+                        />
                         <PaperRight content={item.score + "pts"} />
                       </PaperGrid>
                     )}
