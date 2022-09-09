@@ -1,6 +1,7 @@
 // @ts-check-ignore
 const validator = require("validator").default;
 const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
 const { sendMail } = require("../apis/mailer");
 
 const Mahasiswa = require("../models/mahasiswa");
@@ -162,7 +163,6 @@ const forgotPassword = async (req, res) => {
 
     const token = createResetToken(mhs._id, mhs.email, mhs.password);
     const link = `${process.env.DOMAIN}/lupa-sandi?id=${mhs._id}&token=${token}`;
-    console.log(link);
 
     const mail = await sendMail(
       mhs.email,
@@ -174,7 +174,57 @@ Catatan: Apabila kamu tidak merasa mengatur ulang kata sandi, silakan abaikan em
     );
     res.status(200).json(mail);
   } catch (error) {
-    res.status(401).json({ error: error.message });
+    res.status(400).json({ error: error.message });
+  }
+};
+
+const verifyToken = async (req, res) => {
+  const { id, token } = req.params;
+  try {
+    if (!validator.isMongoId(id)) throw Error("ID mahasiswa tidak valid");
+
+    const mhs = await Mahasiswa.findOne({ _id: id }).select(
+      "_id email password"
+    );
+    if (!mhs) {
+      throw Error("ID mahasiswa tidak valid");
+    }
+    const payload = jwt.verify(token, process.env.APP_SECRET + mhs.password);
+    res.status(200).json({ status: true });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+const updatePassword = async (req, res) => {
+  const { id, token } = req.params;
+  const { password, password2 } = req.body;
+  try {
+    if (!validator.isMongoId(id)) throw Error("ID mahasiswa tidak valid!");
+    if (!password || !password2) throw Error("Permintaan tidak valid!");
+    if (password !== password2) throw Errror("Permintaan tidak valid!");
+
+    const mhs = await Mahasiswa.findOne({ _id: id }).select(
+      "_id email password"
+    );
+    if (!mhs) {
+      throw Error("ID mahasiswa tidak valid");
+    }
+    const payload = jwt.verify(token, process.env.APP_SECRET + mhs.password);
+    const salt = await bcrypt.genSalt(10);
+    const hash = await bcrypt.hash(password, salt);
+
+    const newMhs = await Mahasiswa.findOneAndUpdate(
+      { _id: mhs._id },
+      {
+        password: hash,
+      },
+      { new: true }
+    ).select("_id");
+
+    res.status(200).json(newMhs);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
   }
 };
 
@@ -186,4 +236,6 @@ module.exports = {
   updateMhs,
   getLeaderboard,
   forgotPassword,
+  verifyToken,
+  updatePassword,
 };

@@ -14,6 +14,7 @@ const Folios = lazy(() => import("./pages/Folios"));
 const Dashboard = lazy(() => import("./pages/Dashboard"));
 const About = lazy(() => import("./pages/About"));
 const Contact = lazy(() => import("./pages/Contact"));
+const Reset = lazy(() => import("./pages/Reset"));
 const Policies = lazy(() => import("./pages/Policies"));
 
 function Router() {
@@ -62,6 +63,7 @@ function Router() {
       <Route path="/tentang" component={About} />
       <Route path="/kontak" component={Contact} />
       <Route path="/kebijakan" component={Policies} />
+      <Route path="/lupa-sandi" component={Reset} />
       <Route path="/admin/dashboard" component={dashboardLoginCheck} />
       <Route
         path="/*"

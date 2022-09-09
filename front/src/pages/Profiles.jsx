@@ -18,6 +18,7 @@ import Search from "../components/profile/search";
 import ErrorDisplay from "../components/error";
 import Loading from "../components/loading";
 import { useNotif } from "../hooks/useNotif";
+import { useSignout } from "../hooks/useSignout";
 
 function Profiles() {
   const [user] = useAuthContext();
@@ -27,6 +28,7 @@ function Profiles() {
   const [loading, setLoading] = createSignal(false);
 
   const { showNotif } = useNotif();
+  const { logout } = useSignout();
   const { profileData, setProfile, updateProfile, isLoading, contextError } =
     useProfileData();
 
@@ -50,6 +52,8 @@ function Profiles() {
       bio: e.target.bio.value,
       nim: e.target.nim.value,
     };
+
+    const oldEmail = profileData().mhs.email;
 
     let different = false;
     for (const key of Object.keys(fields)) {
@@ -79,6 +83,13 @@ function Profiles() {
       tempPhoto.value = "";
       setEditing(false);
       setLoading(false);
+      if (oldEmail != update.email) {
+        logout();
+        return showNotif(
+          "success",
+          "Berhasil! Silakan masuk kembali dengan email baru"
+        );
+      }
       showNotif("success", "Berhasil mengubah profil");
     } catch (error) {
       setLoading(false);

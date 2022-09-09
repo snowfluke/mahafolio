@@ -73,9 +73,7 @@ function LoginDisplay() {
     showNotif("success", "Mengatur ulang kata sandi ...");
 
     try {
-      console.log(email);
       const reset = await fetchForgot(email);
-      console.log(reset);
       showNotif("success", `Tautan dikirimkan ke ${reset.receiver}`);
     } catch (error) {
       showNotif("error", error.message);
