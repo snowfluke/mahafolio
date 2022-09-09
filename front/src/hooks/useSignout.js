@@ -14,5 +14,6 @@ export const useSignout = () => {
     setAuthContextLoggedOut();
     navigate("/coretan", { replace: true });
   };
+
   return { logout };
 };

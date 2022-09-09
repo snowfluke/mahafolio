@@ -9,7 +9,8 @@ import Input from "../components/form/input";
 
 import Loading from "../components/loading";
 import LoginCard from "../components/login/logincard";
-import ModalCard from "../components/modal/modalcard";
+import { useModal } from "../hooks/useModal";
+import { useNotif } from "../hooks/useNotif";
 
 const [login, setLogin] = createSignal(true);
 
@@ -33,7 +34,17 @@ export default Login;
 
 function LoginDisplay() {
   const { signin, isLoading, error } = useSignin();
-  const [modal, setModal] = createSignal(false);
+  const { showModal } = useModal();
+  const { showNotif } = useNotif();
+
+  const inputChildren = (
+    <Input
+      name={"email"}
+      required={true}
+      placeholder={"Masukkan email"}
+      type={"email"}
+    />
+  );
 
   async function handleLogin(e) {
     e.preventDefault();
@@ -41,6 +52,23 @@ function LoginDisplay() {
       password = e.target.password.value;
 
     signin(email, password);
+  }
+
+  function handleReset(e) {
+    e.preventDefault();
+    console.log(e.target.email.value);
+    showNotif("success", "Berhasil mengirimkan kata sandi ");
+  }
+
+  function handleModal() {
+    showModal({
+      title: "Atur ulang kata sandi",
+      description:
+        "Kami akan mengirimkan email untuk mengatur ulang kata sandimu, pastikan email yang dimasukkan benar",
+      actionName: "Kirim",
+      ok: handleReset,
+      children: inputChildren,
+    });
   }
 
   return (
@@ -55,10 +83,7 @@ function LoginDisplay() {
           />
 
           <span className="w-full text-right inline-block">
-            <ActionButton
-              title="Atur ulang kata sandi"
-              action={() => setModal(true)}
-            />
+            <ActionButton title="Atur ulang kata sandi" action={handleModal} />
           </span>
           <Show when={error()}>
             <ErrorIndicator message={error()} />
@@ -74,9 +99,6 @@ function LoginDisplay() {
           />
         </span>
       </LoginCard>
-      <Show when={modal()}>
-        <ModalCard close={() => setModal(false)} />
-      </Show>
     </Show>
   );
 }
@@ -85,6 +107,7 @@ function LoginDisplay() {
 
 function RegisterDisplay() {
   const { signup, isLoading, error } = useSignup();
+  const { showNotif } = useNotif();
 
   async function handleRegister(e) {
     e.preventDefault();
@@ -93,6 +116,7 @@ function RegisterDisplay() {
       confirm = e.target.confirm.value;
 
     signup(email, password, confirm);
+    showNotif("success", "Berhasil mendaftar");
   }
   return (
     <Show when={!isLoading()} fallback={<Loading />}>

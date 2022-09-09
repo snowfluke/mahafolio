@@ -30,7 +30,7 @@ app.use(xss());
 app.use("/api/photo", routerPhoto);
 app.use("/api/mahasiswa", routerMahasiswa);
 app.use("/api/folio", routerFolio);
-app.use("/admin", routerAdmin);
+app.use("/api/admin", routerAdmin);
 
 // Connect to DB
 

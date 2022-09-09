@@ -12,14 +12,13 @@ import ButtonClassic from "../components/form/buttonclassic";
 import PaperCard from "../components/paper/papercard";
 import PaperGrid from "../components/paper/papergrid";
 import PaperContainer from "../components/paper/papercontainer";
+import PaperLeft from "../components/paper/paperleft";
+import PaperCenter from "../components/paper/papercenter";
 
 import Welcome from "../components/home/welcome";
 import BigInput from "../components/home/biginput";
 import Loading from "../components/loading";
 import Span from "../components/span";
-
-import PaperLeft from "../components/paper/paperleft";
-import PaperCenter from "../components/paper/papercenter";
 
 const fetchSearch = async (keyword) =>
   await fetcher(encodeURI(`/api/mahasiswa/search/${keyword}`), {
@@ -62,21 +61,41 @@ function Home() {
     <section>
       <div className="search-grid">
         <div className="search-wrap">
-          <BigInput ref={keyword} onKeyPress={handleKeypress} placeholder={"Cari kemajuan mahasiswa berdasarkan nama, email atau nim..."} />
+          <BigInput
+            ref={keyword}
+            onKeyPress={handleKeypress}
+            placeholder={
+              "Cari kemajuan mahasiswa berdasarkan nama, email atau nim..."
+            }
+          />
         </div>
       </div>
 
       <div className="home-paper-grid">
         <div className="home-btn-wrap">
-          <Show when={!user().mhs} fallback={<ButtonAccent title={"Keluar"} wrapperStyle={"home-btn-rotate"} variant={true} action={logout} />}>
-            <ButtonAccent title={"Masuk"} wrapperStyle={"home-btn-rotate"} action={() => navigate("/coretan")} />
+          <Show
+            when={!user().mhs}
+            fallback={
+              <ButtonAccent
+                title={"Keluar"}
+                wrapperStyle={"home-btn-rotate"}
+                variant={true}
+                action={logout}
+              />
+            }
+          >
+            <ButtonAccent
+              title={"Masuk"}
+              wrapperStyle={"home-btn-rotate"}
+              action={() => navigate("/coretan")}
+            />
           </Show>
         </div>
 
         <div className="home-paper-wrap">
           <div className="home-paper-wrap-btn">
             <ButtonClassic title={"Cari"} action={handleSearch} />
-            <Show when={user().mhs}>
+            <Show when={user().mhs && !user().mhs.admin}>
               <Welcome to={user().mhs.email} />
             </Show>
           </div>
@@ -86,11 +105,22 @@ function Home() {
           </Show>
 
           <PaperCard>
-            <Show when={searching()} fallback={<Span text="Semua berawal dari keingintahuaan." />}>
-              <Span text={`Menampilkan pencarian untuk `} variable={searching()} />
+            <Show
+              when={searching()}
+              fallback={<Span text="Semua berawal dari keingintahuaan." />}
+            >
+              <Span
+                text={`Menampilkan pencarian untuk `}
+                variable={searching()}
+              />
 
               <Suspense fallback={<Loading />}>
-                <Show when={searchResult()?.length} fallback={() => <Span text="Pencarian mahasiswa tidak ditemukan" />}>
+                <Show
+                  when={searchResult()?.length}
+                  fallback={() => (
+                    <Span text="Pencarian mahasiswa tidak ditemukan" />
+                  )}
+                >
                   <PaperContainer>
                     <For each={searchResult()}>
                       {(item, index) => (

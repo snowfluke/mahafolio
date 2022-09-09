@@ -9,6 +9,14 @@ export const UserContextProvider = (props) => {
     type: false,
     content: "",
   });
+  const [modal, setModal] = createSignal({
+    title: "",
+    description: "",
+    actionName: "",
+    show: false,
+    ok: () => {},
+    children: "",
+  });
 
   const mhs = [
     profileData,
@@ -22,8 +30,29 @@ export const UserContextProvider = (props) => {
 
         setTimeout(() => {
           setNotif({ show: false, type: false, content: "" });
-        }, 2000);
+        }, 3000);
       },
+    },
+    modal,
+    {
+      showModal: ({ title, children, ok, description, actionName }) =>
+        setModal({
+          title,
+          description,
+          actionName,
+          show: true,
+          ok,
+          children,
+        }),
+      closeModal: () =>
+        setModal({
+          title: "",
+          description: "",
+          actionName: "",
+          show: false,
+          ok: () => {},
+          children: "",
+        }),
     },
   ];
 

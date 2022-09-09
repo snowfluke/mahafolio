@@ -1,19 +1,7 @@
-import { useNotif } from "../../hooks/useNotif";
 import ButtonClassic from "../form/buttonclassic";
-import Input from "../form/input";
 import Span from "../span";
 
 function ModalCard(props) {
-  const { showNotif } = useNotif();
-
-  async function handleReset(e) {
-    e.preventDefault();
-
-    console.log(e.target.email.value);
-    showNotif("success", e.target.email.value);
-    props.close();
-  }
-
   return (
     <>
       <div
@@ -26,27 +14,14 @@ function ModalCard(props) {
       >
         <div className="relative p-4 w-full">
           <div className="relative bg-white shadow-md py-14 px-4 space-y-4">
-            <h3 className="text-xl font-semibold text-center">
-              Atur ulang kata sandi
-            </h3>
+            <h3 className="text-xl font-semibold text-center">{props.title}</h3>
             <div className="px-4 space-y-4">
-              <Span
-                text={
-                  "Kami akan mengirimkan email untuk mengatur ulang kata sandimu, pastikan email yang dimasukkan benar"
-                }
-              />
-              <form onSubmit={handleReset}>
-                <div className="space-y-1">
-                  <Input
-                    name={"email"}
-                    required={true}
-                    placeholder={"Masukkan email"}
-                    type={"email"}
-                  />
-                </div>
+              <Span text={props.description} />
+              <form onSubmit={props.ok}>
+                <div className="space-y-1">{props.children}</div>
 
                 <div className="flex flex-col gap-2 justify-end lg:flex-row xl:flex-row mt-4">
-                  <ButtonClassic title={"Kirim"} />
+                  <ButtonClassic title={props.actionName} />
                   <ButtonClassic
                     title={"Tutup"}
                     alter={true}

@@ -17,6 +17,7 @@ import ErrorIndicator from "../components/form/errorindicator";
 import Search from "../components/profile/search";
 import ErrorDisplay from "../components/error";
 import Loading from "../components/loading";
+import { useNotif } from "../hooks/useNotif";
 
 function Profiles() {
   const [user] = useAuthContext();
@@ -25,6 +26,7 @@ function Profiles() {
   const [error, setError] = createSignal(false);
   const [loading, setLoading] = createSignal(false);
 
+  const { showNotif } = useNotif();
   const { profileData, setProfile, updateProfile, isLoading, contextError } =
     useProfileData();
 
@@ -77,6 +79,7 @@ function Profiles() {
       tempPhoto.value = "";
       setEditing(false);
       setLoading(false);
+      showNotif("success", "Berhasil mengubah profil");
     } catch (error) {
       setLoading(false);
       if (error.name == "ValidationError") {

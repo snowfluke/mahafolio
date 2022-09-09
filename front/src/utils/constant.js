@@ -1,8 +1,4 @@
 const BACKEND_URL = "http://localhost:4000";
-const NAV_MENU = [
-  { name: "Beranda", route: "/" },
-  { name: "Klasemen", route: "/klasemen" },
-];
 
 const EMPTY_STR = "‎";
 
@@ -59,7 +55,6 @@ export {
   BACKEND_URL,
   STUDY,
   SEMESTER,
-  NAV_MENU,
   TYPE,
   SEMESTER2,
   STUDY_NAME,

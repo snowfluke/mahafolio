@@ -6,6 +6,7 @@ import ErrorDisplay from "./components/error";
 const Leaderboard = lazy(() => import("./pages/Leaderboard"));
 const Home = lazy(() => import("./pages/Home"));
 const Login = lazy(() => import("./pages/Login"));
+const Admin = lazy(() => import("./pages/Admin"));
 const Profiles = lazy(() => import("./pages/Profiles"));
 const Profile = lazy(() => import("./pages/Profile"));
 const Folio = lazy(() => import("./pages/Folio"));
@@ -27,20 +28,41 @@ function Router() {
   const loginCheck = () => (
     <>{user().mhs ? <Navigate href="/" /> : <Login />}</>
   );
+  const loginAdminCheck = () => (
+    <>
+      {user().mhs && user().mhs.admin ? (
+        <Navigate href="/admin/dashboard" />
+      ) : user().mhs && !user().mhs.admin ? (
+        <Navigate href="/" />
+      ) : (
+        <Admin />
+      )}
+    </>
+  );
+  const dashboardLoginCheck = () => (
+    <>
+      {user().mhs && user().mhs.admin ? (
+        <Dashboard />
+      ) : (
+        <Navigate href="/admin" />
+      )}
+    </>
+  );
 
   return (
     <Routes>
       <Route path="/" component={Home} />
       <Route path="/coretan" component={loginCheck} />
-      <Route path="/dashboard" component={Dashboard} />
       <Route path="/klasemen" component={Leaderboard} />
       <Route path="/mahasiswa" component={mahasiswaLoginCheck} />
+      <Route path="/admin" component={loginAdminCheck} />
       <Route path="/mahasiswa/:id" component={Profile} />
       <Route path="/folio" component={folioLoginCheck} />
       <Route path="/folio/:id" component={Folio} />
       <Route path="/tentang" component={About} />
       <Route path="/kontak" component={Contact} />
       <Route path="/kebijakan" component={Policies} />
+      <Route path="/admin/dashboard" component={dashboardLoginCheck} />
       <Route
         path="/*"
         component={<ErrorDisplay err={"404 - Halaman tidak ditemukan"} />}

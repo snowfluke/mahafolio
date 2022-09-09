@@ -3,7 +3,8 @@ function PaperCenter(props) {
     <>
       <td
         className={
-          "pl-3 truncate flex flex-1 " + (props.bold ? "font-bold" : "")
+          "pl-3 truncate flex flex-1 hover:bg-slate-100 " +
+          (props.bold ? "font-bold" : "")
         }
       >
         {props.content || props.children}
