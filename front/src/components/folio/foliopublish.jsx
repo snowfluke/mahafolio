@@ -1,6 +1,8 @@
 import { useNavigate } from "@solidjs/router";
-import { createSignal } from "solid-js";
+import { children, createSignal } from "solid-js";
 import { useAuthContext } from "../../hooks/useAuthContext";
+import { useModal } from "../../hooks/useModal";
+import { useNotif } from "../../hooks/useNotif";
 import fetcher from "../../utils/fetcher";
 import { refresher, titleCase, wordsCase } from "../../utils/string";
 import { folioSchema } from "../../validations";
@@ -43,6 +45,9 @@ function FolioPublish(props) {
   const [error, setError] = createSignal(false);
   const [loading, setLoading] = createSignal(false);
   const [editing, setEditing] = createSignal(false);
+
+  const { showNotif } = useNotif();
+  const { showModal, closeModal } = useModal();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -101,6 +106,8 @@ function FolioPublish(props) {
 
       if (res.error) return setError(res.error);
       navigate("/folio/" + res._id + "?t=" + refresher(), { replace: true });
+
+      showNotif("success", "Berhasil membuat folio");
     } catch (error) {
       setLoading(false);
       if (error.name == "ValidationError") {
@@ -110,16 +117,30 @@ function FolioPublish(props) {
     }
   };
 
-  async function handleDelete(e) {
+  function confirmDelete(e) {
     e.preventDefault();
 
+    showModal({
+      title: "Apakah kamu yakin ingin menghapus folio?",
+      description:
+        "Folio akan dihapus beserta berkas yang diunggah ke dalam Google Drive (jika ada)",
+      actionName: "Hapus",
+      ok: handleDelete,
+      children: "",
+    });
+  }
+
+  async function handleDelete(e) {
     try {
+      e.preventDefault();
+
+      closeModal();
       setLoading(true);
       const deleted = await deleteFolio(props.data._id, user().mhs.token);
 
-      console.log(deleted);
-      setLoading(false);
+      showNotif("success", "Berhasil menghapus folio");
       navigate("/mahasiswa", { replace: true });
+      setLoading(false);
     } catch (error) {
       setLoading(false);
       setError(error.message);
@@ -135,7 +156,7 @@ function FolioPublish(props) {
           editing={props.data ? editing() : true}
           setEditing={() => setEditing(!editing())}
           setFile={setFile}
-          handleDelete={handleDelete}
+          handleDelete={confirmDelete}
           loading={loading()}
           author={props.authorId}
         />

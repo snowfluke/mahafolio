@@ -3,7 +3,6 @@ import { SEMESTER, STUDY } from "../utils/constant";
 import fetcher from "../utils/fetcher";
 
 import ButtonClassic from "../components/form/buttonclassic";
-import ButtonAccent from "../components/form/buttonaccent";
 import Dropdown from "../components/form/dropdown";
 
 import Loading from "../components/loading";

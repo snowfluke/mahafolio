@@ -40,5 +40,36 @@ export const useSignin = () => {
     }
   };
 
-  return { signin, isLoading, error };
+  const signinAdmin = async (email, password) => {
+    setIsLoading(true);
+    setError(false);
+
+    try {
+      const response = await fetcher("/api/admin/", {
+        method: "POST",
+        body: JSON.stringify({ email, password }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (response.error) {
+        setIsLoading(false);
+        setError(response.error);
+        return;
+      }
+
+      localStorage.setItem("mhs", JSON.stringify({ admin: response }));
+      setAuthContextLoggedIn({ admin: response });
+      setIsLoading(false);
+    } catch (error) {
+      setIsLoading(false);
+      if (error.name == "ValidationError") {
+        return setError(error.errors[0]);
+      }
+      setError(error.error);
+    }
+  };
+
+  return { signin, signinAdmin, isLoading, error };
 };

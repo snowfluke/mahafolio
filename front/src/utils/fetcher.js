@@ -2,9 +2,9 @@
 
 import { BACKEND_URL } from "./constant";
 
-export default async function fetcher(endpoint, headers) {
+export default async function fetcher(endpoint, options) {
   try {
-    let response = await fetch(BACKEND_URL + endpoint, headers);
+    let response = await fetch(BACKEND_URL + endpoint, options);
     let json = await response.json();
     if (!json) {
       return { error: "Terjadi kesalahan!" };

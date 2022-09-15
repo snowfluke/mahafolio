@@ -1,12 +1,20 @@
 // @ts-check-ignore
 const validator = require("validator").default;
 const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
+const { sendMail } = require("../apis/mailer");
 
 const Mahasiswa = require("../models/mahasiswa");
 
 function createToken(_id, email, password, folderId) {
   return jwt.sign({ _id, email, password, folderId }, process.env.APP_SECRET, {
     expiresIn: "3d",
+  });
+}
+
+function createResetToken(_id, email, password) {
+  return jwt.sign({ _id, email, password }, process.env.APP_SECRET + password, {
+    expiresIn: "15m",
   });
 }
 
@@ -113,7 +121,7 @@ const updateMhs = async (req, res) => {
     res.status(200).json(mhs);
   } catch (error) {
     if (11000 === error.code || 11001 === error.code)
-      return res.status(200).json({ error: "NIM telah dipakai!" });
+      return res.status(200).json({ error: "NIM atau email telah dipakai!" });
     return res.status(200).json({ error: error.message });
   }
 };
@@ -142,6 +150,84 @@ const getLeaderboard = async (req, res) => {
   }
 };
 
+const forgotPassword = async (req, res) => {
+  const { email } = req.body;
+
+  try {
+    if (!email) throw Error("Permintaan tidak valid!");
+
+    const mhs = await Mahasiswa.findOne({ email }).select("_id email password");
+    if (!mhs) {
+      throw Error("Mahasiswa tidak terdaftar");
+    }
+
+    const token = createResetToken(mhs._id, mhs.email, mhs.password);
+    const link = `${process.env.DOMAIN}/lupa-sandi?id=${mhs._id}&token=${token}`;
+
+    const mail = await sendMail(
+      mhs.email,
+      "Atur ulang kata sandi",
+      `Untuk mengatur ulang kata sandimu, silakan klik pada tautan berikut: ${link}.
+    
+    
+Catatan: Apabila kamu tidak merasa mengatur ulang kata sandi, silakan abaikan email ini.`
+    );
+    res.status(200).json(mail);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+const verifyToken = async (req, res) => {
+  const { id, token } = req.params;
+  try {
+    if (!validator.isMongoId(id)) throw Error("ID mahasiswa tidak valid");
+
+    const mhs = await Mahasiswa.findOne({ _id: id }).select(
+      "_id email password"
+    );
+    if (!mhs) {
+      throw Error("ID mahasiswa tidak valid");
+    }
+    const payload = jwt.verify(token, process.env.APP_SECRET + mhs.password);
+    res.status(200).json({ status: true });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+const updatePassword = async (req, res) => {
+  const { id, token } = req.params;
+  const { password, password2 } = req.body;
+  try {
+    if (!validator.isMongoId(id)) throw Error("ID mahasiswa tidak valid!");
+    if (!password || !password2) throw Error("Permintaan tidak valid!");
+    if (password !== password2) throw Errror("Permintaan tidak valid!");
+
+    const mhs = await Mahasiswa.findOne({ _id: id }).select(
+      "_id email password"
+    );
+    if (!mhs) {
+      throw Error("ID mahasiswa tidak valid");
+    }
+    const payload = jwt.verify(token, process.env.APP_SECRET + mhs.password);
+    const salt = await bcrypt.genSalt(10);
+    const hash = await bcrypt.hash(password, salt);
+
+    const newMhs = await Mahasiswa.findOneAndUpdate(
+      { _id: mhs._id },
+      {
+        password: hash,
+      },
+      { new: true }
+    ).select("_id");
+
+    res.status(200).json(newMhs);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
 module.exports = {
   signinMhs,
   signupMhs,
@@ -149,4 +235,7 @@ module.exports = {
   searchMhs,
   updateMhs,
   getLeaderboard,
+  forgotPassword,
+  verifyToken,
+  updatePassword,
 };

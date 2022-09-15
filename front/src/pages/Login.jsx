@@ -9,6 +9,9 @@ import Input from "../components/form/input";
 
 import Loading from "../components/loading";
 import LoginCard from "../components/login/logincard";
+import { useModal } from "../hooks/useModal";
+import { useNotif } from "../hooks/useNotif";
+import fetcher from "../utils/fetcher";
 
 const [login, setLogin] = createSignal(true);
 
@@ -28,10 +31,30 @@ function Login() {
 
 export default Login;
 
+const fetchForgot = async (email) =>
+  await fetcher(encodeURI(`/api/mahasiswa/forgot-password`), {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ email }),
+  });
+
 // Form Login
 
 function LoginDisplay() {
   const { signin, isLoading, error } = useSignin();
+  const { showModal, closeModal } = useModal();
+  const { showNotif } = useNotif();
+
+  const inputChildren = (
+    <Input
+      name={"email"}
+      required={true}
+      placeholder={"Masukkan email"}
+      type={"email"}
+    />
+  );
 
   async function handleLogin(e) {
     e.preventDefault();
@@ -39,6 +62,33 @@ function LoginDisplay() {
       password = e.target.password.value;
 
     signin(email, password);
+  }
+
+  async function handleReset(e) {
+    e.preventDefault();
+    const email = e.target.email.value;
+    if (!email) return;
+
+    closeModal();
+    showNotif("success", "Mengatur ulang kata sandi ...");
+
+    try {
+      const reset = await fetchForgot(email);
+      showNotif("success", `Tautan dikirimkan ke ${reset.receiver}`);
+    } catch (error) {
+      showNotif("error", error.message);
+    }
+  }
+
+  function handleModal() {
+    showModal({
+      title: "Atur ulang kata sandi",
+      description:
+        "Kami akan mengirimkan email untuk mengatur ulang kata sandimu, pastikan email yang dimasukkan benar",
+      actionName: "Kirim",
+      ok: handleReset,
+      children: inputChildren,
+    });
   }
 
   return (
@@ -53,10 +103,7 @@ function LoginDisplay() {
           />
 
           <span className="w-full text-right inline-block">
-            <ActionButton
-              title="Lupa kata sandi?"
-              action={() => console.log("Modal open")}
-            />
+            <ActionButton title="Atur ulang kata sandi" action={handleModal} />
           </span>
           <Show when={error()}>
             <ErrorIndicator message={error()} />
@@ -80,9 +127,11 @@ function LoginDisplay() {
 
 function RegisterDisplay() {
   const { signup, isLoading, error } = useSignup();
+  const { showNotif } = useNotif();
 
   async function handleRegister(e) {
     e.preventDefault();
+    showNotif("success", "Mendaftar...");
     let email = e.target.email.value,
       password = e.target.password.value,
       confirm = e.target.confirm.value;

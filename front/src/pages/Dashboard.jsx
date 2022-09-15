@@ -1,36 +1,46 @@
-import { useNavigate } from "@solidjs/router";
-import { createEffect, createSignal, Suspense } from "solid-js";
-
-import ButtonAccent from "../components/form/buttonaccent";
-import Loading from "../components/loading";
-import PaperCard from "../components/paper/papercard";
-import PaperGrid from "../components/paper/papergrid";
-import PaperContainer from "../components/paper/papercontainer";
-import Welcome from "../components/home/welcome";
-import ButtonClassic from "../components/form/buttonclassic";
-import fetcher from "../utils/fetcher";
-import ErrorIndicator from "../components/form/errorindicator";
-import BigInput from "../components/home/biginput";
-import Span from "../components/span";
-
+import { createSignal, Suspense, createResource } from "solid-js";
 import { searchSchema } from "../validations";
+import fetcher from "../utils/fetcher";
+
+import PaperCard from "../components/paper/papercard";
+import PaperRow from "../components/paper/paperrow";
+import PaperContainer from "../components/paper/papercontainer";
+import PaperLeft from "../components/paper/paperleft";
+import PaperCenterLink from "../components/paper/papercenterlink";
+
+import ButtonClassic from "../components/form/buttonclassic";
+import ErrorIndicator from "../components/form/errorindicator";
+
+import BigInput from "../components/home/biginput";
+import Loading from "../components/loading";
+import Span from "../components/span";
+import PaperRightAction from "../components/paper/paperrightaction";
+import { useModal } from "../hooks/useModal";
 import { useAuthContext } from "../hooks/useAuthContext";
-import { useSignout } from "../hooks/useSignout";
+import { useNotif } from "../hooks/useNotif";
 
 const fetchSearch = async (keyword) =>
   await fetcher(encodeURI(`/api/mahasiswa/search/${keyword}`), {
     method: "GET",
   });
 
+const deleteMahasiswa = async (id, token) =>
+  await fetcher("/api/admin/mahasiswa/" + id, {
+    method: "DELETE",
+    headers: {
+      Authorization: "Bearer " + token,
+    },
+  });
+
 function Dashboard() {
-  const [result, setResult] = createSignal("");
-  const [searching, setSearching] = createSignal("");
-  const [error, setError] = createSignal(false);
+  const [searching, setSearching] = createSignal(false);
+  const [searchResult] = createResource(searching, fetchSearch);
 
-  const navigate = useNavigate();
+  const { showModal, closeModal } = useModal();
   const [user] = useAuthContext();
-  const { logout } = useSignout();
+  const { showNotif } = useNotif();
 
+  const [error, setError] = createSignal(false);
   let keyword;
 
   async function handleSearch(e) {
@@ -40,17 +50,40 @@ function Dashboard() {
     try {
       await searchSchema.validate({ keyword: keyword.value });
 
-      let response = await fetchSearch(keyword.value);
-      if (response.error) return setError(response.error);
-
       setSearching(keyword.value);
-      setResult(response);
-
-      keyword.value = "";
     } catch (error) {
       if (error.name == "ValidationError") {
         return setError(error.errors[0]);
       }
+    }
+  }
+
+  function handleKeypress(e) {
+    if (e.key !== "Enter") return;
+    handleSearch(e);
+  }
+
+  function confirmDelete(id, name, nim) {
+    showModal({
+      title: `Apakah kamu yakin ingin menghapus mahasiswa?`,
+      description: `Mahasiswa "${name} (${nim})" akan dihapus dan seluruh berkas di Google Drive yang bersangkutan akan ikut dihapus`,
+      actionName: "Hapus",
+      ok: (e) => handleDelete(e, id, user().mhs.admin.token),
+      children: "",
+    });
+  }
+
+  async function handleDelete(e, id, token) {
+    e.preventDefault();
+    try {
+      setSearching(false);
+      showNotif("success", "Menghapus...");
+      closeModal();
+      const deleted = await deleteMahasiswa(id, token);
+      showNotif("success", "Berhasil menghapus mahasiswa");
+      setSearching(keyword.value);
+    } catch (error) {
+      showNotif("error", error.message);
     }
   }
 
@@ -60,20 +93,16 @@ function Dashboard() {
         <div className="col-start-1 col-end-13">
           <BigInput
             ref={keyword}
-            placeholder={
-              "Cari kemajuan mahasiswa berdasarkan nama, email atau nim..."
-            }
+            onKeyPress={handleKeypress}
+            placeholder={"Cari mahasiswa berdasarkan nama, email atau nim..."}
           />
         </div>
       </div>
 
-      <div className="grid grid-cols-12 mt-10 justify-items-stretch">
+      <div className="grid grid-cols-12 mt-2 justify-items-stretch">
         <div className="col-start-1 col-end-13">
-          <div className="flex items-center space-x-8 mb-4">
+          <div className="flex items-center space-x-8 mb-4 justify-center">
             <ButtonClassic title={"Cari"} action={handleSearch} />
-            <Show when={user().mhs}>
-              <Welcome to={user().mhs.email} />
-            </Show>
           </div>
 
           <Show when={error()}>
@@ -81,11 +110,12 @@ function Dashboard() {
           </Show>
 
           <PaperCard>
-            <Show when={!searching()}>
-              <Span text="Cari pengguna mahafolio" />
-            </Show>
-
-            <Show when={searching().length}>
+            <Show
+              when={searching()}
+              fallback={
+                <Span text="Bukan kesalahan jika berusaha diperbaiki" />
+              }
+            >
               <Span
                 text={`Menampilkan pencarian untuk `}
                 variable={searching()}
@@ -93,19 +123,27 @@ function Dashboard() {
 
               <Suspense fallback={<Loading />}>
                 <Show
-                  when={result().length}
+                  when={searchResult()?.length}
                   fallback={() => (
-                    <Span text="Maaf, pencarian mahasiswa tidak ditemukan" />
+                    <Span text="Pencarian mahasiswa tidak ditemukan" />
                   )}
                 >
                   <PaperContainer>
-                    <For each={result()}>
+                    <For each={searchResult()}>
                       {(item, index) => (
-                        <PaperGrid
-                          data={item}
-                          index={index}
-                          userAction={false}
-                        />
+                        <PaperRow>
+                          <PaperLeft content={index() + 1} />
+                          <PaperCenterLink
+                            link={"/mahasiswa/" + item._id}
+                            content={`${item.nim} _ ${item.name}`}
+                          />
+                          <PaperRightAction
+                            content={"Hapus"}
+                            action={() =>
+                              confirmDelete(item._id, item.name, item.nim)
+                            }
+                          />
+                        </PaperRow>
                       )}
                     </For>
                   </PaperContainer>

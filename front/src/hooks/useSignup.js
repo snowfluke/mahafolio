@@ -2,11 +2,13 @@ import { createSignal } from "solid-js";
 import { useAuthContext } from "./useAuthContext";
 import { loginSchema } from "../validations";
 import fetcher from "../utils/fetcher";
+import { useNotif } from "./useNotif";
 
 export const useSignup = () => {
   const [error, setError] = createSignal(false);
   const [isLoading, setIsLoading] = createSignal(false);
   const [_, { setAuthContextLoggedIn }] = useAuthContext();
+  const { showNotif } = useNotif();
 
   const signup = async (email, password, confirm) => {
     setIsLoading(true);
@@ -37,6 +39,7 @@ export const useSignup = () => {
       localStorage.setItem("mhs", JSON.stringify(response));
       setAuthContextLoggedIn(response);
       setIsLoading(false);
+      showNotif("success", "Berhasil mendaftar");
     } catch (error) {
       setIsLoading(false);
       if (error.name == "ValidationError") {

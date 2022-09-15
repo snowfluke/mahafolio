@@ -13,6 +13,21 @@ const errors = {
   },
 };
 
+export const passwordSchema = object({
+  password: string()
+    .required(errors.req("Kata sandi"))
+    .matches(
+      /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
+      errors.password.matches
+    ),
+  password2: string()
+    .required(errors.req("Kata sandi"))
+    .matches(
+      /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
+      errors.password.matches
+    ),
+});
+
 export const loginSchema = object({
   email: string().email(errors.email).required(errors.req("Email")),
   password: string()

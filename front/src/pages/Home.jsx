@@ -12,14 +12,13 @@ import ButtonClassic from "../components/form/buttonclassic";
 import PaperCard from "../components/paper/papercard";
 import PaperGrid from "../components/paper/papergrid";
 import PaperContainer from "../components/paper/papercontainer";
+import PaperLeft from "../components/paper/paperleft";
+import PaperCenter from "../components/paper/papercenter";
 
 import Welcome from "../components/home/welcome";
 import BigInput from "../components/home/biginput";
 import Loading from "../components/loading";
 import Span from "../components/span";
-
-import PaperLeft from "../components/paper/paperleft";
-import PaperCenter from "../components/paper/papercenter";
 
 const fetchSearch = async (keyword) =>
   await fetcher(encodeURI(`/api/mahasiswa/search/${keyword}`), {
