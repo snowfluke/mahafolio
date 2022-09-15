@@ -60,6 +60,15 @@ function Home() {
 
   return (
     <section>
+      <div className="home-btn-wrap">
+        <Show when={user().mhs}>
+          <Welcome to={user().mhs.email} />
+        </Show>
+        <Show when={!user().mhs} fallback={<ButtonAccent title={"Keluar"} variant={true} action={logout} />}>
+          <ButtonAccent title={"Masuk"} action={() => navigate("/coretan")} />
+        </Show>
+      </div>
+
       <div className="search-grid">
         <div className="search-wrap">
           <BigInput ref={keyword} onKeyPress={handleKeypress} placeholder={"Cari kemajuan mahasiswa berdasarkan nama, email atau nim..."} />
@@ -67,18 +76,11 @@ function Home() {
       </div>
 
       <div className="home-paper-grid">
-        <div className="home-btn-wrap">
-          <Show when={!user().mhs} fallback={<ButtonAccent title={"Keluar"} wrapperStyle={"home-btn-rotate"} variant={true} action={logout} />}>
-            <ButtonAccent title={"Masuk"} wrapperStyle={"home-btn-rotate"} action={() => navigate("/coretan")} />
-          </Show>
-        </div>
-
         <div className="home-paper-wrap">
-          <div className="home-paper-wrap-btn">
-            <ButtonClassic title={"Cari"} action={handleSearch} />
-            <Show when={user().mhs}>
-              <Welcome to={user().mhs.email} />
-            </Show>
+          <div className="flex justify-end items-center">
+            <div className="home-paper-wrap-btn">
+              <ButtonClassic title={"Cari"} action={handleSearch} />
+            </div>
           </div>
 
           <Show when={error()}>
@@ -86,7 +88,7 @@ function Home() {
           </Show>
 
           <PaperCard>
-            <Show when={searching()} fallback={<Span text="Semua berawal dari keingintahuaan." />}>
+            <Show when={searching()} fallback={<Span text="Semua berawal dari keingintahuan." />}>
               <Span text={`Menampilkan pencarian untuk `} variable={searching()} />
 
               <Suspense fallback={<Loading />}>
