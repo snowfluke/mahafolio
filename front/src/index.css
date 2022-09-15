@@ -21,11 +21,11 @@
   }
 
   .search-wrap {
-    @apply col-start-1 md:col-start-2 col-end-13;
+    @apply col-start-1 col-end-13;
   }
 
   .search-input {
-    @apply px-4 md:px-8 py-4 focus:outline-green w-full responsive-text truncate shadow-sm;
+    @apply px-4 md:px-8 py-4 focus:outline-green w-full responsive-text-xs truncate shadow-sm;
   }
 
   .home-paper-grid {
@@ -33,19 +33,15 @@
   }
 
   .home-btn-wrap {
-    @apply col-start-2 justify-self-end;
-  }
-
-  .home-btn-rotate {
-    @apply mt-12 -rotate-90;
+    @apply flex items-center col-start-2 justify-end mb-6 space-x-4;
   }
 
   .home-paper-wrap {
-    @apply col-start-3 -ml-8 col-end-13;
+    @apply col-start-1 col-end-13;
   }
 
   .home-paper-wrap-btn {
-    @apply flex items-center space-x-4 md:space-x-8 mb-4;
+    @apply flex items-center mb-4;
   }
 
   .container-body {
@@ -53,7 +49,11 @@
   }
 
   .responsive-text {
-    @apply text-xs sm:text-sm md:text-base;
+    @apply text-sm sm:text-base lg:text-lg;
+  }
+
+  .responsive-text-xs {
+    @apply text-xs sm:text-base lg:text-lg;
   }
 
   .nav-ul {
