@@ -26,19 +26,12 @@ function Folio() {
   return (
     <section>
       <Show when={folio()} fallback={<Loading />}>
-        <Show
-          when={!folio().error}
-          fallback={<ErrorDisplay err={"404 - Halaman tidak ditemukan"} />}
-        >
+        <Show when={!folio().error} fallback={<ErrorDisplay err={"404 - Halaman tidak ditemukan"} />}>
+          <div className="flex justify-end mb-6">
+            <ButtonAccent title={"Kembali"} wrapperStyle={"mt-8"} action={() => navigate(-1)} />
+          </div>
           <div className="grid grid-cols-12 mt-0 justify-items-stretch">
-            <div className="col-start-2 justify-self-end">
-              <ButtonAccent
-                title={"Kembali"}
-                wrapperStyle={"mt-14 -rotate-90"}
-                action={() => navigate(-1)}
-              />
-            </div>
-            <div className="col-start-3 -ml-8 col-end-13">
+            <div className="col-start-1 col-end-13">
               <FolioPublish data={folio()} authorId={folio().author._id} />
             </div>
           </div>

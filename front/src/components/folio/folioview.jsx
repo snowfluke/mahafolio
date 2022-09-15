@@ -18,26 +18,6 @@ import Loading from "../loading";
 function FolioView(props) {
   return (
     <>
-      <Show when={!props.loading} fallback={<Loading />}>
-        <Show when={props.canEdit}>
-          <div className="flex items-center space-x-4 mb-4">
-            <Show when={props.data} fallback={<ButtonClassic title={"Publikasi"} />}>
-              <ButtonClassic
-                title={() => (props.editing ? "Batal" : "Ubah")}
-                action={(e) => {
-                  e.preventDefault();
-                  props.setEditing();
-                }}
-              />
-              <Show when={props.editing}>
-                <ButtonClassic title={"Simpan"} />
-                <ButtonClassic alter={true} title={"Hapus"} action={props.handleDelete} />
-              </Show>
-            </Show>
-          </div>
-        </Show>
-      </Show>
-
       <PaperCard>
         <Show when={props.canEdit}>
           <Span text="Kamu dapat langsung mengubah folio di kolom yang ada" />
@@ -66,6 +46,32 @@ function FolioView(props) {
           </Show>
         </PaperContainer>
       </PaperCard>
+
+      <Show when={!props.loading} fallback={<Loading />}>
+        <Show when={props.canEdit}>
+          <div className="flex items-center justify-end my-6">
+            <Show when={props.data} fallback={<ButtonClassic title={"Publikasi"} />}>
+              <div className="flex flex-col-reverse sm:flex-row space-x-0 sm:space-x-2">
+                <div className="flex justify-end mt-4 sm:mt-0">
+                  <ButtonClassic
+                    title={() => (props.editing ? "Batal" : "Ubah")}
+                    action={(e) => {
+                      e.preventDefault();
+                      props.setEditing();
+                    }}
+                  />
+                </div>
+                <Show when={props.editing}>
+                  <div className="flex space-x-2">
+                    <ButtonClassic title={"Simpan"} />
+                    <ButtonClassic alter={true} title={"Hapus"} action={props.handleDelete} />
+                  </div>
+                </Show>
+              </div>
+            </Show>
+          </div>
+        </Show>
+      </Show>
     </>
   );
 }

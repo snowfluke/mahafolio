@@ -127,14 +127,8 @@ function FolioPublish(props) {
   }
 
   return (
-    <Show
-      when={user().mhs && user().mhs._id == props.authorId}
-      fallback={<FolioView data={props.data} canEdit={false} />}
-    >
+    <Show when={user().mhs && user().mhs._id == props.authorId} fallback={<FolioView data={props.data} canEdit={false} />}>
       <form id="folio" onSubmit={handleSubmit} encType="multipart/form-data">
-        <Show when={error()}>
-          <ErrorIndicator message={error()} />
-        </Show>
         <FolioView
           data={props.data}
           canEdit={true}
@@ -145,6 +139,9 @@ function FolioPublish(props) {
           loading={loading()}
           author={props.authorId}
         />
+        <Show when={error()}>
+          <ErrorIndicator message={error()} />
+        </Show>
       </form>
     </Show>
   );
