@@ -44,24 +44,15 @@ function Leaderboard() {
 
   return (
     <section>
-      <div className="flex flex-col sm:flex-row items-center justify-center sm:justify-end space-x-0 space-y-4 sm:space-y-0 sm:space-x-4 responsive-text">
+      <div className="flex flex-col sm:flex-row items-center justify-center sm:justify-end space-x-0 space-y-4 sm:space-y-0 sm:space-x-4 responsive-text-xs mt-6">
         <div className="flex space-x-4">
           <Dropdown items={STUDY} ref={study} />
           <Dropdown items={SEMESTER} ref={semester} />
         </div>
         <ButtonClassic title={"Filter"} action={handleFilter} />
       </div>
-      <div className="grid grid-cols-12 mt-10 justify-items-stretch">
-        <div className="col-start-2 justify-self-end">
-          <ButtonAccent
-            title={"Bagikan"}
-            wrapperStyle={"mt-14 -rotate-90"}
-            action={() => {
-              console.log("Bagikan clicked");
-            }}
-          />
-        </div>
-        <div className="col-start-3 -ml-8 col-end-13">
+      <div className="grid grid-cols-12 my-10 justify-items-stretch">
+        <div className="col-start-1 col-end-13">
           <PaperCard>
             <Span text="Klasemen perolehan poin mahafolio:" />
             <Suspense fallback={<Loading />}>
