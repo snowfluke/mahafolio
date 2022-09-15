@@ -13,15 +13,13 @@ function StaticPages(props) {
 
   return (
     <section>
-      <div className="grid grid-cols-12 mt-0 justify-items-stretch">
-        <div className="col-start-2 justify-self-end">
-          <ButtonAccent
-            title={"Kembali"}
-            wrapperStyle={"mt-14 -rotate-90"}
-            action={() => navigate(-1)}
-          />
+      <div className="mt-6">
+        <div className="flex items-center justify-end">
+          <div className="flex items-center mb-8">
+            <ButtonAccent title={"Kembali"} action={() => navigate(-1)} />
+          </div>
         </div>
-        <div className="col-start-3 -ml-8 col-end-13">
+        <div className="col-start-1 col-end-13">
           <div className="flex items-center space-x-4 mb-4">
             <PaperCard>
               <PaperContainer>
