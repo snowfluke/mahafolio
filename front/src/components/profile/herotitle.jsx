@@ -1,14 +1,14 @@
 function HeroTitle(props) {
   return (
     <div className="flex flex-col lg:flex-[0.3] responsive-text">
-      <span className="text-green font-semibold text-xl lg:text-4xl">{props.score}pts</span>
+      <span className="text-green font-semibold text-3xl lg:text-4xl">{props.score}pts</span>
 
       <Show
         when={props.edit}
         fallback={
           <>
-            <span className="text-green font-semibold text-base lg:text-xl">{props.name}</span>
-            <span className="text-green font-semibold text-base lg:text-xl">{props.nim}</span>
+            <span className="text-green font-semibold text-base md:text-xl lg:text-2xl">{props.name}</span>
+            <span className="text-green font-semibold text-base md:text-xl lg:text-2xl">{props.nim}</span>
           </>
         }
       >

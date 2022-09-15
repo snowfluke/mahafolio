@@ -40,37 +40,22 @@ function Profile() {
   return (
     <section>
       <Show when={mhs()} fallback={<Loading />}>
-        <Show
-          when={!mhs().error}
-          fallback={<ErrorDisplay err={"404 - Halaman tidak ditemukan"} />}
-        >
+        <Show when={!mhs().error} fallback={<ErrorDisplay err={"404 - Halaman tidak ditemukan"} />}>
           <HeroContainer>
             <HeroEmail email={mhs().email} />
             <HeroBanner>
-              <HeroTitle
-                score={mhs().score}
-                name={mhs().name}
-                nim={mhs().nim}
-              />
+              <HeroTitle score={mhs().score} name={mhs().name} nim={mhs().nim} />
               <HeroPhoto fetchUri={`${BACKEND_URL}/api/photo/${mhs()._id}`} />
             </HeroBanner>
-            <HeroBio
-              study={mhs().study}
-              semester={mhs().semester}
-              bio={mhs().bio}
-            />
+            <HeroBio study={mhs().study} semester={mhs().semester} bio={mhs().bio} />
           </HeroContainer>
 
           <div class={"mb-2"}>
             <span>
               Publikasi terakhir:{" "}
               <Show when={latestFolio()?.length} fallback={<>Tidak ada</>}>
-                <Link
-                  href={`/folio/${latestFolio()[0]._id}`}
-                  class="hover:underline text-green"
-                >
-                  [{latestFolio()[0].type}] {elipsis(latestFolio()[0].title)} (
-                  {timeFromNow(latestFolio()[0].updatedAt)})
+                <Link href={`/folio/${latestFolio()[0]._id}`} class="hover:underline text-green">
+                  [{latestFolio()[0].type}] {elipsis(latestFolio()[0].title)} ({timeFromNow(latestFolio()[0].updatedAt)})
                 </Link>
               </Show>
             </span>

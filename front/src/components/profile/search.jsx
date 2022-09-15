@@ -62,22 +62,22 @@ function Search({ id }) {
 
   return (
     <>
+      <div className="flex justify-end">
+        <ButtonAccent title={"Buat"} wrapperStyle={"mt-4"} action={() => navigate("/folio")} />
+      </div>
       <div className="search-grid mt-4">
         <di v className="search-wrap">
           <BigInput ref={keyword} onKeyPress={handleKeypress} placeholder={"Cari folio berdasarkan judul atau mata kuliah..."} />
         </di>
       </div>
       <div className="grid grid-cols-12 mt-4 justify-items-stretch">
-        <div className="col-start-2 justify-self-end">
-          <ButtonAccent title={"Buat"} wrapperStyle={"mt-14 -rotate-90"} action={() => navigate("/folio")} />
-        </div>
-        <div className="col-start-3 -ml-8 col-end-13">
-          <div className="flex items-start justify-between mb-4">
+        <div className="col-start-1 col-end-13 mb-8">
+          <div className="flex items-center justify-end space-x-4 responsive-text">
+            <Dropdown items={TYPE} ref={type} />
+            <Dropdown items={SEMESTER2} ref={semester} />
+          </div>
+          <div className="my-4 flex items-start justify-end">
             <ButtonClassic title={"Cari"} action={handleSearch} />
-            <div className="flex flex-col sm:flex-row items-end justify-center sm:justify-end space-x-0 space-y-4 sm:space-y-0 sm:space-x-4 responsive-text">
-              <Dropdown items={TYPE} ref={type} />
-              <Dropdown items={SEMESTER2} ref={semester} />
-            </div>
           </div>
 
           <Show when={error()}>
