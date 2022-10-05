@@ -101,7 +101,11 @@ function Profile() {
             <div className="flex flex-col sm:flex-row items-center justify-center sm:justify-start space-x-0 space-y-1 sm:space-y-0 sm:space-x-4 responsive-text-xs mt-1">
               <div className="flex flex-col sm:flex-row items-center justify-center sm:justify-start space-x-0 space-y-4 sm:space-y-0 sm:space-x-4 responsive-text-xs mt-6">
                 <div className="flex space-x-4">
-                  <Dropdown items={SEMESTER} ref={semester} />
+                  <Dropdown
+                    firstValue="Pilih semester"
+                    items={SEMESTER}
+                    ref={semester}
+                  />
                 </div>
                 <ButtonClassic title={"Filter"} action={handleFilter} />
                 <div

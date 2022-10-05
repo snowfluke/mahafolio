@@ -26,8 +26,8 @@ function FolioFile(props) {
         <PaperCenter>
           <Dropdown
             items={[
-              { value: "url", name: "Unggah Link" },
-              { value: "file", name: "Unggah Berkas" },
+              { value: "url", name: "Unggah link" },
+              { value: "file", name: "Unggah berkas" },
             ]}
             onChange={() => setLink(!link())}
           />

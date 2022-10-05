@@ -54,7 +54,14 @@ async function createFolder(name, parents = [ROOT_FOLDER]) {
     const file = await service.files.create({
       resource: fileMetadata,
       fields: "webContentLink, webViewLink, id",
-      includePermissionsForView: "published",
+    });
+
+    await service.permissions.create({
+      resource: {
+        type: "anyone",
+        role: "reader",
+      },
+      fileId: file.data.id,
     });
 
     return { id: file.data.id, name };
