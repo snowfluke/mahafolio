@@ -4,8 +4,9 @@ const validator = require("validator").default;
 const { uploadFile, searchFolder, deleteFile } = require("../apis/gdrive");
 const Folio = require("../models/folio");
 const Mahasiswa = require("../models/mahasiswa");
-const { SCORING } = require("../utils/constant");
+const { SCORING, FOLIO_CATEGORIES } = require("../utils/constant");
 const formidable = require("formidable");
+const { default: mongoose } = require("mongoose");
 
 const form = formidable({
   maxFileSize: 2 * 1024 * 1024,
@@ -47,6 +48,58 @@ const getFolio = async (req, res) => {
     }
 
     res.status(200).json(folio);
+  } catch (error) {
+    return res.status(200).json({ error: error.message });
+  }
+};
+
+// get 1 Folio stats by mhs id and by semester
+const getFolioStats = async (req, res) => {
+  const { id } = req.params;
+  const { semester } = req.query;
+  try {
+    if (!validator.isMongoId(id)) {
+      throw Error("ID mahasiswa tidak valid");
+    }
+
+    const queries = {
+      author: mongoose.Types.ObjectId(id),
+    };
+
+    if (semester) queries.semester = parseInt(semester);
+
+    const stats = await Folio.aggregate([
+      {
+        $match: queries,
+      },
+      {
+        $group: {
+          _id: "$type",
+          total: {
+            $count: {},
+          },
+        },
+      },
+    ]);
+
+    if (!stats.length) {
+      return res.status(404).json({ error: "Belum ditemukan kemajuan" });
+    }
+
+    const formattedStats = {
+      semester,
+      total: 0,
+      stats: [],
+    };
+
+    for (let i = 0; i < FOLIO_CATEGORIES.length; i++) {
+      let key = FOLIO_CATEGORIES[i];
+      let val = stats.find((el) => el._id == key)?.total || 0;
+      formattedStats.stats.push({ name: key, total: val });
+      formattedStats.total += val;
+    }
+
+    res.status(200).json(formattedStats);
   } catch (error) {
     return res.status(200).json({ error: error.message });
   }
@@ -284,4 +337,5 @@ module.exports = {
   deleteFolio,
   updateFolio,
   searchFolio,
+  getFolioStats,
 };

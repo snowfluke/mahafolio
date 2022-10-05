@@ -45,7 +45,7 @@ const mhsSchema = new Schema(
     semester: {
       type: Number,
       required: true,
-      min: 1,
+      min: 0,
       max: 14,
       default: 1,
     },

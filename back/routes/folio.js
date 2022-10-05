@@ -8,6 +8,7 @@ const {
   updateFolio,
   deleteFolio,
   searchFolio,
+  getFolioStats,
 } = require("../controllers/folio");
 
 const auth = require("../middlewares/auth");
@@ -21,6 +22,9 @@ router.get("/search", searchFolio);
 
 // GET single folio
 router.get("/:id", getFolio);
+
+// GET STATS:ID
+router.get("/stats/:id", getFolioStats);
 
 //* Require Authorization
 router.use(auth);
