@@ -104,32 +104,38 @@ function Profile() {
                   <Dropdown items={SEMESTER} ref={semester} />
                 </div>
                 <ButtonClassic title={"Filter"} action={handleFilter} />
+                <div
+                  className={
+                    "responsive-text font-semibold px-10 py-2 tracking-widest border-y-2 bg-white text-green"
+                  }
+                >
+                  {stats()?.total || 0} Folio
+                </div>
               </div>
             </div>
 
             <div className="flex flex-1 mt-6 flex-col space-y-2">
-              <div className="flex flex-1">
-                <p>Total: {stats()?.total} Folio</p>
-              </div>
-              <For each={stats()?.stats}>
-                {(item) => (
-                  <div className="flex flex-1 space-x-3">
-                    <label className="flex-[0.2]" for={item.name}>
-                      {titleCase(item.name.toLowerCase())}:
-                    </label>
-                    <progress
-                      className="flex-1"
-                      id={item.name}
-                      value={item.total}
-                      max={stats().total}
-                    ></progress>
-                    <p className="flex-[0.1]">
-                      {(item.total / stats().total) * 100}%
-                    </p>
-                    <p className="bg-white py-2 px-4">{item.total} Folio</p>
-                  </div>
-                )}
-              </For>
+              <Show when={stats()} fallback={<Loading />}>
+                <For each={stats()?.stats} fallback={<p>{stats().error}</p>}>
+                  {(item) => (
+                    <div className="flex flex-1 space-x-3">
+                      <label className="flex-[0.2]" for={item.name}>
+                        {titleCase(item.name.toLowerCase())}:
+                      </label>
+                      <progress
+                        className="flex-1"
+                        id={item.name}
+                        value={item.total}
+                        max={stats().total}
+                      ></progress>
+                      <p className="flex-[0.1]">
+                        {(item.total / stats().total) * 100}%
+                      </p>
+                      <p className="bg-white py-2 px-4">{item.total} Folio</p>
+                    </div>
+                  )}
+                </For>
+              </Show>
             </div>
           </div>
         </Show>
