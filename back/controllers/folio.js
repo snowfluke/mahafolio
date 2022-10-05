@@ -66,35 +66,97 @@ const getFolioStats = async (req, res) => {
       author: mongoose.Types.ObjectId(id),
     };
 
-    if (semester) queries.semester = parseInt(semester);
+    if (semester) {
+      queries["$or"] = [
+        {
+          semester: parseInt(semester) - 1,
+        },
+        {
+          semester: parseInt(semester),
+        },
+      ];
+    }
 
-    const stats = await Folio.aggregate([
+    const agg = await Folio.aggregate([
       {
         $match: queries,
       },
       {
         $group: {
-          _id: "$type",
+          _id: {
+            semester: "$semester",
+            type: "$type",
+          },
           total: {
             $count: {},
           },
         },
       },
+      {
+        $group: {
+          _id: "$_id.semester",
+          stats: {
+            $push: {
+              type: "$_id.type",
+              total: "$total",
+            },
+          },
+        },
+      },
     ]);
 
-    if (!stats.length) {
+    // RESULT
+
+    // [
+    //   {
+    //     _id: 6,
+    //     stats: [
+    //       {
+    //         type: "MATERI",
+    //         total: 2
+    //       }
+    //     ]
+    //   },
+    //   {
+    //     _id: 7,
+    //     stats: [
+    //       {
+    //         type: "TUGAS",
+    //         total: 1
+    //       },
+    //       {
+    //         type: "CATATAN",
+    //         total: 1
+    //       }
+    //     ]
+    //   }
+    // ]
+
+    if (!agg.length) {
       return res.status(404).json({ error: "Belum ditemukan kemajuan" });
     }
+    let stats = agg;
+    if (agg.length == 1) {
+      stats.push({
+        _id: agg[0]._id - 1,
+        stats: [{ total: 0 }],
+      });
+    }
+    stats = agg.sort((a, b) => a._id - b._id);
 
     const formattedStats = {
       semester,
       total: 0,
       stats: [],
+      previousTotal: stats[0].stats.reduce(
+        (prev, curr) => ({ total: prev.total + curr.total }),
+        { total: 0 }
+      ).total,
     };
 
     for (let i = 0; i < FOLIO_CATEGORIES.length; i++) {
       let key = FOLIO_CATEGORIES[i];
-      let val = stats.find((el) => el._id == key)?.total || 0;
+      let val = stats[1].stats.find((el) => el.type == key)?.total || 0;
       formattedStats.stats.push({ name: key, total: val });
       formattedStats.total += val;
     }
