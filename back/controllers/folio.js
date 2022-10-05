@@ -105,33 +105,6 @@ const getFolioStats = async (req, res) => {
       },
     ]);
 
-    // RESULT
-
-    // [
-    //   {
-    //     _id: 6,
-    //     stats: [
-    //       {
-    //         type: "MATERI",
-    //         total: 2
-    //       }
-    //     ]
-    //   },
-    //   {
-    //     _id: 7,
-    //     stats: [
-    //       {
-    //         type: "TUGAS",
-    //         total: 1
-    //       },
-    //       {
-    //         type: "CATATAN",
-    //         total: 1
-    //       }
-    //     ]
-    //   }
-    // ]
-
     if (!agg.length) {
       return res.status(404).json({ error: "Belum ditemukan kemajuan" });
     }
