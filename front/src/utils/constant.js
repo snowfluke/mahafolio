@@ -41,11 +41,10 @@ const SEMESTER2 = [
 const TYPE = [
   { name: "Semua tipe", value: "" },
   { name: "Catatan", value: "CATATAN" },
+  { name: "Materi", value: "MATERI" },
   { name: "Tugas", value: "TUGAS" },
   { name: "Karya", value: "KARYA" },
   { name: "Jurnal", value: "JURNAL" },
-  { name: "UTS", value: "UTS" },
-  { name: "UAS", value: "UAS" },
 ];
 
 const STUDY_NAME = STUDY.slice(1, STUDY.length).map((el) => el.value);

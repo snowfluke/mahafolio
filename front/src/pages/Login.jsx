@@ -74,6 +74,7 @@ function LoginDisplay() {
 
     try {
       const reset = await fetchForgot(email);
+      if (reset.error) throw Error(reset.error);
       showNotif("success", `Tautan dikirimkan ke ${reset.receiver}`);
     } catch (error) {
       showNotif("error", error.message);

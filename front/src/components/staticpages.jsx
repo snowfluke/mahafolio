@@ -8,7 +8,7 @@ import PaperContainer from "./paper/papercontainer";
 function StaticPages(props) {
   const navigate = useNavigate();
   onMount(() => {
-    document.title = "Mahafolio - " + props;
+    document.title = "Mahafolio - " + props.title;
   });
 
   return (
