@@ -39,7 +39,10 @@ function Profile() {
 
   const [mhs] = createResource(mhs_id, fetchMhs);
   const [latestFolio] = createResource(mhs_id, fetchLatestFolio);
-  const [filtering, setFiltering] = createSignal({ semester: "", id: mhs_id });
+  const [filtering, setFiltering] = createSignal({
+    semester: "",
+    id: mhs_id,
+  });
   const [stats] = createResource(filtering, fetchStats);
 
   function handleFilter(e) {
@@ -97,17 +100,21 @@ function Profile() {
           <Search id={mhs()._id} />
 
           <div>
-            <h2 className="text-xl font-bold">Kemajuan</h2>
+            <h2 className="font-bold text-2xl">Kemajuan</h2>
             <div className="flex flex-col sm:flex-row items-center justify-center sm:justify-start space-x-0 space-y-1 sm:space-y-0 sm:space-x-4 responsive-text-xs mt-1">
               <div className="flex flex-col sm:flex-row items-center justify-center sm:justify-start space-x-0 space-y-4 sm:space-y-0 sm:space-x-4 responsive-text-xs mt-6">
-                <div className="flex space-x-4">
-                  <Dropdown
-                    firstValue="Pilih semester"
-                    items={SEMESTER}
-                    ref={semester}
-                  />
+                <div
+                  className={
+                    "responsive-text font-semibold px-10 py-2 tracking-widest border-y-2 bg-white text-green"
+                  }
+                >
+                  <Show when={stats()} fallback={<Loading />}>
+                    {((stats().total - stats().previousTotal) /
+                      stats().previousTotal) *
+                      100}
+                    % Performa
+                  </Show>
                 </div>
-                <ButtonClassic title={"Filter"} action={handleFilter} />
                 <div
                   className={
                     "responsive-text font-semibold px-10 py-2 tracking-widest border-y-2 bg-white text-green"
@@ -115,6 +122,16 @@ function Profile() {
                 >
                   {stats()?.total || 0} Folio
                 </div>
+
+                <div className="flex space-x-4">
+                  <Dropdown
+                    firstValue="Pilih semester"
+                    items={SEMESTER}
+                    selected={mhs().semester}
+                    ref={semester}
+                  />
+                </div>
+                <ButtonClassic title={"Filter"} action={handleFilter} />
               </div>
             </div>
 
