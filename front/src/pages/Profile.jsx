@@ -61,37 +61,22 @@ function Profile() {
   return (
     <section>
       <Show when={mhs()} fallback={<Loading />}>
-        <Show
-          when={!mhs().error}
-          fallback={<ErrorDisplay err={"404 - Halaman tidak ditemukan"} />}
-        >
+        <Show when={!mhs().error} fallback={<ErrorDisplay err={"404 - Halaman tidak ditemukan"} />}>
           <HeroContainer>
             <HeroEmail email={mhs().email} />
             <HeroBanner>
-              <HeroTitle
-                score={mhs().score}
-                name={mhs().name}
-                nim={mhs().nim}
-              />
+              <HeroTitle score={mhs().score} name={mhs().name} nim={mhs().nim} />
               <HeroPhoto fetchUri={`${BACKEND_URL}/api/photo/${mhs()._id}`} />
             </HeroBanner>
-            <HeroBio
-              study={mhs().study}
-              semester={mhs().semester}
-              bio={mhs().bio}
-            />
+            <HeroBio study={mhs().study} semester={mhs().semester} bio={mhs().bio} />
           </HeroContainer>
 
           <div class={"mb-2"}>
             <span>
               Publikasi terakhir:{" "}
               <Show when={latestFolio()?.length} fallback={<>Tidak ada</>}>
-                <Link
-                  href={`/folio/${latestFolio()[0]._id}`}
-                  class="hover:underline text-green"
-                >
-                  [{latestFolio()[0].type}] {elipsis(latestFolio()[0].title)} (
-                  {timeFromNow(latestFolio()[0].updatedAt)})
+                <Link href={`/folio/${latestFolio()[0]._id}`} class="hover:underline text-green">
+                  [{latestFolio()[0].type}] {elipsis(latestFolio()[0].title)} ({timeFromNow(latestFolio()[0].updatedAt)})
                 </Link>
               </Show>
             </span>
@@ -99,59 +84,38 @@ function Profile() {
 
           <Search id={mhs()._id} />
 
-          <div>
-            <h2 className="font-bold text-2xl">Kemajuan</h2>
-            <div className="flex flex-col sm:flex-row items-center justify-center sm:justify-start space-x-0 space-y-1 sm:space-y-0 sm:space-x-4 responsive-text-xs mt-1">
-              <div className="flex flex-col sm:flex-row items-center justify-center sm:justify-start space-x-0 space-y-4 sm:space-y-0 sm:space-x-4 responsive-text-xs mt-6">
-                <div
-                  className={
-                    "responsive-text font-semibold px-10 py-2 tracking-widest border-y-2 bg-white text-green"
-                  }
-                >
-                  <Show when={stats()} fallback={<Loading />}>
-                    {((stats().total - stats().previousTotal) /
-                      stats().previousTotal) *
-                      100}
-                    % Performa
-                  </Show>
-                </div>
-                <div
-                  className={
-                    "responsive-text font-semibold px-10 py-2 tracking-widest border-y-2 bg-white text-green"
-                  }
-                >
-                  {stats()?.total || 0} Folio
+          <div className="mb-10">
+            <h2 className="font-bold text-green text-2xl">Kemajuan</h2>
+            <div className="flex flex-col md:flex-row items-center justify-center md:justify-start space-x-0 space-y-1 md:space-y-0 md:space-x-4 responsive-text-xs mt-1">
+              <div className="flex flex-col md:flex-row items-center justify-center md:justify-start space-x-0 space-y-4 md:space-y-0 md:space-x-4 responsive-text-xs mt-6">
+                <div className="flex items-center flex-col space-y-4 sm:space-y-0 sm:flex-row sm:space-x-4 space-x-0">
+                  <div className={"responsive-text font-semibold px-10 py-2 tracking-widest border-y-2 bg-white text-green"}>
+                    <Show when={stats()} fallback={<Loading />}>
+                      {((stats().total - stats().previousTotal) / stats().previousTotal) * 100}% Performa
+                    </Show>
+                  </div>
+                  <div className={"responsive-text font-semibold px-10 py-2 tracking-widest border-y-2 bg-white text-green"}>{stats()?.total || 0} Folio</div>
                 </div>
 
-                <div className="flex space-x-4">
-                  <Dropdown
-                    firstValue="Pilih semester"
-                    items={SEMESTER}
-                    selected={mhs().semester}
-                    ref={semester}
-                  />
+                <div className="flex items-center space-x-4">
+                  <Dropdown firstValue="Pilih semester" items={SEMESTER} selected={mhs().semester} ref={semester} />
+                  <ButtonClassic title={"Filter"} action={handleFilter} />
                 </div>
-                <ButtonClassic title={"Filter"} action={handleFilter} />
               </div>
             </div>
 
-            <div className="flex flex-1 mt-6 flex-col space-y-2">
+            <div className="flex flex-1 mt-6 flex-col space-y-6">
               <Show when={stats()} fallback={<Loading />}>
                 <For each={stats()?.stats} fallback={<p>{stats().error}</p>}>
                   {(item) => (
-                    <div className="flex flex-1 space-x-3">
-                      <label className="flex-[0.2]" for={item.name}>
-                        {titleCase(item.name.toLowerCase())}:
-                      </label>
-                      <progress
-                        className="flex-1"
-                        id={item.name}
-                        value={item.total}
-                        max={stats().total}
-                      ></progress>
-                      <p className="flex-[0.1]">
-                        {(item.total / stats().total) * 100}%
-                      </p>
+                    <div className="flex sm:flex-row flex-col flex-1 items-center space-y-2">
+                      <div className="flex flex-1 items-center space-x-4">
+                        <label className="flex-[0.2]" for={item.name}>
+                          {titleCase(item.name.toLowerCase())}:
+                        </label>
+                        <progress className="flex-1" id={item.name} value={item.total} max={stats().total}></progress>
+                        <p className="flex-[0.1]">{(item.total / stats().total) * 100}%</p>
+                      </div>
                       <p className="bg-white py-2 px-4">{item.total} Folio</p>
                     </div>
                   )}
