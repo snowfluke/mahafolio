@@ -13,6 +13,7 @@ const routerFolio = require("./routes/folio");
 const routerPhoto = require("./routes/photo");
 const routerAdmin = require("./routes/admin");
 const origin = require("./middlewares/origin");
+// const path = require("path");
 
 const PORT = process.env.PORT || 4000;
 
@@ -23,7 +24,12 @@ app.use(
   })
 );
 
+// CORS FOR DEVELOPMENT
 app.use(cors(), origin);
+
+// CORS AND STATIC FOR PROD
+// app.use(cors({ origin: process.env.DOMAIN }));
+// app.use(express.static(path.join(__dirname, "./client")));
 app.use(xss());
 
 // Routes
@@ -31,6 +37,9 @@ app.use("/api/photo", routerPhoto);
 app.use("/api/mahasiswa", routerMahasiswa);
 app.use("/api/folio", routerFolio);
 app.use("/api/admin", routerAdmin);
+// app.get("*", async (req, res) => {
+//   res.sendFile(path.join(__dirname, "./client/index.html"));
+// });
 
 // Connect to DB
 
