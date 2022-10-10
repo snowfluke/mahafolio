@@ -1,5 +1,8 @@
 const BACKEND_URL = "http://localhost:4000";
 
+// PROD
+// const BACKEND_URL = "";
+
 const EMPTY_STR = "‎";
 
 const STUDY = [
