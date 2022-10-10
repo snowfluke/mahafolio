@@ -16,6 +16,16 @@
     @apply selection:text-white selection:bg-green font-nunito;
   }
 
+  progress::-moz-progress-bar {
+    @apply bg-green;
+  }
+  progress::-webkit-progress-value {
+    @apply bg-green;
+  }
+  progress {
+    @apply text-green;
+  }
+
   .search-grid {
     @apply grid grid-cols-12;
   }

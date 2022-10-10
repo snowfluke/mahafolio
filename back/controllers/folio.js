@@ -110,10 +110,14 @@ const getFolioStats = async (req, res) => {
     }
     let stats = agg;
     if (agg.length == 1) {
-      stats.push({
-        _id: agg[0]._id - 1,
-        stats: [{ total: 0 }],
-      });
+      if (agg[0]._id == semester) {
+        stats.push({
+          stats: [{ total: 0 }],
+          _id: parseInt(semester) - 1,
+        });
+      } else {
+        return res.status(404).json({ error: "Belum ditemukan kemajuan" });
+      }
     }
     stats = agg.sort((a, b) => a._id - b._id);
 

@@ -32,9 +32,7 @@ function HeroBio(props) {
       <div className="text-right flex-[0.6] sm:flex-[0.4] justify-end items-center responsive-text">
         <Show
           when={props.edit}
-          fallback={
-            <span className="italic responsive-text truncate">{props.bio}</span>
-          }
+          fallback={<span className="italic responsive-text">{props.bio}</span>}
         >
           <textarea
             name="bio"
