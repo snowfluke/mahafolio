@@ -47,7 +47,8 @@ const TYPE = [
   { name: "Materi", value: "MATERI" },
   { name: "Tugas", value: "TUGAS" },
   { name: "Karya", value: "KARYA" },
-  { name: "Jurnal", value: "JURNAL" },
+  { name: "Jurnal Nasional", value: "JURNALNASIONAL" },
+  { name: "Jurnal Internasional", value: "JURNALINTERNASIONAL" },
 ];
 
 const STUDY_NAME = STUDY.slice(1, STUDY.length).map((el) => el.value);
